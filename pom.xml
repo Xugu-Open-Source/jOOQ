@@ -12,7 +12,7 @@
 
     <groupId>org.jooq</groupId>
     <artifactId>jooq-parent</artifactId>
-    <version>signit-3.14.15</version>
+    <version>xugu-3.14.15</version>
     <packaging>pom</packaging>
 
     <name>jOOQ Parent</name>
