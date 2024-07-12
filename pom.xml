@@ -56,25 +56,29 @@
             <url>http://www.jooq.org/inc/LICENSE.txt</url>
             <distribution>repo</distribution>
         </license>
-
-
-
-
-
-
-
     </licenses>
 
     <scm>
-        <developerConnection>https://github.com/jOOQ/jOOQ.git</developerConnection>
-        <url>https://github.com/jOOQ/jOOQ.git</url>
-        <connection>git://github.com/jOOQ/jOOQ.git</connection>
+        <developerConnection>http://gitlab.signit.cn/signit-third/jOOQ.git</developerConnection>
+        <url>http://gitlab.signit.cn/signit-third/jOOQ.git</url>
+      <!--  <connection>git://github.com/jOOQ/jOOQ.git</connection>-->
     </scm>
 
-    <issueManagement>
+    <distributionManagement>
+        <repository>
+            <id>signit-releases</id>
+            <url>http://mvn.ns.me/nexus/content/repositories/signit-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>signit-snapshots</id>
+            <url>http://mvn.ns.me/nexus/content/repositories/signit-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <!--<issueManagement>
         <system>GitHub</system>
         <url>http://github.com/jOOQ/jOOQ/issues</url>
-    </issueManagement>
+    </issueManagement>-->
 
     <dependencyManagement>
         <dependencies>
