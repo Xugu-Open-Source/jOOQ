@@ -40,18 +40,10 @@ package org.jooq;
 // ...
 // ...
 // ...
-import static org.jooq.SQLDialect.CUBRID;
 // ...
-import static org.jooq.SQLDialect.DERBY;
-import static org.jooq.SQLDialect.H2;
-import static org.jooq.SQLDialect.HSQLDB;
 // ...
-import static org.jooq.SQLDialect.MARIADB;
 // ...
-import static org.jooq.SQLDialect.MYSQL;
 // ...
-import static org.jooq.SQLDialect.POSTGRES;
-import static org.jooq.SQLDialect.SQLITE;
 // ...
 // ...
 // ...
@@ -67,6 +59,8 @@ import org.jooq.exception.TooManyRowsException;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+        import static org.jooq.SQLDialect.*;
 
 /**
  * A common interface for records that can be stored back to the database again.
@@ -409,7 +403,7 @@ public interface UpdatableRecord<R extends UpdatableRecord<R>> extends TableReco
      * @see #store()
      * @see InsertOnDuplicateStep#onDuplicateKeyUpdate()
      */
-    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     int merge() throws DataAccessException;
 
     /**
@@ -421,7 +415,7 @@ public interface UpdatableRecord<R extends UpdatableRecord<R>> extends TableReco
      * @throws DataAccessException if something went wrong executing the query
      * @see #merge()
      */
-    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     int merge(Field<?>... fields) throws DataAccessException;
 
     /**
@@ -433,7 +427,7 @@ public interface UpdatableRecord<R extends UpdatableRecord<R>> extends TableReco
      * @throws DataAccessException if something went wrong executing the query
      * @see #merge()
      */
-    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     int merge(Collection<? extends Field<?>> fields) throws DataAccessException;
 
     /**

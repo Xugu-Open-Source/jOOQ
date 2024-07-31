@@ -43,24 +43,17 @@ import org.jetbrains.annotations.*;
 // ...
 // ...
 // ...
-import static org.jooq.SQLDialect.CUBRID;
 // ...
-import static org.jooq.SQLDialect.DERBY;
-import static org.jooq.SQLDialect.FIREBIRD;
-import static org.jooq.SQLDialect.H2;
-import static org.jooq.SQLDialect.HSQLDB;
 // ...
-import static org.jooq.SQLDialect.MARIADB;
 // ...
-import static org.jooq.SQLDialect.MYSQL;
 // ...
-import static org.jooq.SQLDialect.POSTGRES;
-import static org.jooq.SQLDialect.SQLITE;
 // ...
 // ...
 // ...
 
 import java.util.Collection;
+
+import static org.jooq.SQLDialect.*;
 
 /**
  * This type is used for the {@link Insert}'s DSL API.
@@ -103,14 +96,14 @@ public interface InsertOnDuplicateStep<R extends Record> extends InsertReturning
      * Add a <code>ON CONFLICT ON CONSTRAINT</code> clause to this INSERT statement.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, HSQLDB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, HSQLDB, MYSQL, XUGU, POSTGRES })
     InsertOnConflictDoUpdateStep<R> onConflictOnConstraint(Constraint constraint);
 
     /**
      * Add a <code>ON CONFLICT ON CONSTRAINT</code> clause to this INSERT statement.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, HSQLDB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, HSQLDB, MYSQL, XUGU, POSTGRES })
     InsertOnConflictDoUpdateStep<R> onConflictOnConstraint(Name constraint);
 
     /**
@@ -174,7 +167,7 @@ public interface InsertOnDuplicateStep<R extends Record> extends InsertReturning
      * H2 supports this clause in MySQL mode.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     InsertOnDuplicateSetStep<R> onDuplicateKeyUpdate();
 
     /**

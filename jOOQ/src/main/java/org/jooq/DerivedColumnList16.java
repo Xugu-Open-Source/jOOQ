@@ -40,23 +40,18 @@ package org.jooq;
 // ...
 // ...
 // ...
-import static org.jooq.SQLDialect.FIREBIRD;
-import static org.jooq.SQLDialect.H2;
 // ...
-import static org.jooq.SQLDialect.HSQLDB;
-import static org.jooq.SQLDialect.MARIADB;
 // ...
-import static org.jooq.SQLDialect.MYSQL;
 // ...
-import static org.jooq.SQLDialect.POSTGRES;
 // ...
-import static org.jooq.SQLDialect.SQLITE;
 // ...
 // ...
 // ...
 // ...
 
 import org.jetbrains.annotations.NotNull;
+
+        import static org.jooq.SQLDialect.*;
 
 /**
  * A derived column list.
@@ -90,7 +85,7 @@ public interface DerivedColumnList16 extends QueryPart {
      * form a common table expression.
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     <R extends Record16<?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?>> CommonTableExpression<R> as(Select<R> select);
 
     /**
@@ -102,7 +97,7 @@ public interface DerivedColumnList16 extends QueryPart {
      * supported.
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     <R extends Record16<?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?>> CommonTableExpression<R> asMaterialized(Select<R> select);
 
     /**
@@ -114,7 +109,7 @@ public interface DerivedColumnList16 extends QueryPart {
      * is not supported.
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     <R extends Record16<?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?>> CommonTableExpression<R> asNotMaterialized(Select<R> select);
 
 }

@@ -39,18 +39,10 @@ package org.jooq;
 
 // ...
 // ...
-import static org.jooq.SQLDialect.CUBRID;
 // ...
-import static org.jooq.SQLDialect.DERBY;
-import static org.jooq.SQLDialect.FIREBIRD;
-import static org.jooq.SQLDialect.H2;
 // ...
-import static org.jooq.SQLDialect.HSQLDB;
-import static org.jooq.SQLDialect.MARIADB;
 // ...
-import static org.jooq.SQLDialect.MYSQL;
 // ...
-import static org.jooq.SQLDialect.POSTGRES;
 // ...
 // ...
 // ...
@@ -59,6 +51,8 @@ import static org.jooq.SQLDialect.POSTGRES;
 import java.util.Collection;
 
 import org.jetbrains.annotations.NotNull;
+
+        import static org.jooq.SQLDialect.*;
 
 /**
  * This type is used for the H2-specific variant of the {@link Merge}'s DSL API.
@@ -84,7 +78,7 @@ public interface MergeValuesStep5<R extends Record, T1, T2, T3, T4, T5> {
      */
     @Deprecated
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES })
     Merge<R> values(T1 value1, T2 value2, T3 value3, T4 value4, T5 value5);
 
     /**
@@ -94,7 +88,7 @@ public interface MergeValuesStep5<R extends Record, T1, T2, T3, T4, T5> {
      */
     @Deprecated
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES })
     Merge<R> values(Field<T1> value1, Field<T2> value2, Field<T3> value3, Field<T4> value4, Field<T5> value5);
 
     /**
@@ -104,7 +98,7 @@ public interface MergeValuesStep5<R extends Record, T1, T2, T3, T4, T5> {
      */
     @Deprecated
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES })
     Merge<R> values(Collection<?> values);
 
     /**

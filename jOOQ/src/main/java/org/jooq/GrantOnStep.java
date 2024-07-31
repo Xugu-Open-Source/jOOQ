@@ -70,21 +70,21 @@ public interface GrantOnStep {
     /**
      * Add the <code>ON</code> clause to the <code>GRANT</code> statement.
      */
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES })
     @NotNull
     GrantToStep on(String on);
 
     /**
      * Add the <code>ON</code> clause to the <code>GRANT</code> statement.
      */
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES })
     @NotNull
     GrantToStep on(Name on);
 
     /**
      * Add the <code>ON</code> clause to the <code>GRANT</code> statement.
      */
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES })
     @NotNull
     GrantToStep on(Table<?> on);
 }

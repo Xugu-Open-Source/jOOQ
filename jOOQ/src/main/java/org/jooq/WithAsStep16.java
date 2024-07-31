@@ -40,23 +40,18 @@ package org.jooq;
 // ...
 // ...
 // ...
-import static org.jooq.SQLDialect.FIREBIRD;
-import static org.jooq.SQLDialect.H2;
 // ...
-import static org.jooq.SQLDialect.HSQLDB;
-import static org.jooq.SQLDialect.MARIADB;
 // ...
-import static org.jooq.SQLDialect.MYSQL;
 // ...
-import static org.jooq.SQLDialect.POSTGRES;
 // ...
-import static org.jooq.SQLDialect.SQLITE;
 // ...
 // ...
 // ...
 // ...
 
 import org.jetbrains.annotations.NotNull;
+
+        import static org.jooq.SQLDialect.*;
 
 /**
  * This type is part of the jOOQ DSL to create {@link Select}, {@link Insert},
@@ -82,7 +77,7 @@ public interface WithAsStep16 {
      * names.
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WithStep as(Select<? extends Record16<?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?>> select);
 
     /**
@@ -94,7 +89,7 @@ public interface WithAsStep16 {
      * supported.
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WithStep asMaterialized(Select<? extends Record16<?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?>> select);
 
     /**
@@ -106,6 +101,6 @@ public interface WithAsStep16 {
      * is not supported.
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WithStep asNotMaterialized(Select<? extends Record16<?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?>> select);
 }

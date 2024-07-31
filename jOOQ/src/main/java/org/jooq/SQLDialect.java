@@ -214,7 +214,11 @@ public enum SQLDialect {
      * This family behaves like the versioned dialect {@link #MYSQL_8_0_19}.
      */
     MYSQL("MySQL", false, true),
-
+    /**
+     * The XuGu dialect family.
+     * <p>
+     */
+    XUGU("XuGu", false, true),
 
 
 

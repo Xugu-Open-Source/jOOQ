@@ -42,26 +42,21 @@ import org.jetbrains.annotations.*;
 
 // ...
 // ...
-import static org.jooq.SQLDialect.CUBRID;
-// ...
-import static org.jooq.SQLDialect.FIREBIRD;
-import static org.jooq.SQLDialect.H2;
 // ...
 // ...
-import static org.jooq.SQLDialect.MARIADB;
-// ...
-import static org.jooq.SQLDialect.MYSQL;
-// ...
-import static org.jooq.SQLDialect.POSTGRES;
 // ...
 // ...
-import static org.jooq.SQLDialect.SQLITE;
+// ...
+// ...
+// ...
 // ...
 // ...
 // ...
 // ...
 
 import java.util.Collection;
+
+import static org.jooq.SQLDialect.*;
 
 /**
  * An intermediate step in the construction of a {@link WindowSpecification}.
@@ -100,14 +95,14 @@ public interface WindowSpecificationPartitionByStep extends WindowSpecificationO
      * Add a <code>PARTITION BY</code> clause to the window specification.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationOrderByStep partitionBy(Field<?>... fields);
 
     /**
      * Add a <code>PARTITION BY</code> clause to the window specification.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationOrderByStep partitionBy(Collection<? extends Field<?>> fields);
 
     /**
@@ -120,6 +115,6 @@ public interface WindowSpecificationPartitionByStep extends WindowSpecificationO
      */
     @Deprecated
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationOrderByStep partitionByOne();
 }

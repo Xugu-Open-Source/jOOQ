@@ -43,16 +43,13 @@ import org.jetbrains.annotations.*;
 // ...
 // ...
 // ...
-import static org.jooq.SQLDialect.H2;
-// ...
-import static org.jooq.SQLDialect.MARIADB;
-// ...
-import static org.jooq.SQLDialect.MYSQL;
-// ...
-import static org.jooq.SQLDialect.POSTGRES;
 // ...
 // ...
-import static org.jooq.SQLDialect.SQLITE;
+// ...
+// ...
+// ...
+import static org.jooq.SQLDialect.*;
+
 // ...
 // ...
 // ...
@@ -81,7 +78,7 @@ public interface WindowRowsAndStep<T> {
      * function.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowExcludeStep<T> andUnboundedPreceding();
 
     /**
@@ -89,7 +86,7 @@ public interface WindowRowsAndStep<T> {
      * function.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowExcludeStep<T> andPreceding(int number);
 
     /**
@@ -97,7 +94,7 @@ public interface WindowRowsAndStep<T> {
      * function.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowExcludeStep<T> andCurrentRow();
 
     /**
@@ -105,7 +102,7 @@ public interface WindowRowsAndStep<T> {
      * function.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowExcludeStep<T> andUnboundedFollowing();
 
     /**
@@ -113,6 +110,6 @@ public interface WindowRowsAndStep<T> {
      * function.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowExcludeStep<T> andFollowing(int number);
 }

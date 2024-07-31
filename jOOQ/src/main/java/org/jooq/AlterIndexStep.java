@@ -45,15 +45,11 @@ import org.jetbrains.annotations.*;
 // ...
 // ...
 // ...
-import static org.jooq.SQLDialect.DERBY;
-import static org.jooq.SQLDialect.H2;
 // ...
-import static org.jooq.SQLDialect.HSQLDB;
-import static org.jooq.SQLDialect.MARIADB;
 // ...
-import static org.jooq.SQLDialect.MYSQL;
 // ...
-import static org.jooq.SQLDialect.POSTGRES;
+import static org.jooq.SQLDialect.*;
+
 // ...
 // ...
 
@@ -92,7 +88,7 @@ public interface AlterIndexStep {
      * {@link AlterTableStep#renameIndex(String)} instead.
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES })
     AlterIndexFinalStep renameTo(String newName);
 
     /**
@@ -105,7 +101,7 @@ public interface AlterIndexStep {
      * {@link AlterTableStep#renameIndex(Name)} instead.
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES })
     AlterIndexFinalStep renameTo(Name newName);
 
     /**
@@ -118,6 +114,6 @@ public interface AlterIndexStep {
      * {@link AlterTableStep#renameIndex(Index)} instead.
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES })
     AlterIndexFinalStep renameTo(Index newName);
 }

@@ -70,21 +70,21 @@ public interface RevokeOnStep {
     /**
      * Add the <code>ON</code> clause to the <code>REVOKE</code> statement.
      */
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES })
     @NotNull
     RevokeFromStep on(String on);
 
     /**
      * Add the <code>ON</code> clause to the <code>REVOKE</code> statement.
      */
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES })
     @NotNull
     RevokeFromStep on(Name on);
 
     /**
      * Add the <code>ON</code> clause to the <code>REVOKE</code> statement.
      */
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES })
     @NotNull
     RevokeFromStep on(Table<?> on);
 }

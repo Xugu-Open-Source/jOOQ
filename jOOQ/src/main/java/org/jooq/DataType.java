@@ -40,14 +40,9 @@ package org.jooq;
 // ...
 // ...
 // ...
-import static org.jooq.SQLDialect.HSQLDB;
-import static org.jooq.SQLDialect.MARIADB;
 // ...
-import static org.jooq.SQLDialect.MYSQL;
 // ...
-import static org.jooq.SQLDialect.POSTGRES;
 // ...
-import static org.jooq.SQLDialect.SQLITE;
 // ...
 
 import java.sql.Types;
@@ -64,6 +59,8 @@ import org.jooq.types.YearToSecond;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+        import static org.jooq.SQLDialect.*;
 
 /**
  * A common interface to all dialect-specific data types.
@@ -330,7 +327,7 @@ public interface DataType<T> extends Named {
      * Return a new data type like this, with a new collation.
      */
     @NotNull
-    @Support({ HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ HSQLDB, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     DataType<T> collation(Collation collation);
 
     /**

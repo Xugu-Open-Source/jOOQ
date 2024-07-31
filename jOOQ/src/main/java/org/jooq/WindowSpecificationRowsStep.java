@@ -43,18 +43,15 @@ import org.jetbrains.annotations.*;
 // ...
 // ...
 // ...
-import static org.jooq.SQLDialect.H2;
-// ...
-import static org.jooq.SQLDialect.MARIADB;
-// ...
-import static org.jooq.SQLDialect.MYSQL;
-// ...
-// ...
-import static org.jooq.SQLDialect.POSTGRES;
 // ...
 // ...
 // ...
-import static org.jooq.SQLDialect.SQLITE;
+// ...
+// ...
+// ...
+// ...
+import static org.jooq.SQLDialect.*;
+
 // ...
 // ...
 // ...
@@ -99,7 +96,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationExcludeStep rowsUnboundedPreceding();
 
     /**
@@ -107,7 +104,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationExcludeStep rowsPreceding(int number);
 
     /**
@@ -115,7 +112,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationExcludeStep rowsCurrentRow();
 
     /**
@@ -123,7 +120,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationExcludeStep rowsUnboundedFollowing();
 
     /**
@@ -131,7 +128,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationExcludeStep rowsFollowing(int number);
 
     /**
@@ -139,7 +136,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * the window specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationRowsAndStep rowsBetweenUnboundedPreceding();
 
     /**
@@ -147,7 +144,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * the window specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationRowsAndStep rowsBetweenPreceding(int number);
 
     /**
@@ -155,7 +152,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * window specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationRowsAndStep rowsBetweenCurrentRow();
 
     /**
@@ -163,7 +160,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * the window specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationRowsAndStep rowsBetweenUnboundedFollowing();
 
     /**
@@ -171,7 +168,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * the window specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationRowsAndStep rowsBetweenFollowing(int number);
 
     /**
@@ -179,7 +176,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationExcludeStep rangeUnboundedPreceding();
 
     /**
@@ -187,7 +184,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationExcludeStep rangePreceding(int number);
 
     /**
@@ -195,7 +192,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationExcludeStep rangeCurrentRow();
 
     /**
@@ -203,7 +200,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationExcludeStep rangeUnboundedFollowing();
 
     /**
@@ -211,7 +208,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationExcludeStep rangeFollowing(int number);
 
     /**
@@ -219,7 +216,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * the window specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationRowsAndStep rangeBetweenUnboundedPreceding();
 
     /**
@@ -227,7 +224,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * the window specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationRowsAndStep rangeBetweenPreceding(int number);
 
     /**
@@ -235,7 +232,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * window specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationRowsAndStep rangeBetweenCurrentRow();
 
     /**
@@ -243,7 +240,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * the window specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationRowsAndStep rangeBetweenUnboundedFollowing();
 
     /**
@@ -251,7 +248,7 @@ public interface WindowSpecificationRowsStep extends WindowSpecificationFinalSte
      * the window specification.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, MARIADB, MYSQL, XUGU, POSTGRES, SQLITE })
     WindowSpecificationRowsAndStep rangeBetweenFollowing(int number);
 
     /**
