@@ -343,8 +343,6 @@ public class JDBCUtils {
 
         else if (url.contains(":cubrid:"))
             return CUBRID;
-        else if (url.contains(":xugu:"))
-            return XUGU;
         else if (url.contains(":derby:"))
             return DERBY;
         else if (url.contains(":firebirdsql:"))
@@ -364,6 +362,8 @@ public class JDBCUtils {
         else if (url.contains(":sqlite:")
               || url.contains(":sqldroid:"))
             return SQLITE;
+        else if (url.contains(":xugu:"))
+            return XUGU;
 
 
 
