@@ -49,9 +49,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
-import static org.jooq.impl.DSL.coalesce;
-import static org.jooq.impl.DSL.name;
-import static org.jooq.meta.xugu.information_schema.Tables.COLUMNS;
+import static org.jooq.impl.DSL.*;
+import static org.jooq.meta.xugu.information_schema.Tables.*;
 
 /**
  * @author Lukas Eder
@@ -73,24 +72,26 @@ public class XuGuTableDefinition extends AbstractTableDefinition {
         List<ColumnDefinition> result = new ArrayList<>();
 
         for (Record record : create().select(
-                    COLUMNS.ORDINAL_POSITION,
+                    inline("").as(COLUMNS.ORDINAL_POSITION),
                     COLUMNS.COLUMN_NAME,
                     COLUMNS.COLUMN_COMMENT,
                     COLUMNS.COLUMN_TYPE,
                     COLUMNS.DATA_TYPE,
-                    COLUMNS.IS_NULLABLE,
+                    when(COLUMNS.IS_NULLABLE.eq("true"),"YES").else_("NO").as(COLUMNS.IS_NULLABLE),
                     COLUMNS.COLUMN_DEFAULT,
                     COLUMNS.CHARACTER_MAXIMUM_LENGTH,
 
                     getDatabase().exists(COLUMNS.DATETIME_PRECISION)
                         ? coalesce(COLUMNS.NUMERIC_PRECISION, COLUMNS.DATETIME_PRECISION).as(COLUMNS.NUMERIC_PRECISION)
-                        : COLUMNS.NUMERIC_PRECISION,
-                    COLUMNS.NUMERIC_SCALE,
+                        : inline("").as(COLUMNS.NUMERIC_PRECISION),
+                    inline("").as(COLUMNS.NUMERIC_SCALE),
                     COLUMNS.EXTRA)
                 .from(COLUMNS)
-                .where(COLUMNS.TABLE_SCHEMA.in(getSchema().getName(), getSchema().getName()))
-                .and(COLUMNS.TABLE_NAME.equal(getName()))
-                .orderBy(COLUMNS.ORDINAL_POSITION)) {
+                .leftJoin(TABLES).on(TABLES.TABLE_ID.eq(COLUMNS.TABLE_ID))
+                .leftJoin(SCHEMATA).on(SCHEMATA.SCHEMA_ID.eq(TABLES.SCHEMA_ID))
+                .where(SCHEMATA.SCHEMA_NAME.in(getSchema().getName(), getSchema().getName()))
+                .and(TABLES.TABLE_NAME.equal(getName()))
+                .orderBy(TABLES.TABLE_ID)) {
 
             String dataType = record.get(COLUMNS.DATA_TYPE);
 
@@ -129,8 +130,8 @@ public class XuGuTableDefinition extends AbstractTableDefinition {
                 getSchema(),
                 dataType,
                 record.get(COLUMNS.CHARACTER_MAXIMUM_LENGTH),
-                record.get(COLUMNS.NUMERIC_PRECISION),
-                record.get(COLUMNS.NUMERIC_SCALE),
+                null,
+                null,
                 record.get(COLUMNS.IS_NULLABLE, boolean.class),
                 record.get(COLUMNS.COLUMN_DEFAULT),
                 name(getSchema().getName(), getName() + "_" + record.get(COLUMNS.COLUMN_NAME))

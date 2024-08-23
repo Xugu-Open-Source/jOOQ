@@ -28,6 +28,7 @@ public class ReferentialConstraints extends TableImpl<Record> {
      */
     public static final ReferentialConstraints REFERENTIAL_CONSTRAINTS = new ReferentialConstraints();
 
+    public static final ReferentialConstraints REFERENTIAL_CONSTRAINTS_ALIAS = new ReferentialConstraints().as("rc");
     /**
      * The class holding records for this type
      */
@@ -49,7 +50,11 @@ public class ReferentialConstraints extends TableImpl<Record> {
     /**
      * The column <code>information_schema.REFERENTIAL_CONSTRAINTS.CONSTRAINT_NAME</code>.
      */
-    public final TableField<Record, String> CONSTRAINT_NAME = createField(DSL.name("CONSTRAINT_NAME"), SQLDataType.VARCHAR(64), this, "");
+    public final TableField<Record, String> CONSTRAINT_NAME = createField(DSL.name("CONS_NAME"), SQLDataType.VARCHAR(64), this, "");
+
+    public final TableField<Record, String> CONS_TYPE = createField(DSL.name("CONS_TYPE"), SQLDataType.VARCHAR(64), this, "");
+
+
 
     /**
      * The column <code>information_schema.REFERENTIAL_CONSTRAINTS.UNIQUE_CONSTRAINT_CATALOG</code>.
@@ -86,6 +91,8 @@ public class ReferentialConstraints extends TableImpl<Record> {
      */
     public final TableField<Record, String> TABLE_NAME = createField(DSL.name("TABLE_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
 
+    public final TableField<Record, String> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
     /**
      * The column <code>information_schema.REFERENTIAL_CONSTRAINTS.REFERENCED_TABLE_NAME</code>.
      */
@@ -117,7 +124,7 @@ public class ReferentialConstraints extends TableImpl<Record> {
      * Create a <code>information_schema.REFERENTIAL_CONSTRAINTS</code> table reference
      */
     public ReferentialConstraints() {
-        this(DSL.name("REFERENTIAL_CONSTRAINTS"), null);
+        this(DSL.name("ALL_CONSTRAINTS"), null);
     }
 
     public <O extends Record> ReferentialConstraints(Table<O> child, ForeignKey<O, Record> key) {

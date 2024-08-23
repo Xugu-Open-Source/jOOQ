@@ -86,7 +86,7 @@ public class InformationSchema extends SchemaImpl {
      * No further instances allowed
      */
     private InformationSchema() {
-        super("information_schema", null);
+        super("", null);
     }
 
 

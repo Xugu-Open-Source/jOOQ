@@ -43,6 +43,13 @@ public class Routines extends TableImpl<Record> {
      */
     public final TableField<Record, String> SPECIFIC_NAME = createField(DSL.name("SPECIFIC_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
 
+    public final TableField<Record, String> PROC_NAME = createField(DSL.name("PROC_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
+
+    public final TableField<Record, String> SCHEMA_ID = createField(DSL.name("SCHEMA_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
+    public final TableField<Record, String> PROC_ID = createField(DSL.name("PROC_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
     /**
      * The column <code>information_schema.ROUTINES.ROUTINE_CATALOG</code>.
      */
@@ -56,7 +63,7 @@ public class Routines extends TableImpl<Record> {
     /**
      * The column <code>information_schema.ROUTINES.ROUTINE_NAME</code>.
      */
-    public final TableField<Record, String> ROUTINE_NAME = createField(DSL.name("ROUTINE_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, String> ROUTINE_NAME = createField(DSL.name("PROC_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
 
     /**
      * The column <code>information_schema.ROUTINES.ROUTINE_TYPE</code>.
@@ -171,7 +178,7 @@ public class Routines extends TableImpl<Record> {
     /**
      * The column <code>information_schema.ROUTINES.ROUTINE_COMMENT</code>.
      */
-    public final TableField<Record, String> ROUTINE_COMMENT = createField(DSL.name("ROUTINE_COMMENT"), SQLDataType.CLOB.nullable(false), this, "");
+    public final TableField<Record, String> ROUTINE_COMMENT = createField(DSL.name("COMMENTS"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
      * The column <code>information_schema.ROUTINES.DEFINER</code>.
@@ -219,7 +226,7 @@ public class Routines extends TableImpl<Record> {
      * Create a <code>information_schema.ROUTINES</code> table reference
      */
     public Routines() {
-        this(DSL.name("ROUTINES"), null);
+        this(DSL.name("ALL_PROCEDURES"), null);
     }
 
     public <O extends Record> Routines(Table<O> child, ForeignKey<O, Record> key) {

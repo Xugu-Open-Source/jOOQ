@@ -49,7 +49,7 @@ public class TableConstraints extends TableImpl<Record> {
     /**
      * The column <code>information_schema.TABLE_CONSTRAINTS.CONSTRAINT_NAME</code>.
      */
-    public final TableField<Record, String> CONSTRAINT_NAME = createField(DSL.name("CONSTRAINT_NAME"), SQLDataType.VARCHAR(64), this, "");
+    public final TableField<Record, String> CONSTRAINT_NAME = createField(DSL.name("CONS_NAME"), SQLDataType.VARCHAR(64), this, "");
 
     /**
      * The column <code>information_schema.TABLE_CONSTRAINTS.TABLE_SCHEMA</code>.
@@ -60,6 +60,8 @@ public class TableConstraints extends TableImpl<Record> {
      * The column <code>information_schema.TABLE_CONSTRAINTS.TABLE_NAME</code>.
      */
     public final TableField<Record, String> TABLE_NAME = createField(DSL.name("TABLE_NAME"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
+
+    public final TableField<Record, String> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
 
     /**
      * The column <code>information_schema.TABLE_CONSTRAINTS.CONSTRAINT_TYPE</code>.
@@ -97,7 +99,7 @@ public class TableConstraints extends TableImpl<Record> {
      * Create a <code>information_schema.TABLE_CONSTRAINTS</code> table reference
      */
     public TableConstraints() {
-        this(DSL.name("TABLE_CONSTRAINTS"), null);
+        this(DSL.name("ALL_CONSTRAINTS"), null);
     }
 
     public <O extends Record> TableConstraints(Table<O> child, ForeignKey<O, Record> key) {

@@ -389,8 +389,6 @@ public class JDBCUtils {
 
 
 
-
-
         return DEFAULT;
     }
 

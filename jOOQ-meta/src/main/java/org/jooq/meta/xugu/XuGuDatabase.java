@@ -42,6 +42,8 @@ import org.jooq.*;
 import org.jooq.TableOptions.TableType;
 import org.jooq.impl.DSL;
 import org.jooq.meta.*;
+import org.jooq.meta.xugu.information_schema.tables.Schemata;
+import org.jooq.meta.xugu.information_schema.tables.Tables;
 import org.jooq.meta.xugu.xugu.enums.ProcType;
 import org.jooq.tools.csv.CSVReader;
 
@@ -70,55 +72,59 @@ public class XuGuDatabase extends AbstractDatabase {
 
         // Same implementation as in H2Database and HSQLDBDatabase
         Map<Record, Result<Record>> indexes = create()
-            // [#2059] In MemSQL primary key indexes are typically duplicated
-            // (once with INDEX_TYPE = 'SHARD' and once with INDEX_TYPE = 'BTREE)
-            .selectDistinct(
-                STATISTICS.TABLE_SCHEMA,
-                STATISTICS.TABLE_NAME,
-                STATISTICS.INDEX_NAME,
-                STATISTICS.NON_UNIQUE,
-                STATISTICS.COLUMN_NAME,
-                STATISTICS.SEQ_IN_INDEX)
-            .from(STATISTICS)
-            .where(STATISTICS.TABLE_SCHEMA.in(getInputSchemata()).or(
-                  getInputSchemata().size() == 1
-                ? STATISTICS.TABLE_SCHEMA.in(getInputSchemata())
-                : falseCondition()))
-            .and(getIncludeSystemIndexes()
-                ? noCondition()
-                : row(STATISTICS.INDEX_SCHEMA, STATISTICS.TABLE_NAME, STATISTICS.INDEX_NAME).notIn(
-                    select(TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA, TABLE_CONSTRAINTS.TABLE_NAME, TABLE_CONSTRAINTS.CONSTRAINT_NAME)
-                    .from(TABLE_CONSTRAINTS)
-                  )
-            )
-            .orderBy(
-                STATISTICS.TABLE_SCHEMA,
-                STATISTICS.TABLE_NAME,
-                STATISTICS.INDEX_NAME,
-                STATISTICS.SEQ_IN_INDEX)
-            .fetchGroups(
-                new Field[] {
-                    STATISTICS.TABLE_SCHEMA,
-                    STATISTICS.TABLE_NAME,
-                    STATISTICS.INDEX_NAME,
-                    STATISTICS.NON_UNIQUE
-                },
-                new Field[] {
-                    STATISTICS.COLUMN_NAME,
-                    STATISTICS.SEQ_IN_INDEX
-                });
+                // [#2059] In MemSQL primary key indexes are typically duplicated
+                // (once with INDEX_TYPE = 'SHARD' and once with INDEX_TYPE = 'BTREE)
+                .selectDistinct(
+                        SCHEMATA.SCHEMA_NAME,
+                        TABLES.TABLE_NAME,
+                        STATISTICS.INDEX_NAME,
+                        STATISTICS.NON_UNIQUE,
+                        STATISTICS.KEYS,
+                        inline("").as(STATISTICS.SEQ_IN_INDEX))
+                .from(STATISTICS)
+                .leftJoin(TABLES).on(TABLES.TABLE_ID.eq(STATISTICS.TABLE_ID))
+                .leftJoin(SCHEMATA).on(SCHEMATA.SCHEMA_ID.eq(TABLES.SCHEMA_ID))
+                .where(SCHEMATA.SCHEMA_NAME.in(getInputSchemata()).or(
+                        getInputSchemata().size() == 1
+                                ? SCHEMATA.SCHEMA_NAME.in(getInputSchemata())
+                                : falseCondition()))
+                .and(getIncludeSystemIndexes()
+                                ? noCondition()
+                                : row(SCHEMATA.SCHEMA_NAME, TABLES.TABLE_NAME, STATISTICS.INDEX_NAME).notIn(
+                                select(SCHEMATA.SCHEMA_NAME, TABLES.TABLE_NAME, TABLE_CONSTRAINTS.CONSTRAINT_NAME)
+                                        .from(TABLE_CONSTRAINTS)
+                                        .leftJoin(TABLES).on(TABLES.TABLE_ID.eq(TABLE_CONSTRAINTS.TABLE_ID))
+                                        .leftJoin(SCHEMATA).on(SCHEMATA.SCHEMA_ID.eq(TABLES.SCHEMA_ID))
+                        )
+                )
+                .orderBy(
+                        SCHEMATA.SCHEMA_NAME,
+                        TABLES.TABLE_NAME,
+                        STATISTICS.INDEX_NAME,
+                        STATISTICS.INDEX_ID)
+                .fetchGroups(
+                        new Field[]{
+                                SCHEMATA.SCHEMA_NAME,
+                                TABLES.TABLE_NAME,
+                                STATISTICS.INDEX_NAME,
+                                STATISTICS.NON_UNIQUE
+                        },
+                        new Field[]{
+                                STATISTICS.KEYS,
+                                STATISTICS.SEQ_IN_INDEX
+                        });
 
         indexLoop:
         for (Entry<Record, Result<Record>> entry : indexes.entrySet()) {
             final Record index = entry.getKey();
             final Result<Record> columns = entry.getValue();
 
-            final SchemaDefinition tableSchema = getSchema(index.get(STATISTICS.TABLE_SCHEMA));
+            final SchemaDefinition tableSchema = getSchema(index.get(SCHEMATA.SCHEMA_NAME));
             if (tableSchema == null)
                 continue indexLoop;
 
             final String indexName = index.get(STATISTICS.INDEX_NAME);
-            final String tableName = index.get(STATISTICS.TABLE_NAME);
+            final String tableName = index.get(TABLES.TABLE_NAME);
             final TableDefinition table = getTable(tableSchema, tableName);
             if (table == null)
                 continue indexLoop;
@@ -127,7 +133,7 @@ public class XuGuDatabase extends AbstractDatabase {
 
             // [#6310] [#6620] Function-based indexes are not yet supported
             for (Record column : columns)
-                if (table.getColumn(column.get(STATISTICS.COLUMN_NAME)) == null)
+                if (table.getColumn(column.get(STATISTICS.KEYS)) == null)
                     continue indexLoop;
 
             result.add(new AbstractIndexDefinition(tableSchema, indexName, table, unique) {
@@ -136,10 +142,10 @@ public class XuGuDatabase extends AbstractDatabase {
                 {
                     for (Record column : columns) {
                         indexColumns.add(new DefaultIndexColumnDefinition(
-                            this,
-                            table.getColumn(column.get(STATISTICS.COLUMN_NAME)),
-                            SortOrder.ASC,
-                            column.get(STATISTICS.SEQ_IN_INDEX, int.class)
+                                this,
+                                table.getColumn(column.get(STATISTICS.KEYS)),
+                                SortOrder.ASC,
+                                column.get(STATISTICS.SEQ_IN_INDEX, int.class)
                         ));
                     }
                 }
@@ -157,10 +163,10 @@ public class XuGuDatabase extends AbstractDatabase {
     @Override
     protected void loadPrimaryKeys(DefaultRelations relations) throws SQLException {
         for (Record record : fetchKeys(true)) {
-            SchemaDefinition schema = getSchema(record.get(STATISTICS.TABLE_SCHEMA));
+            SchemaDefinition schema = getSchema(record.get(SCHEMATA.SCHEMA_NAME));
             String constraintName = record.get(STATISTICS.INDEX_NAME);
-            String tableName = record.get(STATISTICS.TABLE_NAME);
-            String columnName = record.get(STATISTICS.COLUMN_NAME);
+            String tableName = record.get(TABLES.TABLE_NAME);
+            String columnName = record.get(STATISTICS.KEYS);
 
             String key = getKeyName(tableName, constraintName);
             TableDefinition table = getTable(schema, tableName);
@@ -173,10 +179,10 @@ public class XuGuDatabase extends AbstractDatabase {
     @Override
     protected void loadUniqueKeys(DefaultRelations relations) throws SQLException {
         for (Record record : fetchKeys(false)) {
-            SchemaDefinition schema = getSchema(record.get(STATISTICS.TABLE_SCHEMA));
+            SchemaDefinition schema = getSchema(record.get(SCHEMATA.SCHEMA_NAME));
             String constraintName = record.get(STATISTICS.INDEX_NAME);
-            String tableName = record.get(STATISTICS.TABLE_NAME);
-            String columnName = record.get(STATISTICS.COLUMN_NAME);
+            String tableName = record.get(TABLES.TABLE_NAME);
+            String columnName = record.get(STATISTICS.KEYS);
 
             String key = getKeyName(tableName, constraintName);
             TableDefinition table = getTable(schema, tableName);
@@ -193,7 +199,7 @@ public class XuGuDatabase extends AbstractDatabase {
     protected boolean is8() {
 
         if (is8 == null)
-            is8 = !exists(PROC);
+            is8 = !exists(OBJECTS);
 
         return is8;
     }
@@ -213,58 +219,58 @@ public class XuGuDatabase extends AbstractDatabase {
         // [#2059] In MemSQL primary key indexes are typically duplicated
         // (once with INDEX_TYPE = 'SHARD' and once with INDEX_TYPE = 'BTREE)
         return create().selectDistinct(
-                           STATISTICS.TABLE_SCHEMA,
-                           STATISTICS.TABLE_NAME,
-                           STATISTICS.COLUMN_NAME,
-                           STATISTICS.INDEX_NAME,
-                           STATISTICS.SEQ_IN_INDEX)
-                       .from(STATISTICS)
-                       .where(STATISTICS.TABLE_SCHEMA.in(getInputSchemata()).or(
-                             getInputSchemata().size() == 1
-                           ? STATISTICS.TABLE_SCHEMA.in(getInputSchemata())
-                           : falseCondition()))
-                       .and(primary
-                           ? STATISTICS.INDEX_NAME.eq(inline("PRIMARY"))
-                           : STATISTICS.INDEX_NAME.ne(inline("PRIMARY")).and(STATISTICS.NON_UNIQUE.eq(inline(0))))
-                       .orderBy(
-                           STATISTICS.TABLE_SCHEMA,
-                           STATISTICS.TABLE_NAME,
-                           STATISTICS.INDEX_NAME,
-                           STATISTICS.SEQ_IN_INDEX)
-                       .fetch();
+                        SCHEMATA.SCHEMA_NAME,
+                        TABLES.TABLE_NAME,
+                        STATISTICS.KEYS,
+                        STATISTICS.INDEX_NAME,
+                        inline(1).as(STATISTICS.SEQ_IN_INDEX))
+                .from(STATISTICS)
+                .leftJoin(TABLES).on(TABLES.TABLE_ID.eq(STATISTICS.TABLE_ID))
+                .leftJoin(SCHEMATA).on(SCHEMATA.SCHEMA_ID.eq(TABLES.SCHEMA_ID))
+                .where(SCHEMATA.SCHEMA_NAME.in(getInputSchemata()).or(
+                        getInputSchemata().size() == 1
+                                ? SCHEMATA.SCHEMA_NAME.in(getInputSchemata())
+                                : falseCondition()))
+                .and(primary
+                        ? STATISTICS.INDEX_NAME.eq(inline("PRIMARY"))
+                        : STATISTICS.INDEX_NAME.ne(inline("PRIMARY")).and(STATISTICS.NON_UNIQUE.eq(inline(1))))
+                .orderBy(
+                        SCHEMATA.SCHEMA_NAME,
+                        TABLES.TABLE_NAME,
+                        STATISTICS.INDEX_NAME,
+                        STATISTICS.INDEX_ID)
+                .fetch();
     }
 
     @Override
     protected void loadForeignKeys(DefaultRelations relations) throws SQLException {
         for (Record record : create().select(
-                    REFERENTIAL_CONSTRAINTS.CONSTRAINT_SCHEMA,
-                    REFERENTIAL_CONSTRAINTS.CONSTRAINT_NAME,
-                    REFERENTIAL_CONSTRAINTS.TABLE_NAME,
-                    REFERENTIAL_CONSTRAINTS.REFERENCED_TABLE_NAME,
-                    REFERENTIAL_CONSTRAINTS.UNIQUE_CONSTRAINT_NAME,
-                    REFERENTIAL_CONSTRAINTS.UNIQUE_CONSTRAINT_SCHEMA,
-                    KEY_COLUMN_USAGE.COLUMN_NAME)
+                        SCHEMATA.SCHEMA_NAME,
+                        REFERENTIAL_CONSTRAINTS.CONSTRAINT_NAME,
+                        TABLES.TABLE_NAME,
+                        TABLES.TABLE_NAME.as(REFERENTIAL_CONSTRAINTS.REFERENCED_TABLE_NAME),
+                        inline("").as(REFERENTIAL_CONSTRAINTS.UNIQUE_CONSTRAINT_NAME),
+                        inline("").as(REFERENTIAL_CONSTRAINTS.UNIQUE_CONSTRAINT_SCHEMA),
+                        KEY_COLUMN_USAGE.COLUMN_NAME)
                 .from(REFERENTIAL_CONSTRAINTS)
-                .join(KEY_COLUMN_USAGE)
-                .on(REFERENTIAL_CONSTRAINTS.CONSTRAINT_SCHEMA.equal(KEY_COLUMN_USAGE.CONSTRAINT_SCHEMA))
-                .and(REFERENTIAL_CONSTRAINTS.CONSTRAINT_NAME.equal(KEY_COLUMN_USAGE.CONSTRAINT_NAME))
-                .and(REFERENTIAL_CONSTRAINTS.TABLE_NAME.equal(KEY_COLUMN_USAGE.TABLE_NAME))
-                .where(REFERENTIAL_CONSTRAINTS.CONSTRAINT_SCHEMA.in(getInputSchemata()).or(
-                      getInputSchemata().size() == 1
-                    ? REFERENTIAL_CONSTRAINTS.CONSTRAINT_SCHEMA.in(getInputSchemata())
-                    : falseCondition()))
+                .leftJoin(TABLES).on(TABLES.TABLE_ID.eq(REFERENTIAL_CONSTRAINTS.TABLE_ID))
+                .leftJoin(SCHEMATA).on(SCHEMATA.SCHEMA_ID.eq(TABLES.SCHEMA_ID))
+                .where(SCHEMATA.SCHEMA_NAME.in(getInputSchemata()).or(
+                        getInputSchemata().size() == 1
+                                ? SCHEMATA.SCHEMA_NAME.in(getInputSchemata())
+                                : falseCondition()))
                 .orderBy(
-                    KEY_COLUMN_USAGE.CONSTRAINT_SCHEMA.asc(),
-                    KEY_COLUMN_USAGE.CONSTRAINT_NAME.asc(),
-                    KEY_COLUMN_USAGE.ORDINAL_POSITION.asc())
+                        SCHEMATA.SCHEMA_NAME.asc(),
+                        KEY_COLUMN_USAGE.CONSTRAINT_NAME.asc(),
+                        KEY_COLUMN_USAGE.TABLE_ID.asc())
                 .fetch()) {
 
-            SchemaDefinition foreignKeySchema = getSchema(record.get(REFERENTIAL_CONSTRAINTS.CONSTRAINT_SCHEMA));
+            SchemaDefinition foreignKeySchema = getSchema(record.get(SCHEMATA.SCHEMA_NAME));
             SchemaDefinition uniqueKeySchema = getSchema(record.get(REFERENTIAL_CONSTRAINTS.UNIQUE_CONSTRAINT_SCHEMA));
 
             String foreignKey = record.get(REFERENTIAL_CONSTRAINTS.CONSTRAINT_NAME);
             String foreignKeyColumn = record.get(KEY_COLUMN_USAGE.COLUMN_NAME);
-            String foreignKeyTableName = record.get(REFERENTIAL_CONSTRAINTS.TABLE_NAME);
+            String foreignKeyTableName = record.get(TABLES.TABLE_NAME);
             String uniqueKey = record.get(REFERENTIAL_CONSTRAINTS.UNIQUE_CONSTRAINT_NAME);
             String uniqueKeyTableName = record.get(REFERENTIAL_CONSTRAINTS.REFERENCED_TABLE_NAME);
 
@@ -273,11 +279,11 @@ public class XuGuDatabase extends AbstractDatabase {
 
             if (foreignKeyTable != null)
                 relations.addForeignKey(
-                    foreignKey,
-                    foreignKeyTable,
-                    foreignKeyTable.getColumn(foreignKeyColumn),
-                    getKeyName(uniqueKeyTableName, uniqueKey),
-                    uniqueKeyTable
+                        foreignKey,
+                        foreignKeyTable,
+                        foreignKeyTable.getColumn(foreignKeyColumn),
+                        getKeyName(uniqueKeyTableName, uniqueKey),
+                        uniqueKeyTable
                 );
         }
     }
@@ -287,39 +293,39 @@ public class XuGuDatabase extends AbstractDatabase {
         if (is8_0_16()) {
             for (Record record : create()
                     .select(
-                        TABLE_CONSTRAINTS.TABLE_SCHEMA,
-                        TABLE_CONSTRAINTS.TABLE_NAME,
-                        CHECK_CONSTRAINTS.CONSTRAINT_NAME,
-                        CHECK_CONSTRAINTS.CHECK_CLAUSE,
+                            TABLE_CONSTRAINTS.TABLE_SCHEMA,
+                            TABLE_CONSTRAINTS.TABLE_NAME,
+                            CHECK_CONSTRAINTS.CONSTRAINT_NAME,
+                            CHECK_CONSTRAINTS.CHECK_CLAUSE,
 
-                        // We need this additional, useless projection. See:
-                        // https://jira.mariadb.org/browse/MDEV-21201
-                        TABLE_CONSTRAINTS.CONSTRAINT_CATALOG,
-                        TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA
-                     )
+                            // We need this additional, useless projection. See:
+                            // https://jira.mariadb.org/browse/MDEV-21201
+                            TABLE_CONSTRAINTS.CONSTRAINT_CATALOG,
+                            TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA
+                    )
                     .from(TABLE_CONSTRAINTS)
                     .join(CHECK_CONSTRAINTS)
-                    .using(new Field[] {
-                            TABLE_CONSTRAINTS.CONSTRAINT_CATALOG,
-                            TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA,
-                            TABLE_CONSTRAINTS.CONSTRAINT_NAME
-                        }
+                    .using(new Field[]{
+                                    TABLE_CONSTRAINTS.CONSTRAINT_CATALOG,
+                                    TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA,
+                                    TABLE_CONSTRAINTS.CONSTRAINT_NAME
+                            }
                     )
                     .where(TABLE_CONSTRAINTS.TABLE_SCHEMA.in(getInputSchemata()))
                     .orderBy(
-                        TABLE_CONSTRAINTS.TABLE_SCHEMA,
-                        TABLE_CONSTRAINTS.TABLE_NAME,
-                        TABLE_CONSTRAINTS.CONSTRAINT_NAME)) {
+                            TABLE_CONSTRAINTS.TABLE_SCHEMA,
+                            TABLE_CONSTRAINTS.TABLE_NAME,
+                            TABLE_CONSTRAINTS.CONSTRAINT_NAME)) {
 
                 SchemaDefinition schema = getSchema(record.get(TABLE_CONSTRAINTS.TABLE_SCHEMA));
                 TableDefinition table = getTable(schema, record.get(TABLE_CONSTRAINTS.TABLE_NAME));
 
                 if (table != null) {
                     relations.addCheckConstraint(table, new DefaultCheckConstraintDefinition(
-                        schema,
-                        table,
-                        record.get(CHECK_CONSTRAINTS.CONSTRAINT_NAME),
-                        record.get(CHECK_CONSTRAINTS.CHECK_CLAUSE)
+                            schema,
+                            table,
+                            record.get(CHECK_CONSTRAINTS.CONSTRAINT_NAME),
+                            record.get(CHECK_CONSTRAINTS.CHECK_CLAUSE)
                     ));
                 }
             }
@@ -359,33 +365,32 @@ public class XuGuDatabase extends AbstractDatabase {
         List<TableDefinition> result = new ArrayList<>();
 
         for (Record record : create().select(
-                TABLES.TABLE_SCHEMA,
-                TABLES.TABLE_NAME,
-                TABLES.TABLE_COMMENT,
-                when(TABLES.TABLE_TYPE.eq(inline("VIEW")), inline(TableType.VIEW.name()))
-                    .else_(inline(TableType.TABLE.name())).as("table_type"),
-                when(VIEWS.VIEW_DEFINITION.lower().like(inline("create%")), VIEWS.VIEW_DEFINITION)
-                    .else_(inline("create view `").concat(TABLES.TABLE_NAME).concat("` as ").concat(VIEWS.VIEW_DEFINITION)).as(VIEWS.VIEW_DEFINITION))
-            .from(TABLES)
-            .leftJoin(VIEWS)
-                .on(TABLES.TABLE_SCHEMA.eq(VIEWS.TABLE_SCHEMA))
-                .and(TABLES.TABLE_NAME.eq(VIEWS.TABLE_NAME))
+                        SCHEMATA.SCHEMA_NAME,
+                        TABLES.TABLE_NAME,
+                        TABLES.TABLE_COMMENT,
+                        TABLES.TABLE_TYPE,
+                        when(VIEWS.VIEW_DEFINITION.lower().like(inline("create%")), VIEWS.VIEW_DEFINITION)
+                                .else_(inline("create view `").concat(TABLES.TABLE_NAME).concat("` as ").concat(VIEWS.VIEW_DEFINITION)).as(VIEWS.VIEW_DEFINITION))
+                .from(TABLES)
+                .leftJoin(VIEWS)
+                .on(TABLES.SCHEMA_ID.eq(VIEWS.SCHEMA_ID))
+                .and(TABLES.TABLE_NAME.eq(VIEWS.VIEW_NAME))
 
-            .where(TABLES.TABLE_SCHEMA.in(getInputSchemata()).or(
-                  getInputSchemata().size() == 1
-                ? TABLES.TABLE_SCHEMA.in(getInputSchemata())
-                : falseCondition()))
+                .leftJoin(new Schemata("s")).on(TABLES.SCHEMA_ID.eq(SCHEMATA.SCHEMA_ID))
+                .where(SCHEMATA.SCHEMA_NAME.in(getInputSchemata()).or(
+                        getInputSchemata().size() == 1
+                                ? SCHEMATA.SCHEMA_NAME.in(getInputSchemata())
+                                : falseCondition()))
 
-            // [#9291] MariaDB treats sequences as tables
-            .and(TABLES.TABLE_TYPE.ne(inline("SEQUENCE")))
-            .orderBy(
-                TABLES.TABLE_SCHEMA,
-                TABLES.TABLE_NAME)) {
+                // [#9291] MariaDB treats sequences as tables
+                .orderBy(
+                        SCHEMATA.SCHEMA_NAME,
+                        TABLES.TABLE_NAME)) {
 
-            SchemaDefinition schema = getSchema(record.get(TABLES.TABLE_SCHEMA));
+            SchemaDefinition schema = getSchema(record.get(SCHEMATA.SCHEMA_NAME));
             String name = record.get(TABLES.TABLE_NAME);
             String comment = record.get(TABLES.TABLE_COMMENT);
-            TableType tableType = record.get("table_type", TableType.class);
+            TableType tableType = record.get("TABLE_TYPE", TableType.class);
             String source = record.get(VIEWS.VIEW_DEFINITION);
 
             XuGuTableDefinition table = new XuGuTableDefinition(schema, name, comment, tableType, source);
@@ -400,30 +405,31 @@ public class XuGuDatabase extends AbstractDatabase {
         List<EnumDefinition> result = new ArrayList<>();
 
         Result<Record5<String, String, String, String, String>> records = create()
-            .select(
-                COLUMNS.TABLE_SCHEMA,
-                COLUMNS.COLUMN_COMMENT,
-                COLUMNS.TABLE_NAME,
-                COLUMNS.COLUMN_NAME,
-                COLUMNS.COLUMN_TYPE)
-            .from(COLUMNS)
-            .where(
-                COLUMNS.COLUMN_TYPE.like("enum(%)").and(
-                COLUMNS.TABLE_SCHEMA.in(getInputSchemata()).or(
-                      getInputSchemata().size() == 1
-                    ? COLUMNS.TABLE_SCHEMA.in(getInputSchemata())
-                    : falseCondition())))
-            .orderBy(
-                COLUMNS.TABLE_SCHEMA.asc(),
-                COLUMNS.TABLE_NAME.asc(),
-                COLUMNS.COLUMN_NAME.asc())
-            .fetch();
+                .select(
+                        SCHEMATA.SCHEMA_NAME,
+                        COLUMNS.COLUMN_COMMENT,
+                        TABLES.TABLE_NAME,
+                        COLUMNS.COLUMN_NAME,
+                        COLUMNS.COLUMN_TYPE)
+                .from(COLUMNS)
+                .leftJoin(TABLES).on(TABLES.DB_ID.eq(COLUMNS.DB_ID))
+                .leftJoin(SCHEMATA).on(TABLES.SCHEMA_ID.eq(SCHEMATA.SCHEMA_ID))
+                .where(
+                        SCHEMATA.SCHEMA_NAME.in(getInputSchemata()).or(
+                                getInputSchemata().size() == 1
+                                        ? SCHEMATA.SCHEMA_NAME.in(getInputSchemata())
+                                        : falseCondition()))
+                .orderBy(
+                        SCHEMATA.SCHEMA_NAME.asc(),
+                        TABLES.TABLE_NAME.asc(),
+                        COLUMNS.COLUMN_NAME.asc())
+                .fetch();
 
         for (Record record : records) {
-            SchemaDefinition schema = getSchema(record.get(COLUMNS.TABLE_SCHEMA));
+            SchemaDefinition schema = getSchema(record.get(SCHEMATA.SCHEMA_NAME));
 
             String comment = record.get(COLUMNS.COLUMN_COMMENT);
-            String table = record.get(COLUMNS.TABLE_NAME);
+            String table = record.get(TABLES.TABLE_NAME);
             String column = record.get(COLUMNS.COLUMN_NAME);
             String name = table + "_" + column;
             String columnType = record.get(COLUMNS.COLUMN_TYPE);
@@ -441,10 +447,10 @@ public class XuGuDatabase extends AbstractDatabase {
                         DefaultEnumDefinition definition = new DefaultEnumDefinition(schema, name, comment);
 
                         CSVReader reader = new CSVReader(
-                            new StringReader(columnType.replaceAll("(^enum\\()|(\\)$)", ""))
-                           ,','  // Separator
-                           ,'\'' // Quote character
-                           ,true // Strict quotes
+                                new StringReader(columnType.replaceAll("(^enum\\()|(\\)$)", ""))
+                                , ','  // Separator
+                                , '\'' // Quote character
+                                , true // Strict quotes
                         );
 
                         for (String string : reader.next()) {
@@ -481,38 +487,41 @@ public class XuGuDatabase extends AbstractDatabase {
     @Override
     protected List<RoutineDefinition> getRoutines0() throws SQLException {
         List<RoutineDefinition> result = new ArrayList<>();
+        Result<Record6<String, String, String, String, String, ProcType>> records = is8()
 
-        Result<Record6<String, String, String, byte[], byte[], ProcType>> records = is8()
-
-            ? create().select(
-                    ROUTINES.ROUTINE_SCHEMA,
-                    ROUTINES.ROUTINE_NAME,
-                    ROUTINES.ROUTINE_COMMENT,
-                    inline(new byte[0]).as(PROC.PARAM_LIST),
-                    inline(new byte[0]).as(PROC.RETURNS),
-                    ROUTINES.ROUTINE_TYPE.coerce(PROC.TYPE).as(ROUTINES.ROUTINE_TYPE))
-                .from(ROUTINES)
-                .where(ROUTINES.ROUTINE_SCHEMA.in(getInputSchemata()))
+                ? create().select(
+                        SCHEMATA.SCHEMA_NAME,
+                        OBJECTS.OBJ_NAME,
+                        ROUTINES.ROUTINE_COMMENT,
+                        inline("").as(PROC.PARAM_LIST),
+                        inline("").as(PROC.RETURNS),
+                        when(ROUTINES.PROC_ID.isNull(),ProcType.FUNCTION)
+                                .else_(ProcType.PROCEDURE).as(ROUTINES.ROUTINE_TYPE))
+                .from(OBJECTS)
+                .leftJoin(SCHEMATA).on(SCHEMATA.SCHEMA_ID.eq(OBJECTS.SCHEMA_ID))
+                .leftJoin(ROUTINES).on(ROUTINES.PROC_ID.eq(OBJECTS.OBJ_ID))
+                .where(SCHEMATA.SCHEMA_NAME.in(getInputSchemata()))
+                .and(OBJECTS.OBJ_TYPE.eq("7"))
                 .orderBy(1, 2, 6)
                 .fetch()
 
-            : create().select(
-                    PROC.DB.as(ROUTINES.ROUTINE_SCHEMA),
-                    PROC.NAME.as(ROUTINES.ROUTINE_NAME),
-                    PROC.COMMENT.as(ROUTINES.ROUTINE_COMMENT),
-                    PROC.PARAM_LIST,
-                    PROC.RETURNS,
-                    PROC.TYPE.as(ROUTINES.ROUTINE_TYPE))
+                : create().select(
+                        PROC.DB.as(ROUTINES.ROUTINE_SCHEMA),
+                        PROC.NAME.as(ROUTINES.ROUTINE_NAME),
+                        PROC.COMMENT.as(ROUTINES.ROUTINE_COMMENT),
+                        inline("").as(PROC.PARAM_LIST),
+                        inline("").as(PROC.RETURNS),
+                        PROC.TYPE.as(ROUTINES.ROUTINE_TYPE))
                 .from(PROC)
                 .where(PROC.DB.in(getInputSchemata()))
                 .orderBy(1, 2, 6)
                 .fetch();
 
-        Map<Record, Result<Record6<String, String, String, byte[], byte[], ProcType>>> groups =
-            records.intoGroups(new Field[] { ROUTINES.ROUTINE_SCHEMA, ROUTINES.ROUTINE_NAME });
+        Map<Record, Result<Record6<String, String, String, String, String, ProcType>>> groups =
+                records.intoGroups(new Field[]{SCHEMATA.SCHEMA_NAME, ROUTINES.ROUTINE_NAME});
 
         // procedures and functions with the same signature.
-        for (Entry<Record, Result<Record6<String, String, String, byte[], byte[], ProcType>>> entry : groups.entrySet()) {
+        for (Entry<Record, Result<Record6<String, String, String, String, String, ProcType>>> entry : groups.entrySet()) {
             Result<?> overloads = entry.getValue();
 
             for (int i = 0; i < overloads.size(); i++) {
@@ -521,7 +530,7 @@ public class XuGuDatabase extends AbstractDatabase {
                 SchemaDefinition schema = getSchema(record.get(ROUTINES.ROUTINE_SCHEMA));
                 String name = record.get(ROUTINES.ROUTINE_NAME);
                 String comment = record.get(ROUTINES.ROUTINE_COMMENT);
-                String params = is8() ? "" : new String(record.get(PROC.PARAM_LIST));
+                String params = is8() ? "" : new String();
                 String returns = is8() ? "" : new String(record.get(PROC.RETURNS));
                 ProcType type = record.get(ROUTINES.ROUTINE_TYPE.coerce(PROC.TYPE).as(ROUTINES.ROUTINE_TYPE));
 
@@ -548,11 +557,12 @@ public class XuGuDatabase extends AbstractDatabase {
 
     @Override
     protected boolean exists0(TableField<?, ?> field) {
-        return exists1(field, COLUMNS.COLUMNS, COLUMNS.TABLE_SCHEMA, COLUMNS.TABLE_NAME, COLUMNS.COLUMN_NAME);
+        return false;
     }
 
     @Override
     protected boolean exists0(Table<?> table) {
-        return exists1(table, TABLES.TABLES, TABLES.TABLE_SCHEMA, TABLES.TABLE_NAME);
+        //虚谷不存在proc表，直接返回false
+        return false;
     }
 }

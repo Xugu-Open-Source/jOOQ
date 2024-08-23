@@ -67,4 +67,8 @@ public class Tables {
      * The table <code>information_schema.VIEWS</code>.
      */
     public static final Views VIEWS = Views.VIEWS;
+
+    public static final Objects OBJECTS = Objects.OBJECTS;
+
+
 }

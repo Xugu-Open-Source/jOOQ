@@ -38,6 +38,10 @@ public class Statistics extends TableImpl<Record> {
      */
     public final TableField<Record, String> TABLE_CATALOG = createField(DSL.name("TABLE_CATALOG"), SQLDataType.VARCHAR(64).nullable(false), this, "");
 
+    public final TableField<Record, String> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
+    public final TableField<Record, String> KEYS = createField(DSL.name("KEYS"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
     /**
      * The column <code>information_schema.STATISTICS.TABLE_SCHEMA</code>.
      */
@@ -51,7 +55,7 @@ public class Statistics extends TableImpl<Record> {
     /**
      * The column <code>information_schema.STATISTICS.NON_UNIQUE</code>.
      */
-    public final TableField<Record, Integer> NON_UNIQUE = createField(DSL.name("NON_UNIQUE"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.inline("0", SQLDataType.INTEGER)), this, "");
+    public final TableField<Record, Integer> NON_UNIQUE = createField(DSL.name("IS_UNIQUE"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.inline("0", SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>information_schema.STATISTICS.INDEX_SCHEMA</code>.
@@ -62,6 +66,8 @@ public class Statistics extends TableImpl<Record> {
      * The column <code>information_schema.STATISTICS.INDEX_NAME</code>.
      */
     public final TableField<Record, String> INDEX_NAME = createField(DSL.name("INDEX_NAME"), SQLDataType.VARCHAR(64), this, "");
+
+    public final TableField<Record, String> INDEX_ID = createField(DSL.name("INDEX_ID"), SQLDataType.VARCHAR(64), this, "");
 
     /**
      * The column <code>information_schema.STATISTICS.SEQ_IN_INDEX</code>.
@@ -149,7 +155,7 @@ public class Statistics extends TableImpl<Record> {
      * Create a <code>information_schema.STATISTICS</code> table reference
      */
     public Statistics() {
-        this(DSL.name("STATISTICS"), null);
+        this(DSL.name("ALL_INDEXES"), null);
     }
 
     public <O extends Record> Statistics(Table<O> child, ForeignKey<O, Record> key) {
