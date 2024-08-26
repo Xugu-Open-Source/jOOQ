@@ -490,7 +490,7 @@ public class XuGuDatabase extends AbstractDatabase {
 
                 ? create().select(
                         SCHEMATA.SCHEMA_NAME,
-                        OBJECTS.OBJ_NAME,
+                        ROUTINES.ROUTINE_NAME,
                         ROUTINES.ROUTINE_COMMENT,
                         inline("").as(PROC.PARAM_LIST),
                         inline("").as(PROC.RETURNS),
@@ -526,7 +526,7 @@ public class XuGuDatabase extends AbstractDatabase {
             for (int i = 0; i < overloads.size(); i++) {
                 Record record = overloads.get(i);
 
-                SchemaDefinition schema = getSchema(record.get(ROUTINES.ROUTINE_SCHEMA));
+                SchemaDefinition schema = getSchema(record.get(SCHEMATA.SCHEMA_NAME));
                 String name = record.get(ROUTINES.ROUTINE_NAME);
                 String comment = record.get(ROUTINES.ROUTINE_COMMENT);
                 String params = is8() ? "" : new String();
