@@ -415,10 +415,12 @@ public class XuGuDatabase extends AbstractDatabase {
                 .leftJoin(TABLES).on(TABLES.DB_ID.eq(COLUMNS.DB_ID))
                 .leftJoin(SCHEMATA).on(TABLES.SCHEMA_ID.eq(SCHEMATA.SCHEMA_ID))
                 .where(
-                        SCHEMATA.SCHEMA_NAME.in(getInputSchemata()).or(
-                                getInputSchemata().size() == 1
-                                        ? SCHEMATA.SCHEMA_NAME.in(getInputSchemata())
-                                        : falseCondition()))
+                        COLUMNS.COLUMN_TYPE.like("enum(%)").and(
+                                SCHEMATA.SCHEMA_NAME.in(getInputSchemata()).or(
+                                        getInputSchemata().size() == 1
+                                                ? SCHEMATA.SCHEMA_NAME.in(getInputSchemata())
+                                                : falseCondition()))
+                        )
                 .orderBy(
                         SCHEMATA.SCHEMA_NAME.asc(),
                         TABLES.TABLE_NAME.asc(),
