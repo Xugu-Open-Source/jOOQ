@@ -56,6 +56,8 @@ public class TableConstraints extends TableImpl<Record> {
      */
     public final TableField<Record, String> TABLE_SCHEMA = createField(DSL.name("TABLE_SCHEMA"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
 
+    public final TableField<Record, String> DEFINE = createField(DSL.name("DEFINE"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
+
     /**
      * The column <code>information_schema.TABLE_CONSTRAINTS.TABLE_NAME</code>.
      */

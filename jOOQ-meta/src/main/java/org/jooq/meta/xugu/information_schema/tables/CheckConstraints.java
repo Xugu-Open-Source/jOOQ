@@ -49,7 +49,7 @@ public class CheckConstraints extends TableImpl<Record> {
     /**
      * The column <code>information_schema.CHECK_CONSTRAINTS.CONSTRAINT_NAME</code>.
      */
-    public final TableField<Record, String> CONSTRAINT_NAME = createField(DSL.name("CONSTRAINT_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, String> CONSTRAINT_NAME = createField(DSL.name("CONS_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
 
     /**
      * The column <code>information_schema.CHECK_CONSTRAINTS.CHECK_CLAUSE</code>.

@@ -56,6 +56,7 @@ import java.util.Map.Entry;
 
 import static org.jooq.impl.DSL.*;
 import static org.jooq.meta.xugu.information_schema.Tables.*;
+import static org.jooq.meta.xugu.information_schema.tables.DataBases.DATA_BASES;
 import static org.jooq.meta.xugu.xugu.Tables.PROC;
 
 /**
@@ -209,7 +210,7 @@ public class XuGuDatabase extends AbstractDatabase {
         if (is8_0_16 == null)
             is8_0_16 = exists(CHECK_CONSTRAINTS);
 
-        return is8_0_16;
+        return true;
     }
 
     private Result<?> fetchKeys(boolean primary) {
@@ -293,32 +294,28 @@ public class XuGuDatabase extends AbstractDatabase {
         if (is8_0_16()) {
             for (Record record : create()
                     .select(
-                            TABLE_CONSTRAINTS.TABLE_SCHEMA,
-                            TABLE_CONSTRAINTS.TABLE_NAME,
-                            CHECK_CONSTRAINTS.CONSTRAINT_NAME,
-                            CHECK_CONSTRAINTS.CHECK_CLAUSE,
+                            SCHEMATA.SCHEMA_NAME,
+                            TABLES.TABLE_NAME,
+                            TABLE_CONSTRAINTS.CONSTRAINT_NAME,
+                            TABLE_CONSTRAINTS.DEFINE.as(CHECK_CONSTRAINTS.CHECK_CLAUSE),
 
                             // We need this additional, useless projection. See:
                             // https://jira.mariadb.org/browse/MDEV-21201
-                            TABLE_CONSTRAINTS.CONSTRAINT_CATALOG,
-                            TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA
+                            DATA_BASES.DB_NAME.as(TABLE_CONSTRAINTS.CONSTRAINT_CATALOG),
+                            SCHEMATA.SCHEMA_NAME.as(TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA)
                     )
                     .from(TABLE_CONSTRAINTS)
-                    .join(CHECK_CONSTRAINTS)
-                    .using(new Field[]{
-                                    TABLE_CONSTRAINTS.CONSTRAINT_CATALOG,
-                                    TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA,
-                                    TABLE_CONSTRAINTS.CONSTRAINT_NAME
-                            }
-                    )
-                    .where(TABLE_CONSTRAINTS.TABLE_SCHEMA.in(getInputSchemata()))
+                    .leftJoin(TABLES).on(TABLES.TABLE_ID.eq(REFERENTIAL_CONSTRAINTS.TABLE_ID))
+                    .leftJoin(SCHEMATA).on(SCHEMATA.SCHEMA_ID.eq(TABLES.SCHEMA_ID))
+                    .leftJoin(DATA_BASES).on(TABLES.DB_ID.eq(DATA_BASES.DB_ID))
+                    .where(SCHEMATA.SCHEMA_NAME.in(getInputSchemata()))
                     .orderBy(
-                            TABLE_CONSTRAINTS.TABLE_SCHEMA,
-                            TABLE_CONSTRAINTS.TABLE_NAME,
+                            SCHEMATA.SCHEMA_NAME,
+                            TABLES.TABLE_NAME,
                             TABLE_CONSTRAINTS.CONSTRAINT_NAME)) {
 
-                SchemaDefinition schema = getSchema(record.get(TABLE_CONSTRAINTS.TABLE_SCHEMA));
-                TableDefinition table = getTable(schema, record.get(TABLE_CONSTRAINTS.TABLE_NAME));
+                SchemaDefinition schema = getSchema(record.get(SCHEMATA.SCHEMA_NAME));
+                TableDefinition table = getTable(schema, record.get(TABLES.TABLE_NAME));
 
                 if (table != null) {
                     relations.addCheckConstraint(table, new DefaultCheckConstraintDefinition(
@@ -565,6 +562,7 @@ public class XuGuDatabase extends AbstractDatabase {
     @Override
     protected boolean exists0(Table<?> table) {
         //虚谷不存在proc表，直接返回false
+//        exists1(table, TABLES.TABLES, TABLES.TABLE_SCHEMA, TABLES.TABLE_NAME);
         return false;
     }
 }
