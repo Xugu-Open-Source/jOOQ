@@ -81,7 +81,7 @@ public class Columns extends TableImpl<Record> {
     /**
      * The column <code>information_schema.COLUMNS.CHARACTER_MAXIMUM_LENGTH</code>.
      */
-    public final TableField<Record, Long> CHARACTER_MAXIMUM_LENGTH = createField(DSL.name("MAX_VAL"), SQLDataType.BIGINT, this, "");
+    public final TableField<Record, Long> CHARACTER_MAXIMUM_LENGTH = createField(DSL.name("SCALE"), SQLDataType.BIGINT, this, "");
 
     /**
      * The column <code>information_schema.COLUMNS.CHARACTER_OCTET_LENGTH</code>.
