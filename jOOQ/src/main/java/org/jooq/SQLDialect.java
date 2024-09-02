@@ -38,13 +38,13 @@
 
 package org.jooq;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Dialects and dialect families as supported by jOOQ.
@@ -375,6 +375,8 @@ public enum SQLDialect {
      * This family behaves like the versioned dialect {@link #SQLITE_3_30}.
      */
     SQLITE("SQLite", false, true),
+
+    XUGU("XUGU", false, true),
 
 
 
