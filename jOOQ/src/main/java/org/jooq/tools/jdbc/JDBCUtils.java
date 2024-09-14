@@ -3,7 +3,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *  https://www.apache.org/licenses/LICENSE-2.0
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,7 @@
  * Apache-2.0 license and offer limited warranties, support, maintenance, and
  * commercial database integrations.
  *
- * For more information, please visit: https://www.jooq.org/legal/licensing
+ * For more information, please visit: http://www.jooq.org/licenses
  *
  *
  *
@@ -482,6 +482,8 @@ public class JDBCUtils {
             return TRINO;
         else if (url.contains(":yugabytedb:"))
             return YUGABYTEDB;
+        else if (url.contains(":xugu:"))
+            return XUGU;
 
 
 
@@ -532,8 +534,6 @@ public class JDBCUtils {
                 return "cubrid.jdbc.driver.CUBRIDDriver";
             case DERBY:
                 return "org.apache.derby.jdbc.ClientDriver";
-            case DUCKDB:
-                return "org.duckdb.DuckDBDriver";
             case FIREBIRD:
                 return "org.firebirdsql.jdbc.FBDriver";
             case H2:
@@ -550,8 +550,6 @@ public class JDBCUtils {
                 return "org.postgresql.Driver";
             case SQLITE:
                 return "org.sqlite.JDBC";
-            case YUGABYTEDB:
-                return "com.yugabyte.Driver";
 
 
 
