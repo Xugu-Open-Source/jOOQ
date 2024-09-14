@@ -38,10 +38,14 @@
 
 package org.jooq.meta.xugu;
 
+import org.jetbrains.annotations.Nullable;
+import org.jooq.CommonTableExpression;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Record;
 import org.jooq.Record12;
+import org.jooq.Record4;
+import org.jooq.Record5;
 import org.jooq.Record6;
 import org.jooq.Result;
 import org.jooq.ResultQuery;
@@ -53,6 +57,7 @@ import org.jooq.TableOptions.TableType;
 import org.jooq.impl.DSL;
 import org.jooq.meta.*;
 import org.jooq.meta.mariadb.MariaDBDatabase;
+import org.jooq.meta.mysql.information_schema.tables.Columns;
 import org.jooq.meta.xugu.xugu.enums.ProcType;
 import org.jooq.tools.csv.CSVReader;
 
@@ -71,8 +76,9 @@ import static org.jooq.Records.mapping;
 import static org.jooq.SQLDialect.MARIADB;
 import static org.jooq.SQLDialect.MYSQL;
 import static org.jooq.impl.DSL.*;
-import static org.jooq.impl.SQLDataType.INTEGER;
-import static org.jooq.impl.SQLDataType.VARCHAR;
+import static org.jooq.impl.SQLDataType.*;
+import static org.jooq.meta.mysql.information_schema.Tables.COLUMNS;
+import static org.jooq.meta.mysql.information_schema.Tables.VIEWS;
 import static org.jooq.meta.xugu.information_schema.Tables.*;
 import static org.jooq.meta.xugu.xugu.Tables.PROC;
 
@@ -407,6 +413,93 @@ public class XuGuDatabase extends AbstractDatabase implements ResultQueryDatabas
 
     @Override
     public ResultQuery<Record12<String, String, String, String, Integer, Integer, Long, Long, BigDecimal, BigDecimal, Boolean, Long>> sequences(List<String> schemas) {
+        return null;
+    }
+
+    @Override
+    public ResultQuery<Record6<String, String, String, String, String, Integer>> enums(List<String> schemas) {
+
+        // Recursive query that works with MySQL 8+ only:
+        // https://stackoverflow.com/a/77057135/521799
+
+        Columns c = COLUMNS;
+
+        Field<String> e = field(name("e"), VARCHAR);
+        Field<String> l = field(name("l"), VARCHAR);
+        Field<Integer> p = field(name("p"), INTEGER);
+
+        CommonTableExpression<?> te = name("e").as(
+                select(
+                        c.TABLE_SCHEMA,
+                        c.TABLE_NAME,
+                        c.COLUMN_NAME,
+                        regexpReplaceAll(c.COLUMN_TYPE, inline("enum\\((.*)\\)"), inline("$1")).as(e))
+                        .from(c)
+                        .where(c.DATA_TYPE.eq(inline("enum")))
+        );
+
+        CommonTableExpression<?> tl = name("l").as(
+                select(
+                        te.field(c.TABLE_SCHEMA),
+                        te.field(c.TABLE_NAME),
+                        te.field(c.COLUMN_NAME),
+                        e, cast(inline(""), CHAR(32767)).as(l),
+                        inline(0).as(p))
+                        .from(te)
+                        .unionAll(
+                                select(
+                                        te.field(c.TABLE_SCHEMA),
+                                        te.field(c.TABLE_NAME),
+                                        te.field(c.COLUMN_NAME),
+                                        regexpReplaceFirst(e, inline("'.*?'(?:,|$)(.*)"), inline("$1")),
+                                        replace(
+                                                regexpReplaceFirst(e, inline("'(.*?)'(?:,|$).*"), inline("$1")),
+                                                inline("''"), inline("'")
+                                        ),
+                                        p.plus(inline(1)))
+                                        .from(table(name("l")).as(te))
+                                        .where(length(e).gt(inline(0)))
+                        )
+        );
+
+        return create()
+                .withRecursive(te, tl)
+                .select(
+                        tl.field(c.TABLE_SCHEMA),
+                        tl.field(c.TABLE_NAME),
+                        tl.field(c.COLUMN_NAME),
+                        inline(null, VARCHAR).as(c.DATA_TYPE),
+                        tl.field(l),
+                        tl.field(p))
+                .from(tl)
+                .where(p.gt(inline(0)))
+                .and(tl.field(c.TABLE_SCHEMA).in(schemas))
+                .orderBy(
+                        tl.field(c.TABLE_SCHEMA),
+                        tl.field(c.TABLE_NAME),
+                        tl.field(c.COLUMN_NAME),
+                        tl.field(p));
+    }
+
+    @Override
+    public ResultQuery<Record4<String, String, String, String>> sources(List<String> schemas) {
+        return create()
+                .select(
+                        VIEWS.TABLE_CATALOG,
+                        VIEWS.TABLE_SCHEMA,
+                        VIEWS.TABLE_NAME,
+                        when(lower(VIEWS.VIEW_DEFINITION).like(inline("create%")), VIEWS.VIEW_DEFINITION)
+                                .else_(inline("create view `").concat(VIEWS.TABLE_NAME).concat(inline("` as ")).concat(VIEWS.VIEW_DEFINITION)).as(VIEWS.VIEW_DEFINITION))
+                .from(VIEWS)
+                .where(VIEWS.TABLE_SCHEMA.in(schemas))
+                .orderBy(
+                        VIEWS.TABLE_SCHEMA,
+                        VIEWS.TABLE_NAME)
+                ;
+    }
+
+    @Override
+    public @Nullable ResultQuery<Record5<String, String, String, String, String>> comments(List<String> schemas) {
         return null;
     }
 
