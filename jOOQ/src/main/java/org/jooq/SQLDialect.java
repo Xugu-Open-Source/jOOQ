@@ -470,7 +470,11 @@ public enum SQLDialect {
      * The YugabyteDB dialect family.
      */
     YUGABYTEDB("YugabyteDB", false, true, new RequiredVersion(2, 9, null)),
-
+    /**
+     * The XuGu dialect family.
+     * <p>
+     */
+    XUGU("XuGu", false, true),
 
 
 
