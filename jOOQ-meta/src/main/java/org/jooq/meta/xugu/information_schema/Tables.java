@@ -7,6 +7,7 @@ package org.jooq.meta.xugu.information_schema;
 import org.jooq.meta.xugu.information_schema.tables.CheckConstraints;
 import org.jooq.meta.xugu.information_schema.tables.Columns;
 import org.jooq.meta.xugu.information_schema.tables.KeyColumnUsage;
+import org.jooq.meta.xugu.information_schema.tables.Objects;
 import org.jooq.meta.xugu.information_schema.tables.Parameters;
 import org.jooq.meta.xugu.information_schema.tables.ReferentialConstraints;
 import org.jooq.meta.xugu.information_schema.tables.Routines;
@@ -76,4 +77,7 @@ public class Tables {
      * The table <code>information_schema.VIEWS</code>.
      */
     public static final Views VIEWS = Views.VIEWS;
+
+    public static final Objects OBJECTS = Objects.OBJECTS;
+
 }

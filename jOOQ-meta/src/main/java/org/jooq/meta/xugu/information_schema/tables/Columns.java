@@ -41,6 +41,12 @@ public class Columns extends TableImpl<Record> {
         return Record.class;
     }
 
+    public final TableField<Record, String> DB_ID = createField(DSL.name("DB_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
+    public final TableField<Record, String> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
+    public final TableField<Record, UInteger> EMPTY_STRING = createField(DSL.name(""), SQLDataType.INTEGERUNSIGNED, this, "");
+
     /**
      * The column <code>information_schema.COLUMNS.TABLE_CATALOG</code>.
      */
@@ -59,7 +65,7 @@ public class Columns extends TableImpl<Record> {
     /**
      * The column <code>information_schema.COLUMNS.COLUMN_NAME</code>.
      */
-    public final TableField<Record, String> COLUMN_NAME = createField(DSL.name("COLUMN_NAME"), SQLDataType.VARCHAR(64), this, "");
+    public final TableField<Record, String> COLUMN_NAME = createField(DSL.name("COL_NAME"), SQLDataType.VARCHAR(64), this, "");
 
     /**
      * The column <code>information_schema.COLUMNS.ORDINAL_POSITION</code>.
@@ -69,22 +75,22 @@ public class Columns extends TableImpl<Record> {
     /**
      * The column <code>information_schema.COLUMNS.COLUMN_DEFAULT</code>.
      */
-    public final TableField<Record, String> COLUMN_DEFAULT = createField(DSL.name("COLUMN_DEFAULT"), SQLDataType.CLOB, this, "");
+    public final TableField<Record, String> COLUMN_DEFAULT = createField(DSL.name("DEF_VAL"), SQLDataType.CLOB, this, "");
 
     /**
      * The column <code>information_schema.COLUMNS.IS_NULLABLE</code>.
      */
-    public final TableField<Record, String> IS_NULLABLE = createField(DSL.name("IS_NULLABLE"), SQLDataType.VARCHAR(3).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
+    public final TableField<Record, String> IS_NULLABLE = createField(DSL.name("NOT_NULL"), SQLDataType.VARCHAR(3).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
 
     /**
      * The column <code>information_schema.COLUMNS.DATA_TYPE</code>.
      */
-    public final TableField<Record, String> DATA_TYPE = createField(DSL.name("DATA_TYPE"), SQLDataType.CLOB, this, "");
+    public final TableField<Record, String> DATA_TYPE = createField(DSL.name("TYPE_NAME"), SQLDataType.CLOB, this, "");
 
     /**
      * The column <code>information_schema.COLUMNS.CHARACTER_MAXIMUM_LENGTH</code>.
      */
-    public final TableField<Record, Long> CHARACTER_MAXIMUM_LENGTH = createField(DSL.name("CHARACTER_MAXIMUM_LENGTH"), SQLDataType.BIGINT, this, "");
+    public final TableField<Record, Long> CHARACTER_MAXIMUM_LENGTH = createField(DSL.name("MAX_VAL"), SQLDataType.BIGINT, this, "");
 
     /**
      * The column <code>information_schema.COLUMNS.CHARACTER_OCTET_LENGTH</code>.
@@ -94,12 +100,12 @@ public class Columns extends TableImpl<Record> {
     /**
      * The column <code>information_schema.COLUMNS.NUMERIC_PRECISION</code>.
      */
-    public final TableField<Record, ULong> NUMERIC_PRECISION = createField(DSL.name("NUMERIC_PRECISION"), SQLDataType.BIGINTUNSIGNED, this, "");
+    public final TableField<Record, ULong> NUMERIC_PRECISION = createField(DSL.name("DISPERSION"), SQLDataType.BIGINTUNSIGNED, this, "");
 
     /**
      * The column <code>information_schema.COLUMNS.NUMERIC_SCALE</code>.
      */
-    public final TableField<Record, ULong> NUMERIC_SCALE = createField(DSL.name("NUMERIC_SCALE"), SQLDataType.BIGINTUNSIGNED, this, "");
+    public final TableField<Record, ULong> NUMERIC_SCALE = createField(DSL.name("DISPERSION"), SQLDataType.BIGINTUNSIGNED, this, "");
 
     /**
      * The column <code>information_schema.COLUMNS.DATETIME_PRECISION</code>.
@@ -119,7 +125,7 @@ public class Columns extends TableImpl<Record> {
     /**
      * The column <code>information_schema.COLUMNS.COLUMN_TYPE</code>.
      */
-    public final TableField<Record, String> COLUMN_TYPE = createField(DSL.name("COLUMN_TYPE"), SQLDataType.CLOB.nullable(false), this, "");
+    public final TableField<Record, String> COLUMN_TYPE = createField(DSL.name("TYPE_NAME"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
      * The column <code>information_schema.COLUMNS.COLUMN_KEY</code>.
@@ -129,7 +135,7 @@ public class Columns extends TableImpl<Record> {
     /**
      * The column <code>information_schema.COLUMNS.EXTRA</code>.
      */
-    public final TableField<Record, String> EXTRA = createField(DSL.name("EXTRA"), SQLDataType.VARCHAR(256), this, "");
+    public final TableField<Record, String> EXTRA = createField(DSL.name("COMMENTS"), SQLDataType.VARCHAR(256), this, "");
 
     /**
      * The column <code>information_schema.COLUMNS.PRIVILEGES</code>.
@@ -139,7 +145,7 @@ public class Columns extends TableImpl<Record> {
     /**
      * The column <code>information_schema.COLUMNS.COLUMN_COMMENT</code>.
      */
-    public final TableField<Record, String> COLUMN_COMMENT = createField(DSL.name("COLUMN_COMMENT"), SQLDataType.CLOB.nullable(false), this, "");
+    public final TableField<Record, String> COLUMN_COMMENT = createField(DSL.name("COMMENTS"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
      * The column <code>information_schema.COLUMNS.GENERATION_EXPRESSION</code>.
@@ -177,7 +183,7 @@ public class Columns extends TableImpl<Record> {
      * Create a <code>information_schema.COLUMNS</code> table reference
      */
     public Columns() {
-        this(DSL.name("COLUMNS"), null);
+        this(DSL.name("ALL_COLUMNS"), null);
     }
 
     public <O extends Record> Columns(Table<O> child, ForeignKey<O, Record> key) {

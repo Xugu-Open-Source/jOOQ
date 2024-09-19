@@ -56,6 +56,12 @@ public class Tables extends TableImpl<Record> {
      */
     public final TableField<Record, String> TABLE_SCHEMA = createField(DSL.name("TABLE_SCHEMA"), SQLDataType.VARCHAR(64).nullable(false), this, "");
 
+    public final TableField<Record, String> SCHEMA_ID = createField(DSL.name("SCHEMA_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
+    public final TableField<Record, String> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
+    public final TableField<Record, String> DB_ID = createField(DSL.name("DB_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
     /**
      * The column <code>information_schema.TABLES.TABLE_NAME</code>.
      */
@@ -149,7 +155,7 @@ public class Tables extends TableImpl<Record> {
     /**
      * The column <code>information_schema.TABLES.TABLE_COMMENT</code>.
      */
-    public final TableField<Record, String> TABLE_COMMENT = createField(DSL.name("TABLE_COMMENT"), SQLDataType.CLOB, this, "");
+    public final TableField<Record, String> TABLE_COMMENT = createField(DSL.name("COMMENTS"), SQLDataType.CLOB, this, "");
 
     private Tables(Name alias, Table<Record> aliased) {
         this(alias, aliased, null);
@@ -177,7 +183,7 @@ public class Tables extends TableImpl<Record> {
      * Create a <code>information_schema.TABLES</code> table reference
      */
     public Tables() {
-        this(DSL.name("TABLES"), null);
+        this(DSL.name("ALL_TABLES"), null);
     }
 
     public <O extends Record> Tables(Table<O> child, ForeignKey<O, Record> key) {
