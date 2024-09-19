@@ -187,7 +187,7 @@ public class Proc extends TableImpl<Record> {
      * Create a <code>mysql.proc</code> table reference
      */
     public Proc() {
-        this(DSL.name("proc"), null);
+        this(DSL.name("ALL_PROCEDURES"), null);
     }
 
     public <O extends Record> Proc(Table<O> child, ForeignKey<O, Record> key) {

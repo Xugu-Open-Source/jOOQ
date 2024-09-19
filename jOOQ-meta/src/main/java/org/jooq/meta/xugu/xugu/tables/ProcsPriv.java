@@ -119,7 +119,7 @@ public class ProcsPriv extends TableImpl<Record> {
      * Create a <code>mysql.procs_priv</code> table reference
      */
     public ProcsPriv() {
-        this(DSL.name("procs_priv"), null);
+        this(DSL.name("ALL_PROCEDURES"), null);
     }
 
     public <O extends Record> ProcsPriv(Table<O> child, ForeignKey<O, Record> key) {
