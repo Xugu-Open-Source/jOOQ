@@ -30,6 +30,8 @@ import java.util.List;
 public class Schemata extends TableImpl<Record> {
 
     private static final long serialVersionUID = 994269618;
+    public final TableField<Record, String> SCHEMA_ID = createField(DSL.name("SCHEMA_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
 
     /**
      * The reference instance of <code>information_schema.SCHEMATA</code>
@@ -100,7 +102,7 @@ public class Schemata extends TableImpl<Record> {
      * Create a <code>information_schema.SCHEMATA</code> table reference
      */
     public Schemata() {
-        this(DSL.name("SCHEMATA"), null);
+        this(DSL.name("All_SCHEMAS"), null);
     }
 
     public <O extends Record> Schemata(Table<O> child, ForeignKey<O, Record> key) {

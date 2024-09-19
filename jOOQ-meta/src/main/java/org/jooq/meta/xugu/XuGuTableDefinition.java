@@ -57,8 +57,9 @@ import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
 import static org.jooq.impl.DSL.coalesce;
-import static org.jooq.impl.DSL.name;
-import static org.jooq.meta.mysql.information_schema.Tables.COLUMNS;
+import static org.jooq.impl.DSL.*;
+import static org.jooq.meta.xugu.information_schema.Tables.*;
+
 
 /**
  * @author Lukas Eder
@@ -82,12 +83,12 @@ public class XuGuTableDefinition extends AbstractTableDefinition {
         Field<String> generationExpression = database.generationExpression(COLUMNS.GENERATION_EXPRESSION);
 
         for (Record record : create().select(
-                    COLUMNS.ORDINAL_POSITION,
+                    inline("").as(COLUMNS.ORDINAL_POSITION),
                     COLUMNS.COLUMN_NAME,
                     COLUMNS.COLUMN_COMMENT,
                     COLUMNS.COLUMN_TYPE,
                     COLUMNS.DATA_TYPE,
-                    COLUMNS.IS_NULLABLE,
+                    when(COLUMNS.IS_NULLABLE.eq("true"),"YES").else_("NO").as(COLUMNS.IS_NULLABLE),
                     COLUMNS.COLUMN_DEFAULT,
                     COLUMNS.EXTRA,
                     generationExpression,
@@ -101,9 +102,11 @@ public class XuGuTableDefinition extends AbstractTableDefinition {
                     COLUMNS.EXTRA)
                 .from(COLUMNS)
                 // [#5213] Duplicate schema value to work around MySQL issue https://bugs.mysql.com/bug.php?id=86022
-                .where(COLUMNS.TABLE_SCHEMA.in(getSchema().getName(), getSchema().getName()))
-                .and(COLUMNS.TABLE_NAME.equal(getName()))
-                .orderBy(COLUMNS.ORDINAL_POSITION)
+                .leftJoin(TABLES).on(TABLES.TABLE_ID.eq(COLUMNS.TABLE_ID))
+                .leftJoin(SCHEMATA).on(SCHEMATA.SCHEMA_ID.eq(TABLES.SCHEMA_ID))
+                .where(SCHEMATA.SCHEMA_NAME.in(getSchema().getName(), getSchema().getName()))
+                .and(TABLES.TABLE_NAME.equal(getName()))
+                .orderBy(TABLES.TABLE_ID)
         ) {
 
             String dataType = record.get(COLUMNS.DATA_TYPE);
@@ -154,8 +157,8 @@ public class XuGuTableDefinition extends AbstractTableDefinition {
                 getSchema(),
                 dataType,
                 record.get(COLUMNS.CHARACTER_MAXIMUM_LENGTH),
-                record.get(COLUMNS.NUMERIC_PRECISION),
-                record.get(COLUMNS.NUMERIC_SCALE),
+                null,
+                null,
                 record.get(COLUMNS.IS_NULLABLE, boolean.class),
                 generated ? null : record.get(COLUMNS.COLUMN_DEFAULT),
                 name(getSchema().getName(), getName() + "_" + record.get(COLUMNS.COLUMN_NAME))

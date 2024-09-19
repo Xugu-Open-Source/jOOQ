@@ -41,7 +41,7 @@ public class Xugu extends SchemaImpl {
      * No further instances allowed
      */
     private Xugu() {
-        super("mysql", null);
+        super("xugu", null);
     }
 
 

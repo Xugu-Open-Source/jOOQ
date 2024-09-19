@@ -44,6 +44,8 @@ public class KeyColumnUsage extends TableImpl<Record> {
         return Record.class;
     }
 
+    public final TableField<Record, String> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
+
     /**
      * The column <code>information_schema.KEY_COLUMN_USAGE.CONSTRAINT_CATALOG</code>.
      */
@@ -57,7 +59,7 @@ public class KeyColumnUsage extends TableImpl<Record> {
     /**
      * The column <code>information_schema.KEY_COLUMN_USAGE.CONSTRAINT_NAME</code>.
      */
-    public final TableField<Record, String> CONSTRAINT_NAME = createField(DSL.name("CONSTRAINT_NAME"), SQLDataType.VARCHAR(64), this, "");
+    public final TableField<Record, String> CONSTRAINT_NAME = createField(DSL.name("CONS_NAME"), SQLDataType.VARCHAR(64), this, "");
 
     /**
      * The column <code>information_schema.KEY_COLUMN_USAGE.TABLE_CATALOG</code>.
@@ -77,7 +79,7 @@ public class KeyColumnUsage extends TableImpl<Record> {
     /**
      * The column <code>information_schema.KEY_COLUMN_USAGE.COLUMN_NAME</code>.
      */
-    public final TableField<Record, String> COLUMN_NAME = createField(DSL.name("COLUMN_NAME"), SQLDataType.VARCHAR(64), this, "");
+    public final TableField<Record, String> COLUMN_NAME = createField(DSL.name("DEFINE"), SQLDataType.VARCHAR(64), this, "");
 
     /**
      * The column <code>information_schema.KEY_COLUMN_USAGE.ORDINAL_POSITION</code>.
@@ -130,7 +132,7 @@ public class KeyColumnUsage extends TableImpl<Record> {
      * Create a <code>information_schema.KEY_COLUMN_USAGE</code> table reference
      */
     public KeyColumnUsage() {
-        this(DSL.name("KEY_COLUMN_USAGE"), null);
+        this(DSL.name("ALL_CONSTRAINTS"), null);
     }
 
     public <O extends Record> KeyColumnUsage(Table<O> child, ForeignKey<O, Record> key) {

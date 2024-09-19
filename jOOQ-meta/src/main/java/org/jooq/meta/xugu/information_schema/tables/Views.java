@@ -53,15 +53,19 @@ public class Views extends TableImpl<Record> {
      */
     public final TableField<Record, String> TABLE_SCHEMA = createField(DSL.name("TABLE_SCHEMA"), SQLDataType.VARCHAR(64).nullable(false), this, "");
 
+    public final TableField<Record, String> SCHEMA_ID = createField(DSL.name("SCHEMA_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
     /**
      * The column <code>information_schema.VIEWS.TABLE_NAME</code>.
      */
     public final TableField<Record, String> TABLE_NAME = createField(DSL.name("TABLE_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
 
+    public final TableField<Record, String> VIEW_NAME = createField(DSL.name("VIEW_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
     /**
      * The column <code>information_schema.VIEWS.VIEW_DEFINITION</code>.
      */
-    public final TableField<Record, String> VIEW_DEFINITION = createField(DSL.name("VIEW_DEFINITION"), SQLDataType.CLOB, this, "");
+    public final TableField<Record, String> VIEW_DEFINITION = createField(DSL.name("DEFINE"), SQLDataType.CLOB, this, "");
 
     /**
      * The column <code>information_schema.VIEWS.CHECK_OPTION</code>.
@@ -119,7 +123,7 @@ public class Views extends TableImpl<Record> {
      * Create a <code>information_schema.VIEWS</code> table reference
      */
     public Views() {
-        this(DSL.name("VIEWS"), null);
+        this(DSL.name("ALL_VIEWS"), null);
     }
 
     public <O extends Record> Views(Table<O> child, ForeignKey<O, Record> key) {
