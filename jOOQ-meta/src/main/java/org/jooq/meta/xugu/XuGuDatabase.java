@@ -59,7 +59,7 @@ import org.jooq.meta.*;
 import org.jooq.meta.xugu.information_schema.tables.Schemata;
 import org.jooq.meta.xugu.information_schema.tables.Tables;
 import org.jooq.meta.mariadb.MariaDBDatabase;
-import org.jooq.meta.mysql.information_schema.tables.Columns;
+import org.jooq.meta.xugu.information_schema.tables.Columns;
 import org.jooq.meta.xugu.xugu.enums.ProcType;
 import org.jooq.tools.csv.CSVReader;
 
@@ -79,8 +79,8 @@ import static org.jooq.SQLDialect.MARIADB;
 import static org.jooq.SQLDialect.MYSQL;
 import static org.jooq.impl.DSL.*;
 import static org.jooq.impl.SQLDataType.*;
-import static org.jooq.meta.mysql.information_schema.Tables.COLUMNS;
-import static org.jooq.meta.mysql.information_schema.Tables.VIEWS;
+import static org.jooq.meta.xugu.information_schema.Tables.COLUMNS;
+import static org.jooq.meta.xugu.information_schema.Tables.VIEWS;
 import static org.jooq.meta.xugu.information_schema.Tables.*;
 import static org.jooq.meta.xugu.xugu.Tables.PROC;
 
