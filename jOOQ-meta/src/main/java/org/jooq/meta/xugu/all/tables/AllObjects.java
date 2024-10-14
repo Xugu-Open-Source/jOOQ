@@ -1,13 +1,16 @@
-package org.jooq.meta.xugu.information_schema.tables;
+package org.jooq.meta.xugu.all.tables;
 
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
-public class Objects extends TableImpl<Record> {
 
-    public static final Objects OBJECTS = new Objects();
+/*这个类是先前同事写的，或许要改内容*/
+public class AllObjects extends TableImpl<Record> {
+
+    public static final AllObjects ALL_OBJECTS = new AllObjects();
 
     public final TableField<Record, String> OBJ_TYPE = createField(DSL.name("OBJ_TYPE"), SQLDataType.VARCHAR(64).nullable(false), this, "");
 
@@ -22,43 +25,43 @@ public class Objects extends TableImpl<Record> {
         return Record.class;
     }
 
-    public Objects() {
+    public AllObjects() {
         this(DSL.name("ALL_OBJECTS"), null);
     }
 
-    public Objects(Name name) {
+    public AllObjects(Name name) {
         super(name);
     }
 
-    public Objects(Name name, Schema schema) {
+    public AllObjects(Name name, Schema schema) {
         super(name, schema);
     }
 
-    public Objects(Name name, Schema schema, Table<Record> aliased) {
+    public AllObjects(Name name, Schema schema, Table<Record> aliased) {
         super(name, schema, aliased);
     }
 
-    public Objects(Name name, Schema schema, Table<Record> aliased, Field<?>[] parameters) {
+    public AllObjects(Name name, Schema schema, Table<Record> aliased, Field<?>[] parameters) {
         super(name, schema, aliased, parameters);
     }
 
-    public Objects(Name name, Schema schema, Table<Record> aliased, Field<?>[] parameters, Comment comment) {
+    public AllObjects(Name name, Schema schema, Table<Record> aliased, Field<?>[] parameters, Comment comment) {
         super(name, schema, aliased, parameters, comment);
     }
 
-    public Objects(Name name, Schema schema, Table<Record> aliased, Field<?>[] parameters, Comment comment, TableOptions options) {
+    public AllObjects(Name name, Schema schema, Table<Record> aliased, Field<?>[] parameters, Comment comment, TableOptions options) {
         super(name, schema, aliased, parameters, comment, options);
     }
 
-    public Objects(Table<?> child, ForeignKey<?, Record> path, Table<Record> parent) {
+    public AllObjects(Table<?> child, ForeignKey<?, Record> path, Table<Record> parent) {
         super(child, path, parent);
     }
 
-    public Objects(Name name, Schema schema, Table<?> child, ForeignKey<?, Record> path, Table<Record> aliased, Field<?>[] parameters, Comment comment) {
+    public AllObjects(Name name, Schema schema, Table<?> child, ForeignKey<?, Record> path, Table<Record> aliased, Field<?>[] parameters, Comment comment) {
         super(name, schema, child, path, aliased, parameters, comment);
     }
 
-    public Objects(Name name, Schema schema, Table<?> child, ForeignKey<?, Record> path, Table<Record> aliased, Field<?>[] parameters, Comment comment, TableOptions options) {
+    public AllObjects(Name name, Schema schema, Table<?> child, ForeignKey<?, Record> path, Table<Record> aliased, Field<?>[] parameters, Comment comment, TableOptions options) {
         super(name, schema, child, path, aliased, parameters, comment, options);
     }
 }

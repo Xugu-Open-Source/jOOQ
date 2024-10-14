@@ -50,7 +50,11 @@ import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
 import static org.jooq.impl.DSL.*;
-import static org.jooq.meta.xugu.information_schema.Tables.*;
+import static org.jooq.meta.xugu.all.Tables.*;
+import static org.jooq.meta.xugu.all.tables.AllColumns.ALL_COLUMNS;
+import static org.jooq.meta.xugu.all.tables.AllDataBases.ALL_DATABASES;
+import static org.jooq.meta.xugu.all.tables.AllSchemas.ALL_SCHEMAS;
+import static org.jooq.meta.xugu.all.tables.AllTables.ALL_TABLES;
 
 /**
  * @author Lukas Eder
@@ -72,78 +76,80 @@ public class XuGuTableDefinition extends AbstractTableDefinition {
         List<ColumnDefinition> result = new ArrayList<>();
 
         for (Record record : create().select(
-                    inline("").as(COLUMNS.ORDINAL_POSITION),
-                    COLUMNS.COLUMN_NAME,
-                    COLUMNS.COLUMN_COMMENT,
-                    COLUMNS.COLUMN_TYPE,
-                    COLUMNS.DATA_TYPE,
-                    when(COLUMNS.IS_NULLABLE.eq("true"),"YES").else_("NO").as(COLUMNS.IS_NULLABLE),
-                    COLUMNS.COLUMN_DEFAULT,
-                    COLUMNS.CHARACTER_MAXIMUM_LENGTH,
+                ALL_COLUMNS.COL_NO,
+                ALL_COLUMNS.COL_NAME,
+                ALL_COLUMNS.COMMENTS,
+                ALL_COLUMNS.TYPE_NAME,
+                //处理一下判断逻辑
+                when(ALL_COLUMNS.NOT_NULL.eq("TRUE"), inline("NO"))
+                        .otherwise(inline("YES")).as("NOT_NULL"),
+                ALL_COLUMNS.DEF_VAL,
+                ALL_COLUMNS.SCALE,
+                inline((Integer) null), //与虚谷字段的存储内容不同，设置 NUMERIC_SCALE 为 NULL
+                when(ALL_COLUMNS.IS_SERIAL.eq("TRUE"), inline("auto_increment")).otherwise(inline((String) null)).as("IS_SERIAL"))
+                .from(ALL_COLUMNS)
+                .join(ALL_TABLES).on(ALL_COLUMNS.TABLE_ID.eq(ALL_TABLES.TABLE_ID))
+                .join(ALL_SCHEMAS).on(ALL_TABLES.SCHEMA_ID.eq(ALL_SCHEMAS.SCHEMA_ID))
+                .where(ALL_COLUMNS.TABLE_ID.eq(
+                        select(ALL_TABLES.TABLE_ID)
+                                .from(ALL_TABLES)
+                                .where(ALL_TABLES.TABLE_NAME.equal(getName()))
+                ))
+//                .and(ALL_COLUMNS.DB_ID.eq(
+//                        select(ALL_DATABASES.DB_ID)
+//                                .from(ALL_DATABASES)
+//                                .where(ALL_DATABASES.DB_NAME.in(getSchema().getName(), getSchema().getName()))
+//                ))
+                .orderBy(ALL_COLUMNS.COL_NO)) {
 
-                    getDatabase().exists(COLUMNS.DATETIME_PRECISION)
-                        ? coalesce(COLUMNS.NUMERIC_PRECISION, COLUMNS.DATETIME_PRECISION).as(COLUMNS.NUMERIC_PRECISION)
-                        : inline("").as(COLUMNS.NUMERIC_PRECISION),
-                    inline("").as(COLUMNS.NUMERIC_SCALE),
-                    COLUMNS.EXTRA)
-                .from(COLUMNS)
-                .leftJoin(TABLES).on(TABLES.TABLE_ID.eq(COLUMNS.TABLE_ID))
-                .leftJoin(SCHEMATA).on(SCHEMATA.SCHEMA_ID.eq(TABLES.SCHEMA_ID))
-                .where(SCHEMATA.SCHEMA_NAME.in(getSchema().getName(), getSchema().getName()))
-                .and(TABLES.TABLE_NAME.equal(getName()))
-                .orderBy(TABLES.TABLE_ID)) {
+            String dataType = record.get(ALL_COLUMNS.TYPE_NAME);
 
-            String dataType = record.get(COLUMNS.DATA_TYPE);
-
-            // [#519] Some types have unsigned versions
-            boolean unsigned = getDatabase().supportsUnsignedTypes();
-
-            // [#7719]
-            boolean displayWidths = getDatabase().integerDisplayWidths();
-
-            columnTypeFix:
-            if (unsigned || displayWidths) {
-                if (asList("tinyint", "smallint", "mediumint", "int", "bigint").contains(dataType.toLowerCase())) {
-                    String columnType = record.get(COLUMNS.COLUMN_TYPE).toLowerCase();
-
-
-
-
-
-
-                    Matcher matcher = COLUMN_TYPE.matcher(columnType);
-
-                    if (matcher.find()) {
-                        String mType = matcher.group(1);
-                        String mPrecision = matcher.group(2);
-                        String mUnsigned = matcher.group(3);
-
-                        dataType = mType
-                                 + (unsigned && mUnsigned != null ? mUnsigned : "")
-                                 + (displayWidths && mPrecision != null ? mPrecision : "");
-                    }
-                }
-            }
+//            // 下面逻辑暂时没看。
+//            // [#519] Some types have unsigned versions
+//            boolean unsigned = getDatabase().supportsUnsignedTypes();
+//
+//            // [#7719]
+//            boolean displayWidths = getDatabase().integerDisplayWidths();
+//
+//            columnTypeFix:
+//            if (unsigned || displayWidths) {
+//                if (asList("tinyint", "smallint", "mediumint", "int", "bigint").contains(dataType.toLowerCase())) {
+//                    String columnType = record.get(ALL_COLUMNS.COLUMN_TYPE).toLowerCase();
+//
+//                    Matcher matcher = COLUMN_TYPE.matcher(columnType);
+//
+//                    if (matcher.find()) {
+//                        String mType = matcher.group(1);
+//                        String mPrecision = matcher.group(2);
+//                        String mUnsigned = matcher.group(3);
+//
+//                        dataType = mType
+//                                 + (unsigned && mUnsigned != null ? mUnsigned : "")
+//                                 + (displayWidths && mPrecision != null ? mPrecision : "");
+//                    }
+//                }
+//            }
 
             DataTypeDefinition type = new DefaultDataTypeDefinition(
                 getDatabase(),
                 getSchema(),
                 dataType,
-                record.get(COLUMNS.CHARACTER_MAXIMUM_LENGTH),
+                record.get(ALL_COLUMNS.SCALE),
                 null,
                 null,
-                record.get(COLUMNS.IS_NULLABLE, boolean.class),
-                record.get(COLUMNS.COLUMN_DEFAULT),
-                name(getSchema().getName(), getName() + "_" + record.get(COLUMNS.COLUMN_NAME))
+                record.get(ALL_COLUMNS.NOT_NULL, boolean.class),
+                record.get(ALL_COLUMNS.DEF_VAL),
+                name(getSchema().getName(), getName() + "_" + record.get(ALL_COLUMNS.COL_NAME))
             );
 
             result.add(new DefaultColumnDefinition(
                 getDatabase().getTable(getSchema(), getName()),
-                record.get(COLUMNS.COLUMN_NAME),
+                record.get(ALL_COLUMNS.COL_NAME),
                 result.size() + 1,
                 type,
-                "auto_increment".equalsIgnoreCase(record.get(COLUMNS.EXTRA)),
-                record.get(COLUMNS.COLUMN_COMMENT)
+                //上面改一下自增判断
+                "auto_increment".equalsIgnoreCase(record.get(ALL_COLUMNS.IS_SERIAL)),
+                record.get(ALL_COLUMNS.COMMENTS)
             ));
         }
 
