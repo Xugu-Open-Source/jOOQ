@@ -80,6 +80,7 @@ public class XuGuDatabase extends AbstractDatabase {
 //    private static Boolean is8;
 //    private static Boolean is8_0_16;
 
+
     @Override
     protected List<IndexDefinition> getIndexes0() throws SQLException {
         List<IndexDefinition> result = new ArrayList<>();
@@ -142,22 +143,31 @@ public class XuGuDatabase extends AbstractDatabase {
 
             final boolean unique = !index.get(ALL_INDEXES.IS_UNIQUE, boolean.class);
 
-            // [#6310] [#6620] Function-based indexes are not yet supported
-            for (Record column : columns)
-                if (table.getColumn(column.get(ALL_INDEXES.KEYS)) == null)
-                    continue indexLoop;
+            for (Record column : columns) {
+                String keys = column.get(ALL_INDEXES.KEYS);
+                String[] columnNames = keys.replace("\"", "").split(",");
+                for (String columnName : columnNames) {
+                    if (table.getColumn(columnName.trim()) == null)
+                        continue indexLoop;
+                }
+            }
 
             result.add(new AbstractIndexDefinition(tableSchema, indexName, table, unique) {
                 List<IndexColumnDefinition> indexColumns = new ArrayList<>();
 
                 {
                     for (Record column : columns) {
-                        indexColumns.add(new DefaultIndexColumnDefinition(
-                                this,
-                                table.getColumn(column.get(ALL_INDEXES.KEYS)),
-                                SortOrder.ASC,
-                                column.get(ALL_INDEXES.SEQ_IN_INDEX, int.class)
-                        ));
+                        String keys = column.get(ALL_INDEXES.KEYS);
+                        String[] columnNames = keys.replace("\"", "").split(",");
+
+                        for (String columnName : columnNames) {
+                            indexColumns.add(new DefaultIndexColumnDefinition(
+                                    this,
+                                    table.getColumn(columnName.trim()),
+                                    SortOrder.ASC,
+                                    column.get(ALL_INDEXES.SEQ_IN_INDEX, int.class)
+                            ));
+                        }
                     }
                 }
 
@@ -177,32 +187,40 @@ public class XuGuDatabase extends AbstractDatabase {
             SchemaDefinition schema = getSchema(record.get(ALL_SCHEMAS.SCHEMA_NAME));
             String constraintName = record.get(ALL_INDEXES.INDEX_NAME);
             String tableName = record.get(ALL_TABLES.TABLE_NAME);
-            String columnName = record.get(ALL_INDEXES.KEYS);
+            String keys = record.get(ALL_INDEXES.KEYS);
 
             String key = getKeyName(tableName, constraintName);
             TableDefinition table = getTable(schema, tableName);
 
-            if (table != null)
-                relations.addPrimaryKey(key, table, table.getColumn(columnName));
+            if (table != null) {
+                String[] columnNames = keys.replace("\"", "").split(",");
+
+                for (String columnName : columnNames) {
+                    relations.addPrimaryKey(key, table, table.getColumn(columnName.trim()));
+                }
+            }
         }
     }
-
     @Override
     protected void loadUniqueKeys(DefaultRelations relations) throws SQLException {
         for (Record record : fetchKeys(false)) {
             SchemaDefinition schema = getSchema(record.get(ALL_SCHEMAS.SCHEMA_NAME));
             String constraintName = record.get(ALL_INDEXES.INDEX_NAME);
             String tableName = record.get(ALL_TABLES.TABLE_NAME);
-            String columnName = record.get(ALL_INDEXES.KEYS);
+            String keys= record.get(ALL_INDEXES.KEYS);
 
             String key = getKeyName(tableName, constraintName);
             TableDefinition table = getTable(schema, tableName);
 
-            if (table != null)
-                relations.addUniqueKey(key, table, table.getColumn(columnName));
+            if (table != null) {
+                String[] columnNames = keys.replace("\"", "").split(",");
+
+                for (String columnName : columnNames) {
+                    relations.addPrimaryKey(key, table, table.getColumn(columnName.trim()));
+                }
+            }
         }
     }
-
     private String getKeyName(String tableName, String keyName) {
         return "KEY_" + tableName + "_" + keyName;
     }
@@ -228,6 +246,9 @@ public class XuGuDatabase extends AbstractDatabase {
 //        return true;
 //    }
 
+    /**
+     * 修改部分逻辑，虚谷对于外键的存储不同于mysql
+     * */
     private Result<?> fetchKeys(boolean primary) {
 
         // [#3560] It has been shown that querying the ALL_INDEXES table is much faster on
@@ -272,57 +293,69 @@ public class XuGuDatabase extends AbstractDatabase {
                         t.TABLE_NAME,
                         rt.TABLE_NAME.as("REF_TABLE_NAME"),
                         rs.SCHEMA_NAME.as("REF_SCHEMA_NAME"),
-                        inline("").as("UNIQUE_CONSTRAINT_NAME"),
+                        ALL_INDEXES.INDEX_NAME.as("UNIQUE_CONSTRAINT_NAME"),
                         ALL_CONSTRAINTS.DEFINE
                 )
                 .from(ALL_CONSTRAINTS)
                 .join(ALL_DATABASES).on(ALL_CONSTRAINTS.DB_ID.eq(ALL_DATABASES.DB_ID))
                 .join(t).on(ALL_CONSTRAINTS.TABLE_ID.eq(t.TABLE_ID))
                 .join(s).on(s.SCHEMA_ID.eq(t.SCHEMA_ID))
+
                 //依赖所在表
                 .join(rt).on(ALL_CONSTRAINTS.REF_TABLE_ID.eq(rt.TABLE_ID))
                 .join(rs).on(rs.SCHEMA_ID.eq(rt.SCHEMA_ID))
+                .join(ALL_INDEXES).on(ALL_INDEXES.TABLE_ID.eq(rt.TABLE_ID)).and(ALL_INDEXES.IS_UNIQUE.eq(1))
                 .where(ALL_CONSTRAINTS.CONS_TYPE.eq("F"))
-               // 我认为如果外键加载不成功，问题可能出现在下面。虚谷和mysql的schema逻辑不一样。
                 .and(s.SCHEMA_NAME.in(getInputSchemata()).or(
                         getInputSchemata().size() == 1
                                 ? s.SCHEMA_NAME.in(getInputSchemata())
                                 : falseCondition()))
-                .orderBy(ALL_CONSTRAINTS.CONS_NAME.asc())
+                .orderBy(
+                        s.SCHEMA_NAME,
+                        t.TABLE_NAME
+                )
                 .fetch())
         {
 
             SchemaDefinition foreignKeySchema = getSchema(record.get(s.SCHEMA_NAME));
-            SchemaDefinition uniqueKeySchema = getSchema(record.get(rs.SCHEMA_NAME));
+            SchemaDefinition uniqueKeySchema = getSchema(record.get(rs.SCHEMA_NAME.as("REF_SCHEMA_NAME")));
 
             String foreignKey = record.get(ALL_CONSTRAINTS.CONS_NAME);
 
-            //通过正则来匹配foreignKeyColumn，不清楚复合外键是否会出问题。目前先不考虑。
-            //靠，复合外键出问题了。
-//            String foreignKeyColumn0 = record.get(ALL_CONSTRAINTS.DEFINE);
-//            Pattern pattern = Pattern.compile("\\(\"(.*?)\"\\)");
-//            Matcher matcher = pattern.matcher(foreignKeyColumn0);
-//            String foreignKeyColumn = matcher.group(1);
-            String foreignKeyColumn = record.get(ALL_CONSTRAINTS.DEFINE);
+            String define = record.get(ALL_CONSTRAINTS.DEFINE);
+            Pattern pattern = Pattern.compile("\\((.*?)\\)\\(.*?\\)");
+            Matcher matcher = pattern.matcher(define);
 
-            String foreignKeyTableName = record.get(t.TABLE_NAME);
-            String uniqueKey = record.get(inline("").as("UNIQUE_CONSTRAINT_NAME"));
-            String uniqueKeyTableName = record.get(rt.TABLE_NAME);
+            String foreignKeyColumns = null;
+            if (matcher.find()) {
+                foreignKeyColumns = matcher.group(1);  // 提取第一个括号内的列名
+            }
 
-            TableDefinition foreignKeyTable = getTable(foreignKeySchema, foreignKeyTableName);
-            TableDefinition uniqueKeyTable = getTable(uniqueKeySchema, uniqueKeyTableName);
+            if (foreignKeyColumns != null) {
+                String[] foreignKeyColumnNames = foreignKeyColumns.replace("\"", "").split(",");
 
-            if (foreignKeyTable != null)
-                relations.addForeignKey(
-                        foreignKey,
-                        foreignKeyTable,
-                        foreignKeyTable.getColumn(foreignKeyColumn),
-                        getKeyName(uniqueKeyTableName, uniqueKey),
-                        uniqueKeyTable
-                );
+                String foreignKeyTableName = record.get(t.TABLE_NAME);
+                String uniqueKey = record.get(ALL_INDEXES.INDEX_NAME.as("UNIQUE_CONSTRAINT_NAME"));
+                String uniqueKeyTableName = record.get(rt.TABLE_NAME.as("REF_TABLE_NAME"));
+
+                TableDefinition foreignKeyTable = getTable(foreignKeySchema, foreignKeyTableName);
+                TableDefinition uniqueKeyTable = getTable(uniqueKeySchema, uniqueKeyTableName);
+
+                if (foreignKeyTable != null) {
+                    for (String columnName : foreignKeyColumnNames) {
+                        // 对每个外键列名添加外键关联
+                        relations.addForeignKey(
+                                foreignKey,
+                                foreignKeyTable,
+                                foreignKeyTable.getColumn(columnName.trim()),
+                                getKeyName(uniqueKeyTableName, uniqueKey),
+                                uniqueKeyTable
+                        );
+                    }
+                }
+            }
         }
     }
-
 
     /**
      * 删除了之前模仿mysql的策略分流判断。更改了对CHECK_CONSTRAINTS字段相关的信息，但是没有改代码逻辑

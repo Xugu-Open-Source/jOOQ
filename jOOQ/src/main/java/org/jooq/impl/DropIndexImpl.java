@@ -169,15 +169,18 @@ final class DropIndexImpl extends AbstractRowCountQuery implements
         if (ifExists && supportsIfExists(ctx))
             ctx.visit(K_IF_EXISTS).sql(' ');
 
+        // 针对虚谷数据库特殊处理
+        if (ctx.dialect() == SQLDialect.XUGU) {
+            // 虚谷数据库要求索引删除语法为：DROP INDEX table.index_name
+            ctx.visit(on).sql('.').visit(index);
+        }
+        else {
+            // 默认处理
+            ctx.visit(index);
 
-
-
-
-
-        ctx.visit(index);
-
-        if (on != null && REQUIRES_ON.contains(ctx.dialect()))
-            ctx.sql(' ').visit(K_ON).sql(' ').visit(on);
+            if (on != null && REQUIRES_ON.contains(ctx.dialect()))
+                ctx.sql(' ').visit(K_ON).sql(' ').visit(on);
+        }
 
         if (cascade != null)
             ctx.sql(' ').visit(cascade ? K_CASCADE : K_RESTRICT);

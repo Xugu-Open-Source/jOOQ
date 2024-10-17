@@ -85,7 +85,7 @@ public class XuGuTableDefinition extends AbstractTableDefinition {
                         .otherwise(inline("YES")).as("NOT_NULL"),
                 ALL_COLUMNS.DEF_VAL,
                 ALL_COLUMNS.SCALE,
-                inline((Integer) null), //与虚谷字段的存储内容不同，设置 NUMERIC_SCALE 为 NULL
+                inline((Integer) null).as("NUMERIC_SCALE"), //与虚谷字段的存储内容不同，设置 NUMERIC_SCALE 为 NULL
                 when(ALL_COLUMNS.IS_SERIAL.eq("TRUE"), inline("auto_increment")).otherwise(inline((String) null)).as("IS_SERIAL"))
                 .from(ALL_COLUMNS)
                 .join(ALL_TABLES).on(ALL_COLUMNS.TABLE_ID.eq(ALL_TABLES.TABLE_ID))
@@ -95,16 +95,17 @@ public class XuGuTableDefinition extends AbstractTableDefinition {
                                 .from(ALL_TABLES)
                                 .where(ALL_TABLES.TABLE_NAME.equal(getName()))
                 ))
-//                .and(ALL_COLUMNS.DB_ID.eq(
-//                        select(ALL_DATABASES.DB_ID)
-//                                .from(ALL_DATABASES)
-//                                .where(ALL_DATABASES.DB_NAME.in(getSchema().getName(), getSchema().getName()))
-//                ))
+                .and(ALL_SCHEMAS.SCHEMA_ID.eq(
+                        select(ALL_SCHEMAS.SCHEMA_ID)
+                                .from(ALL_SCHEMAS)
+                                .where(ALL_SCHEMAS.SCHEMA_NAME.in(getSchema().getName(), getSchema().getName()))
+                ))
                 .orderBy(ALL_COLUMNS.COL_NO)) {
 
             String dataType = record.get(ALL_COLUMNS.TYPE_NAME);
 
-//            // 下面逻辑暂时没看。
+//            //下面逻辑暂时没看。
+//            //这一段是对mysql的差异化处理，虚谷用不上
 //            // [#519] Some types have unsigned versions
 //            boolean unsigned = getDatabase().supportsUnsignedTypes();
 //
