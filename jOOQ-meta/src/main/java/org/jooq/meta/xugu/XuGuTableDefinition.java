@@ -61,7 +61,7 @@ import static org.jooq.meta.xugu.all.tables.AllTables.ALL_TABLES;
  */
 public class XuGuTableDefinition extends AbstractTableDefinition {
 
-    private static final Pattern COLUMN_TYPE = Pattern.compile("(\\w+)\\s*(\\(\\d+\\))?\\s*(unsigned)?");
+//    private static final Pattern COLUMN_TYPE = Pattern.compile("(\\w+)\\s*(\\(\\d+\\))?\\s*(unsigned)?");
 
     public XuGuTableDefinition(SchemaDefinition schema, String name, String comment) {
         super(schema, name, comment);

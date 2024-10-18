@@ -52,7 +52,7 @@ public class AllIndexes extends TableImpl<Record> {
      * 适配虚谷数据结构
      * NON_UNIQUE改为IS_UNIQUE
      */
-    public final TableField<Record, Integer> IS_UNIQUE= createField(DSL.name("IS_UNIQUE"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.inline("0", SQLDataType.INTEGER)), this, "");
+    public final TableField<Record, String> IS_UNIQUE = createField(DSL.name("IS_UNIQUE"), SQLDataType.VARCHAR(5).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
 
     /**
      * 添加虚谷字段
