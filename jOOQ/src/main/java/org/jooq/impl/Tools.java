@@ -4984,6 +4984,9 @@ final class Tools {
 
 
 
+                case XUGU:
+                    ctx.sql(" IDENTITY(1,1)");
+                    break;
 
 
 
