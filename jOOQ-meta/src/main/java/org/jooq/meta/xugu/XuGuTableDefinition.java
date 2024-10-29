@@ -90,12 +90,12 @@ public class XuGuTableDefinition extends AbstractTableDefinition {
                 .from(ALL_COLUMNS)
                 .join(ALL_TABLES).on(ALL_COLUMNS.TABLE_ID.eq(ALL_TABLES.TABLE_ID))
                 .join(ALL_SCHEMAS).on(ALL_TABLES.SCHEMA_ID.eq(ALL_SCHEMAS.SCHEMA_ID))
-                .where(ALL_COLUMNS.TABLE_ID.eq(
+                .where(ALL_COLUMNS.TABLE_ID.in(
                         select(ALL_TABLES.TABLE_ID)
                                 .from(ALL_TABLES)
                                 .where(ALL_TABLES.TABLE_NAME.equal(getName()))
                 ))
-                .and(ALL_SCHEMAS.SCHEMA_ID.eq(
+                .and(ALL_SCHEMAS.SCHEMA_ID.in(
                         select(ALL_SCHEMAS.SCHEMA_ID)
                                 .from(ALL_SCHEMAS)
                                 .where(ALL_SCHEMAS.SCHEMA_NAME.in(getSchema().getName(), getSchema().getName()))
