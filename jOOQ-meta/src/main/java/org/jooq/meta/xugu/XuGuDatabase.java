@@ -135,8 +135,9 @@ public class XuGuDatabase extends AbstractDatabase {
             if (tableSchema == null)
                 continue indexLoop;
 
-            final String indexName = index.get(ALL_INDEXES.INDEX_NAME);
+            final String indexName0= index.get(ALL_INDEXES.INDEX_NAME);
             final String tableName = index.get(ALL_TABLES.TABLE_NAME);
+            final String indexName = tableName+ "_" + indexName0 ;
             final TableDefinition table = getTable(tableSchema, tableName);
             if (table == null)
                 continue indexLoop;
