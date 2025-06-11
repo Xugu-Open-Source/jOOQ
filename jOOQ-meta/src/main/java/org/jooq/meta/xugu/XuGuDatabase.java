@@ -112,8 +112,7 @@ public class XuGuDatabase extends AbstractDatabase {
                 .orderBy(
                         ALL_SCHEMAS.SCHEMA_NAME,
                         ALL_TABLES.TABLE_NAME,
-                        ALL_INDEXES.INDEX_NAME,
-                        ALL_INDEXES.INDEX_ID)
+                        ALL_INDEXES.INDEX_NAME)
                 .fetchGroups(
                         new Field[]{
                                 ALL_SCHEMAS.SCHEMA_NAME,
@@ -275,8 +274,7 @@ public class XuGuDatabase extends AbstractDatabase {
                 .orderBy(
                         ALL_SCHEMAS.SCHEMA_NAME,
                         ALL_TABLES.TABLE_NAME,
-                        ALL_INDEXES.INDEX_NAME,
-                        ALL_INDEXES.INDEX_ID)
+                        ALL_INDEXES.INDEX_NAME)
                 .fetch();
     }
 
