@@ -1999,7 +1999,7 @@ public class DefaultBinding<T, U> implements Binding<T, U> {
          * Generated UID
          */
         private static final long            serialVersionUID         = -4797649501187223237L;
-        private static final Set<SQLDialect> INLINE_AS_STRING_LITERAL = SQLDialect.supportedBy(SQLITE);
+        private static final Set<SQLDialect> INLINE_AS_STRING_LITERAL = SQLDialect.supportedBy(SQLITE, XUGU);
 
         DefaultDateBinding(DataType<Date> dataType, Converter<Date, U> converter) {
             super(dataType, converter);
@@ -3928,7 +3928,7 @@ public class DefaultBinding<T, U> implements Binding<T, U> {
          * Generated UID
          */
         private static final long            serialVersionUID         = -2563220967846617288L;
-        private static final Set<SQLDialect> INLINE_AS_STRING_LITERAL = SQLDialect.supportedBy(SQLITE);
+        private static final Set<SQLDialect> INLINE_AS_STRING_LITERAL = SQLDialect.supportedBy(SQLITE, XUGU);
 
         DefaultTimeBinding(DataType<Time> dataType, Converter<Time, U> converter) {
             super(dataType, converter);

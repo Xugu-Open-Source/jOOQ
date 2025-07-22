@@ -57,7 +57,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
- * Supported data types for the {@link SQLDialect#MYSQL} dialect
+ * Supported data types for the {@link SQLDialect#XUGU} dialect
  *
  * @author Lukas Eder
  * @see <a href="http://dev.mysql.com/doc/refman/5.5/en/data-types.html">http://dev.mysql.com/doc/refman/5.5/en/data-types.html</a>
@@ -93,11 +93,9 @@ public class XuGuDataType {
     public static final DataType<Long>       BIGINT             = new DefaultDataType<>(FAMILY, SQLDataType.BIGINT, "bigint", "signed");
     public static final DataType<ULong>      BIGINTUNSIGNED     = new DefaultDataType<>(FAMILY, SQLDataType.BIGINTUNSIGNED, "bigint unsigned", "unsigned");
     public static final DataType<Double>     DOUBLE             = new DefaultDataType<>(FAMILY, SQLDataType.DOUBLE, "double", "decimal");
-    public static final DataType<Double>     FLOAT              = new DefaultDataType<>(FAMILY, SQLDataType.FLOAT, "float", "decimal");
     public static final DataType<Float>      REAL               = new DefaultDataType<>(FAMILY, SQLDataType.REAL, "real", "decimal");
     public static final DataType<Boolean>    BOOLEAN            = new DefaultDataType<>(FAMILY, SQLDataType.BOOLEAN, "boolean", "unsigned");
     public static final DataType<Boolean>    BOOL               = new DefaultDataType<>(FAMILY, SQLDataType.BOOLEAN, "bool", "unsigned");
-    public static final DataType<Boolean>    BIT                = new DefaultDataType<>(FAMILY, SQLDataType.BIT, "bit", "unsigned");
     public static final DataType<BigDecimal> DECIMAL            = new DefaultDataType<>(FAMILY, SQLDataType.DECIMAL, "decimal", "decimal");
     public static final DataType<BigDecimal> DEC                = new DefaultDataType<>(FAMILY, SQLDataType.DECIMAL, "dec", "decimal");
     public static final DataType<String>     VARCHAR            = new DefaultDataType<>(FAMILY, SQLDataType.VARCHAR, "varchar", "char");
@@ -145,4 +143,34 @@ public class XuGuDataType {
     protected static final DataType<BigInteger> __BIGINTEGER    = new DefaultDataType<>(FAMILY, SQLDataType.DECIMAL_INTEGER, "decimal", "decimal");
     protected static final DataType<UUID>       __UUID          = new DefaultDataType<>(FAMILY, SQLDataType.UUID, "varchar", "char");
     protected static final DataType<JSONB>      __JSONB         = new DefaultDataType<>(FAMILY, SQLDataType.JSONB, "json");
+
+    // 虚谷方言数据类型: https://help.xugudb.com/
+
+    protected static final DataType<String> INTERVAL_YEAR = new DefaultDataType<>(FAMILY, String.class, "INTERVAL YEAR");
+    protected static final DataType<String> INTERVAL_MONTH = new DefaultDataType<>(FAMILY, String.class, "INTERVAL MONTH");
+    protected static final DataType<String> INTERVAL_DAY = new DefaultDataType<>(FAMILY, String.class, "INTERVAL DAY");
+    protected static final DataType<String> INTERVAL_HOUR = new DefaultDataType<>(FAMILY, String.class, "INTERVAL HOUR");
+    protected static final DataType<String> INTERVAL_MINUTE = new DefaultDataType<>(FAMILY, String.class, "INTERVAL MINUTE");
+    protected static final DataType<String> INTERVAL_SECOND = new DefaultDataType<>(FAMILY, String.class, "INTERVAL SECOND");
+    protected static final DataType<String> INTERVAL_YEAR_TO_MONTH = new DefaultDataType<>(FAMILY, String.class, "INTERVAL YEAR TO MONTH");
+    protected static final DataType<String> INTERVAL_DAY_TO_HOUR = new DefaultDataType<>(FAMILY, String.class, "INTERVAL DAY TO HOUR");
+    protected static final DataType<String> INTERVAL_DAY_TO_MINUTE = new DefaultDataType<>(FAMILY, String.class, "INTERVAL DAY TO MINUTE");
+    protected static final DataType<String> INTERVAL_DAY_TO_SECOND = new DefaultDataType<>(FAMILY, String.class, "INTERVAL DAY TO SECOND");
+    protected static final DataType<String> INTERVAL_HOUR_TO_MINUTE = new DefaultDataType<>(FAMILY, String.class, "INTERVAL HOUR TO MINUTE");
+    protected static final DataType<String> INTERVAL_HOUR_TO_SECOND = new DefaultDataType<>(FAMILY, String.class, "INTERVAL HOUR TO SECOND");
+    protected static final DataType<String> INTERVAL_MINUTE_TO_SECOND = new DefaultDataType<>(FAMILY, String.class, "INTERVAL MINUTE TO SECOND");
+    protected static final DataType<String> DATETIME_WITH_TIME_ZONE = new DefaultDataType<>(FAMILY, String.class, "DATETIME WITH TIME ZONE");
+    protected static final DataType<String> TIME_WITH_TIME_ZONE = new DefaultDataType<>(FAMILY, String.class, "TIME WITH TIME ZONE");
+    protected static final DataType<String> TIMESTAMP_WITH_TIME_ZONE = new DefaultDataType<>(FAMILY, String.class, "TIMESTAMP WITH TIME ZONE");
+    protected static final DataType<Float> FLOAT = new DefaultDataType<>(FAMILY, Float.class, "float");
+    protected static final DataType<String> BIT_VARYING = new DefaultDataType<>(FAMILY, SQLDataType.VARCHAR, "bit varying(l)");
+    protected static final DataType<String> VARBIT = new DefaultDataType<>(FAMILY, SQLDataType.VARCHAR, "varbit(l)");
+    protected static final DataType<String> BIT = new DefaultDataType<>(FAMILY, SQLDataType.CHAR, "bit(l)");
+    protected static final DataType<String> POINT = new DefaultDataType<>(FAMILY, String.class, "POINT");
+    protected static final DataType<String> LINE = new DefaultDataType<>(FAMILY, String.class, "LINE");
+    protected static final DataType<String> LSEG = new DefaultDataType<>(FAMILY, String.class, "LSEG");
+    protected static final DataType<String> BOX = new DefaultDataType<>(FAMILY, String.class, "BOX");
+    protected static final DataType<String> CIRCLE = new DefaultDataType<>(FAMILY, String.class, "CIRCLE");
+    protected static final DataType<String> PATH = new DefaultDataType<>(FAMILY, String.class, "PATH");
+    protected static final DataType<String> POLYGON = new DefaultDataType<>(FAMILY, String.class, "POLYGON");
 }
