@@ -3189,6 +3189,14 @@ final class Tools {
             return null;
     }
 
+    static final Val<?> extractValNew(Field<?> field) {
+        return (field instanceof Val) ? (Val) field
+                // : ((field instanceof ConvertedVal) ? (Val) ((ConvertedVal) field).delegate
+                        : null
+                // )
+                ;
+    }
+
 
 
 
@@ -5933,5 +5941,38 @@ final class Tools {
         }
 
         return result;
+    }
+
+    static final <T> DataType<T> dataType(DataType<T> defaultType, Field<?> field, boolean preferDefault) {
+        return (field == null) ? defaultType : ((preferDefault && field
+                .getType() != defaultType.getType()) ? defaultType
+                .nullable(field.getDataType().nullable()) : (DataType<T>) field
+                .getDataType());
+    }
+
+    static final <T> DataType<T> allNotNull(DataType<T> defaultType) {
+        return defaultType.notNull();
+    }
+
+    static final <T> DataType<T> allNotNull(DataType<T> defaultType, Field<?> f1) {
+        return dataType(defaultType, f1, true);
+    }
+
+    static final <T> Field<T> convertVal(Field<T> field, DataType<?> type) {
+        return isVal(field) ?
+                (Field)extractValNew(field).convertTo(type) : field;
+    }
+
+    static final <T> Field<T> nullSafe(Field<T> field, DataType<?> type) {
+        return (Field<T>)(field == null ? DSL.val((Object)null, type) : (field instanceof Condition ? DSL.field((Condition)field) : convertVal(field, type)));
+    }
+
+    static final <T> Field<T> nullSafeNotNull(Field<T> field, DataType<?> type) {
+        return nullableIf(false, nullSafe(field, type));
+    }
+
+    static final <T> Field<T> nullableIf(boolean nullable, Field<T> field) {
+        return isVal(field) ?
+                (Field)extractValNew(field).convertTo(field.getDataType().nullable(nullable)) : field;
     }
 }

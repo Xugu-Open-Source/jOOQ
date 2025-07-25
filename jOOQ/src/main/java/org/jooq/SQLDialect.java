@@ -368,7 +368,8 @@ public enum SQLDialect {
     // SQL dialects for commercial usage
     // -------------------------------------------------------------------------
 
-
+    //
+    EXASOL("Exasol", true, true),
 
 
 

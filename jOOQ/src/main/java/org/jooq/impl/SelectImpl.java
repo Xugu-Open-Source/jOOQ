@@ -114,6 +114,9 @@ import org.jooq.SelectConditionStep;
 // ...
 // ...
 // ...
+import org.jooq.SelectConnectByAfterStartWithConditionStep;
+import org.jooq.SelectConnectByAfterStartWithStep;
+import org.jooq.SelectConnectByConditionStep;
 import org.jooq.SelectFieldOrAsterisk;
 import org.jooq.SelectFinalStep;
 // ...
@@ -176,9 +179,9 @@ final class SelectImpl<R extends Record, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10
     SelectOptionalOnStep<R>,
     SelectOnConditionStep<R>,
     SelectConditionStep<R>,
-
-
-
+    SelectConnectByConditionStep<R>,
+    SelectConnectByAfterStartWithConditionStep<R>,
+    SelectConnectByAfterStartWithStep<R>,
 
 
     SelectHavingConditionStep<R>,
@@ -623,61 +626,88 @@ final class SelectImpl<R extends Record, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10
         return or(notExists(select));
     }
 
+    @Override
+    public final SelectImpl connectBy(Condition condition) {
+        this.conditionStep = SelectImpl.ConditionStep.CONNECT_BY;
+        this.getQuery().addConnectBy(condition);
+        return this;
+    }
 
+    @Override
+    public final SelectImpl connectBy(Field<Boolean> condition) {
+        return this.connectBy(DSL.condition(condition));
+    }
 
+    @Override
+    public final SelectImpl connectBy(SQL sql) {
+        return this.connectBy(DSL.condition(sql));
+    }
 
+    @Override
+    public final SelectImpl connectBy(String sql) {
+        return this.connectBy(DSL.condition(sql));
+    }
 
+    @Override
+    public final SelectImpl connectBy(String sql, Object... bindings) {
+        return this.connectBy(DSL.condition(sql, bindings));
+    }
 
+    @Override
+    public final SelectImpl connectBy(String sql, QueryPart... parts) {
+        return this.connectBy(DSL.condition(sql, parts));
+    }
 
+    public final SelectImpl connectByNoCycle(Condition condition) {
+        this.conditionStep = ConditionStep.CONNECT_BY;
+        getQuery().addConnectByNoCycle(condition);
+        return this;
+    }
 
+    public final SelectImpl connectByNoCycle(Field<Boolean> condition) {
+        return connectByNoCycle(DSL.condition(condition));
+    }
 
+    public final SelectImpl connectByNoCycle(SQL sql) {
+        return connectByNoCycle(DSL.condition(sql));
+    }
 
+    public final SelectImpl connectByNoCycle(String sql) {
+        return connectByNoCycle(DSL.condition(sql));
+    }
 
+    public final SelectImpl connectByNoCycle(String sql, Object... bindings) {
+        return connectByNoCycle(DSL.condition(sql, bindings));
+    }
 
+    public final SelectImpl connectByNoCycle(String sql, QueryPart... parts) {
+        return connectByNoCycle(DSL.condition(sql, parts));
+    }
 
+    public final SelectImpl startWith(Condition condition) {
+        getQuery().setConnectByStartWith(condition);
+        return this;
+    }
 
+    public final SelectImpl startWith(Field<Boolean> condition) {
+        return startWith(DSL.condition(condition));
+    }
 
+    public final SelectImpl startWith(SQL sql) {
+        return startWith(DSL.condition(sql));
+    }
 
+    public final SelectImpl startWith(String sql) {
+        return startWith(DSL.condition(sql));
+    }
 
+    public final SelectImpl startWith(String sql, Object... bindings) {
+        return startWith(DSL.condition(sql, bindings));
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public final SelectImpl startWith(String sql, QueryPart... parts) {
+        return startWith(DSL.condition(sql, parts));
+    }
 
 
 
@@ -4690,7 +4720,7 @@ final class SelectImpl<R extends Record, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10
 
 
 
-
+        CONNECT_BY,
 
         /**
          * Additional conditions go to the <code>HAVING</code> clause that is

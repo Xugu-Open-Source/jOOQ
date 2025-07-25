@@ -39,7 +39,38 @@ package org.jooq;
 
 import org.jetbrains.annotations.*;
 
+import static org.jooq.SQLDialect.XUGU;
 
+public interface SelectStartWithStep<R extends Record> extends SelectGroupByStep<R> {
+
+    @Support({XUGU})
+    @NotNull
+    SelectGroupByStep<R> startWith(Condition paramCondition);
+
+    @Support({XUGU})
+    @NotNull
+    SelectGroupByStep<R> startWith(Field<Boolean> paramField);
+
+    @Support({XUGU})
+    @PlainSQL
+    @NotNull
+    SelectGroupByStep<R> startWith(SQL paramSQL);
+
+    @Support({XUGU})
+    @PlainSQL
+    @NotNull
+    SelectGroupByStep<R> startWith(String paramString);
+
+    @Support({XUGU})
+    @PlainSQL
+    @NotNull
+    SelectGroupByStep<R> startWith(String paramString, Object... paramVarArgs);
+
+    @Support({XUGU})
+    @PlainSQL
+    @NotNull
+    SelectGroupByStep<R> startWith(String paramString, QueryPart... paramVarArgs);
+}
 
 
 

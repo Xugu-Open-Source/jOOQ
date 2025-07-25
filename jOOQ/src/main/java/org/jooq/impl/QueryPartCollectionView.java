@@ -222,6 +222,10 @@ class QueryPartCollectionView<T extends QueryPart> extends AbstractQueryPart imp
         return wrapped.toArray(a);
     }
 
+    boolean canAdd(T e) {
+        return (e != null);
+    }
+
     @Override
     public final boolean add(T e) {
         if (e != null) {

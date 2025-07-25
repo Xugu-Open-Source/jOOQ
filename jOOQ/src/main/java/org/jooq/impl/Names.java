@@ -154,6 +154,7 @@ final class Names {
     static final Name N_LEFT                   = unquotedName("left");
     static final Name N_LEN                    = unquotedName("len");
     static final Name N_LENGTH                 = unquotedName("length");
+    static final Name N_LEVEL                  = unquotedName("level");
     static final Name N_LIST                   = unquotedName("list");
     static final Name N_LISTAGG                = unquotedName("listagg");
     static final Name N_LN                     = unquotedName("ln");
@@ -171,6 +172,7 @@ final class Names {
     static final Name N_NOT                    = unquotedName("not");
     static final Name N_NOW                    = unquotedName("now");
     static final Name N_NTILE                  = unquotedName("ntile");
+    static final Name N_NULL                   = unquotedName("null");
     static final Name N_NULLIF                 = unquotedName("nullif");
     static final Name N_NUMTODSINTERVAL        = unquotedName("numtodsinterval");
     static final Name N_NVL                    = unquotedName("nvl");
@@ -235,6 +237,7 @@ final class Names {
     static final Name N_SYSDATE                = unquotedName("sysdate");
     static final Name N_SYSTEM_RANGE           = unquotedName("system_range");
     static final Name N_SYSTEM_TIME            = unquotedName("system_time");
+    static final Name N_SYS_CONNECT_BY_PATH    = unquotedName("sys_connect_by_path");
     static final Name N_T                      = unquotedName("t");
     static final Name N_TANH                   = unquotedName("tanh");
     static final Name N_TIMESTAMPADD           = unquotedName("timestampadd");

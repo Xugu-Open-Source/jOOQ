@@ -37,190 +37,35 @@
  */
 package org.jooq;
 
-import org.jetbrains.annotations.*;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import org.jetbrains.annotations.NotNull;
+
+public interface SelectConnectByAfterStartWithConditionStep<R extends Record> extends SelectGroupByStep<R> {
+
+    @Support({SQLDialect.XUGU})
+    @NotNull
+    SelectConnectByAfterStartWithConditionStep<R> and(Condition paramCondition);
+
+    @Support({SQLDialect.XUGU})
+    @NotNull
+    SelectConnectByAfterStartWithConditionStep<R> and(Field<Boolean> paramField);
+
+    @Support({SQLDialect.XUGU})
+    @PlainSQL
+    @NotNull
+    SelectConnectByAfterStartWithConditionStep<R> and(SQL paramSQL);
+
+    @Support({SQLDialect.XUGU})
+    @PlainSQL
+    @NotNull
+    SelectConnectByAfterStartWithConditionStep<R> and(String paramString);
+
+    @Support({SQLDialect.XUGU})
+    @PlainSQL
+    @NotNull
+    SelectConnectByAfterStartWithConditionStep<R> and(String paramString, Object... paramVarArgs);
+
+    @Support({SQLDialect.XUGU})
+    @PlainSQL
+    @NotNull
+    SelectConnectByAfterStartWithConditionStep<R> and(String paramString, QueryPart... paramVarArgs);
+}

@@ -67,6 +67,7 @@ import static org.jooq.SQLDialect.POSTGRES;
 // ...
 // ...
 import static org.jooq.SQLDialect.SQLITE;
+import static org.jooq.SQLDialect.XUGU;
 // ...
 // ...
 // ...
@@ -1182,14 +1183,14 @@ public interface SelectQuery<R extends Record> extends Select<R>, ConditionProvi
     @Support({ MYSQL, POSTGRES })
     void setForLockModeSkipLocked();
 
+    @Support({XUGU})
+    void addConnectBy(Condition paramCondition);
 
+    @Support({XUGU})
+    void addConnectByNoCycle(Condition paramCondition);
 
-
-
-
-
-
-
+    @Support({XUGU})
+    void setConnectByStartWith(Condition paramCondition);
 
 
 

@@ -90,6 +90,8 @@ public class Settings
     protected Boolean renderOutputForSQLServerReturningClause = true;
     @XmlElement(defaultValue = "false")
     protected Boolean renderParenthesisAroundSetOperationQueries = false;
+    @XmlElement(defaultValue = "true")
+    protected Boolean renderRowConditionForSeekClause = true;
     @XmlElement(defaultValue = "false")
     protected Boolean bindOffsetDateTimeType = false;
     @XmlElement(defaultValue = "false")
@@ -781,6 +783,14 @@ public class Settings
      */
     public void setRenderParenthesisAroundSetOperationQueries(Boolean value) {
         this.renderParenthesisAroundSetOperationQueries = value;
+    }
+
+    public Boolean isRenderRowConditionForSeekClause() {
+        return this.renderRowConditionForSeekClause;
+    }
+
+    public void setRenderRowConditionForSeekClause(Boolean value) {
+        this.renderRowConditionForSeekClause = value;
     }
 
     /**
@@ -3186,6 +3196,7 @@ public class Settings
         builder.append("renderOrderByRownumberForEmulatedPagination", renderOrderByRownumberForEmulatedPagination);
         builder.append("renderOutputForSQLServerReturningClause", renderOutputForSQLServerReturningClause);
         builder.append("renderParenthesisAroundSetOperationQueries", renderParenthesisAroundSetOperationQueries);
+        builder.append("renderRowConditionForSeekClause", this.renderRowConditionForSeekClause);
         builder.append("bindOffsetDateTimeType", bindOffsetDateTimeType);
         builder.append("bindOffsetTimeType", bindOffsetTimeType);
         builder.append("fetchTriggerValuesAfterSQLServerOutput", fetchTriggerValuesAfterSQLServerOutput);
@@ -3480,6 +3491,12 @@ public class Settings
             if (!renderParenthesisAroundSetOperationQueries.equals(other.renderParenthesisAroundSetOperationQueries)) {
                 return false;
             }
+        }
+        if (this.renderRowConditionForSeekClause == null) {
+            if (other.renderRowConditionForSeekClause != null)
+                return false;
+        } else if (!this.renderRowConditionForSeekClause.equals(other.renderRowConditionForSeekClause)) {
+            return false;
         }
         if (bindOffsetDateTimeType == null) {
             if (other.bindOffsetDateTimeType!= null) {
@@ -4194,6 +4211,7 @@ public class Settings
         result = ((prime*result)+((renderOrderByRownumberForEmulatedPagination == null)? 0 :renderOrderByRownumberForEmulatedPagination.hashCode()));
         result = ((prime*result)+((renderOutputForSQLServerReturningClause == null)? 0 :renderOutputForSQLServerReturningClause.hashCode()));
         result = ((prime*result)+((renderParenthesisAroundSetOperationQueries == null)? 0 :renderParenthesisAroundSetOperationQueries.hashCode()));
+        result = ((prime * result) + ((this.renderRowConditionForSeekClause == null) ? 0 : this.renderRowConditionForSeekClause.hashCode()));
         result = ((prime*result)+((bindOffsetDateTimeType == null)? 0 :bindOffsetDateTimeType.hashCode()));
         result = ((prime*result)+((bindOffsetTimeType == null)? 0 :bindOffsetTimeType.hashCode()));
         result = ((prime*result)+((fetchTriggerValuesAfterSQLServerOutput == null)? 0 :fetchTriggerValuesAfterSQLServerOutput.hashCode()));

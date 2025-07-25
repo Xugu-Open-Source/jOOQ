@@ -809,4 +809,7 @@ public interface DataType<T> extends Named {
      * Whether this data type is an XML type.
      */
     boolean isXML();
+
+    @Support
+    @NotNull DataType<T> notNull();
 }

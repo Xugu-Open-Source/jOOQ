@@ -37,6 +37,42 @@
  */
 package org.jooq.impl;
 
+import org.jooq.Context;
+import org.jooq.Field;
+import org.jooq.Function0;
+import org.jooq.SQLDialect;
+
+import java.util.Set;
+
+final class Rownum extends AbstractField<Integer> implements NamedField<Integer>, QOM.Rownum {
+    static final Set<SQLDialect> NATIVE_SUPPORT = SQLDialect.supportedBy(new SQLDialect[]{SQLDialect.XUGU});
+
+    Rownum() {
+        super(Names.N_ROWNUM, Tools.allNotNull(SQLDataType.INTEGER));
+    }
+
+    public final void accept(Context<?> ctx) {
+        ctx.visit(Names.N_ROWNUM);
+    }
+
+    private final void acceptJava(Context<?> ctx) {
+        ctx.sql("rownum()");
+    }
+
+    public final Function0<? extends QOM.Rownum> $constructor() {
+        return () -> new Rownum();
+    }
+
+    public boolean equals(Object that) {
+        if (that instanceof QOM.Rownum) {
+            QOM.Rownum o = (QOM.Rownum) that;
+            return true;
+        } else {
+            return super.equals(that);
+        }
+    }
+}
+
 
 
 

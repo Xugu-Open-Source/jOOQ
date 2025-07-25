@@ -49,6 +49,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.jooq.Context;
 import org.jooq.DataType;
+import org.jooq.Param;
 import org.jooq.RenderContext;
 import org.jooq.conf.ParamType;
 import org.jooq.exception.DataAccessException;

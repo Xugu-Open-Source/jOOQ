@@ -38,6 +38,7 @@
 package org.jooq;
 
 import java.sql.PreparedStatement;
+import java.util.function.Consumer;
 
 import org.jooq.RenderContext.CastMode;
 import org.jooq.conf.ParamType;
@@ -559,6 +560,12 @@ public interface Context<C extends Context<C>> extends Scope {
      */
     @NotNull
     C paramTypeIf(ParamType paramType, boolean condition);
+
+    @NotNull
+    C paramType(ParamType paramParamType, Consumer<? super C> paramConsumer);
+
+    @NotNull
+    C paramTypeIf(ParamType paramParamType, boolean paramBoolean, Consumer<? super C> paramConsumer);
 
     /**
      * The currently applied cast mode for bind values.

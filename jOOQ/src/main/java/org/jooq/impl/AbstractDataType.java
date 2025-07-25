@@ -761,4 +761,8 @@ abstract class AbstractDataType<T> extends AbstractNamed implements DataType<T> 
             return false;
         return true;
     }
+
+    public final DataType<T> notNull() {
+        return this.nullable(false);
+    }
 }

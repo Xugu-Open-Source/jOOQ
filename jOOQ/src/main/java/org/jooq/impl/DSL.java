@@ -9997,7 +9997,7 @@ public class DSL {
      * </pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Table<Record1<Integer>> generateSeries(int from, int to) {
         return generateSeries(val(from), val(to));
     }
@@ -10017,7 +10017,7 @@ public class DSL {
      * </pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Table<Record1<Integer>> generateSeries(int from, Field<Integer> to) {
         return generateSeries(val(from), nullSafe(to));
     }
@@ -10037,7 +10037,7 @@ public class DSL {
      * </pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Table<Record1<Integer>> generateSeries(Field<Integer> from, int to) {
         return new GenerateSeries(nullSafe(from), val(to));
     }
@@ -10057,7 +10057,7 @@ public class DSL {
      * </pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Table<Record1<Integer>> generateSeries(Field<Integer> from, Field<Integer> to) {
         return new GenerateSeries(nullSafe(from), nullSafe(to));
     }
@@ -10077,7 +10077,7 @@ public class DSL {
      * </pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Table<Record1<Integer>> generateSeries(int from, int to, int step) {
         return generateSeries(val(from), val(to), val(step));
     }
@@ -26389,6 +26389,22 @@ public class DSL {
     // -------------------------------------------------------------------------
     // XXX utility API
     // -------------------------------------------------------------------------
+    @Support({XUGU})
+    public static @NotNull Field<Integer> level() {
+        return new Level();
+    }
+
+    @Support({XUGU})
+    @NotNull
+    public static <T> Field<T> prior(Field<T> field) {
+        return new Prior<>(field);
+    }
+
+    @Support({XUGU})
+    @NotNull
+    public static Field<String> sysConnectByPath(Field<?> field, String separator) {
+        return new SysConnectByPath(field, separator);
+    }
 
     /**
      * Get the default data type for the {@link DSLContext}'s underlying

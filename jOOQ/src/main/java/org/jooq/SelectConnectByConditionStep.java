@@ -37,190 +37,31 @@
  */
 package org.jooq;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 
+import static org.jooq.SQLDialect.XUGU;
 
+public interface SelectConnectByConditionStep<R extends Record> extends SelectStartWithStep<R> {
 
+    @Support({XUGU})
+    @NotNull SelectConnectByConditionStep<R> and(Condition var1);
 
+    @Support({XUGU})
+    @NotNull SelectConnectByConditionStep<R> and(Field<Boolean> var1);
 
+    @Support({XUGU})
+    @PlainSQL
+    @NotNull SelectConnectByConditionStep<R> and(SQL var1);
 
+    @Support({XUGU})
+    @PlainSQL
+    @NotNull SelectConnectByConditionStep<R> and(String var1);
 
+    @Support({XUGU})
+    @PlainSQL
+    @NotNull SelectConnectByConditionStep<R> and(String var1, Object... var2);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Support({XUGU})
+    @PlainSQL
+    @NotNull SelectConnectByConditionStep<R> and(String var1, QueryPart... var2);
+}

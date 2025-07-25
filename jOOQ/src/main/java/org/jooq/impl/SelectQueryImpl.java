@@ -94,6 +94,7 @@ import static org.jooq.SQLDialect.SQLITE;
 // ...
 // ...
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.SortOrder.DESC;
 import static org.jooq.impl.CombineOperator.EXCEPT;
 import static org.jooq.impl.CombineOperator.EXCEPT_ALL;
@@ -187,7 +188,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -196,6 +199,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import com.sun.org.apache.xpath.internal.operations.Gt;
+import com.sun.org.apache.xpath.internal.operations.Lt;
 import org.jooq.Asterisk;
 import org.jooq.Clause;
 import org.jooq.Comparator;
@@ -227,6 +232,7 @@ import org.jooq.SelectOffsetStep;
 import org.jooq.SelectQuery;
 import org.jooq.SelectWithTiesStep;
 import org.jooq.SortField;
+import org.jooq.SortOrder;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableLike;
@@ -235,6 +241,7 @@ import org.jooq.TableOptionalOnStep;
 import org.jooq.TablePartitionByStep;
 import org.jooq.WindowDefinition;
 import org.jooq.XML;
+import org.jooq.conf.ParamType;
 import org.jooq.exception.DataAccessException;
 import org.jooq.impl.ForLock.ForLockMode;
 import org.jooq.impl.ForLock.ForLockWaitMode;
@@ -264,11 +271,11 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
     private static final Set<SQLDialect> SUPPORT_SELECT_INTO_TABLE       = SQLDialect.supportedBy(HSQLDB, POSTGRES);
 
 
-
+    private static final Set<SQLDialect> EMULATE_CONNECT_BY = SQLDialect.supportedBy(XUGU);
     static final Set<SQLDialect>         SUPPORT_WINDOW_CLAUSE           = SQLDialect.supportedBy(H2, MYSQL, POSTGRES, SQLITE);
 
     // [#7421] [#9832] We can eventually stop generating the FROM clause in newer versions of MariaDB and MySQL
-    private static final Set<SQLDialect> REQUIRES_FROM_CLAUSE            = SQLDialect.supportedBy(CUBRID, DERBY, FIREBIRD, HSQLDB, MARIADB, MYSQL);
+    private static final Set<SQLDialect> REQUIRES_FROM_CLAUSE            = SQLDialect.supportedBy(CUBRID, DERBY, FIREBIRD, HSQLDB, MARIADB, MYSQL, XUGU);
     private static final Set<SQLDialect> REQUIRES_DERIVED_TABLE_DML      = SQLDialect.supportedBy(MARIADB, MYSQL);
     private static final Set<SQLDialect> EMULATE_EMPTY_GROUP_BY_CONSTANT = SQLDialect.supportedUntil(DERBY, HSQLDB);
     private static final Set<SQLDialect> EMULATE_EMPTY_GROUP_BY_OTHER    = SQLDialect.supportedUntil(FIREBIRD, MARIADB, MYSQL, SQLITE);
@@ -322,9 +329,9 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
 
 
 
-
-
-
+    private final ConditionProviderImpl connectBy;
+    private boolean connectByNoCycle;
+    private final ConditionProviderImpl connectByStartWith;
     private final TableList                              from;
     private final ConditionProviderImpl                  condition;
     private boolean                                      grouping;
@@ -371,10 +378,9 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
         this.select = new SelectFieldList<>();
         this.from = new TableList();
         this.condition = new ConditionProviderImpl();
-
-
-
-
+        this.connectBy = new ConditionProviderImpl();
+        this.connectByStartWith = new ConditionProviderImpl();
+        this.groupBy = new GroupFieldList();
         this.having = new ConditionProviderImpl();
         this.qualify = new ConditionProviderImpl();
         this.orderBy = new SortFieldList();
@@ -1192,6 +1198,48 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
             return limit.offset != null ? s1.offset((Param) limit.offset) : s1;
     }
 
+    private final Select<?> connectByEmulation(Context<?> ctx) {
+        SelectQueryImpl<R> result = new SelectQueryImpl<R>(this.configuration(), this.with);
+        QOM.CompareCondition<?, ?> c = (QOM.CompareCondition)this.connectBy.getWhere();
+        Field<?> f1 = SelectQueryImpl.ConnectByEmulation.LEVEL.contains(c.$arg1()) ? (c instanceof Lt ? Internal.isub((Field)c.$arg2(), DSL.one()) : (Field)c.$arg2()) : (c instanceof Gt ? Internal.isub((Field)c.$arg1(), DSL.one()) : (Field)c.$arg1());
+        result.from.add(DSL.generateSeries(DSL.one(), (Field<Integer>) f1).as(DSL.unquotedName(ctx.nextAlias()), new Name[]{Names.N_LEVEL}));
+
+        for(SelectFieldOrAsterisk s : this.select) {
+            if (s instanceof Rownum) {
+                result.select.add(DSL.level().as(Rownum.NATIVE_SUPPORT.contains(ctx.dialect()) ? DSL.name("ROWNUM") : Names.N_ROWNUM));
+            } else {
+                result.select.add(s);
+            }
+        }
+
+        result.distinct = this.distinct;
+        result.orderBy.addAll(this.orderBy);
+        result.limit.from(this.limit);
+        return result;
+    }
+
+    private final boolean canEmulateConnectBy(Context<?> ctx) {
+        if (!this.getFrom().isEmpty()) {
+            return false;
+        } else if (this.getWhere(ctx, this.getFrom()).hasWhere()) {
+            return false;
+        } else if (this.connectByStartWith.hasWhere()) {
+            return false;
+        } else if (this.connectByNoCycle) {
+            return false;
+        } else if (!getGroupBy().isEmpty()) {
+            return false;
+        } else if (this.having.hasWhere()) {
+            return false;
+        } else if (this.qualify.hasWhere()) {
+            return false;
+        } else if (!(this.connectBy.getWhere() instanceof QOM.CompareCondition)) {
+            return false;
+        } else {
+            return SelectQueryImpl.ConnectByEmulation.LEVEL.contains(((QOM.CompareCondition)this.connectBy.getWhere()).$arg1()) || SelectQueryImpl.ConnectByEmulation.LEVEL.contains(((QOM.CompareCondition)this.connectBy.getWhere()).$arg2());
+        }
+    }
+
     @Override
     public final void accept(Context<?> ctx) {
         Table<?> dmlTable;
@@ -1208,6 +1256,8 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
         // [#3564] Emulate DISINTCT ON queries at the top level
         else if (Tools.isNotEmpty(distinctOn) && EMULATE_DISTINCT_ON.contains(ctx.dialect())) {
             ctx.visit(distinctOnEmulation());
+        } else if (this.connectBy.hasWhere() && EMULATE_CONNECT_BY.contains(ctx.dialect()) && this.canEmulateConnectBy(ctx)) {
+            ctx.visit(this.connectByEmulation(ctx));
         }
 
 
@@ -2077,12 +2127,21 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
 
         context.end(SELECT_WHERE);
 
+        context.start(Clause.SELECT_START_WITH);
+        if (getConnectByStartWith().hasWhere())
+            context.paramTypeIf(ParamType.INLINED, (context.family() == SQLDialect.EXASOL), c -> c.formatSeparator().visit((QueryPart)Keywords.K_START_WITH).sql(' ').visit(getConnectByStartWith()));
+        context.end(Clause.SELECT_START_WITH);
 
-
-
-
-
-
+        context.start(SELECT_CONNECT_BY);
+        if (getConnectBy().hasWhere()) {
+            context.paramTypeIf(ParamType.INLINED, (context.family() == SQLDialect.EXASOL), c -> {
+                c.formatSeparator().visit((QueryPart) Keywords.K_CONNECT_BY);
+                if (this.connectByNoCycle)
+                    c.sql(' ').visit((QueryPart) Keywords.K_NOCYCLE);
+                c.sql(' ').visit(getConnectBy());
+            });
+        }
+        context.end(SELECT_CONNECT_BY);
 
 
 
@@ -3233,122 +3292,120 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
         forLock().forLockMode = forLock().forLockMode == null ? ForLockMode.UPDATE : forLock().forLockMode;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public final void addConnectBy(Condition c) {
+        this.getConnectBy().addConditions(c);
+    }
+
+    public final void addConnectByNoCycle(Condition c) {
+        getConnectBy().addConditions(c);
+        setConnectByNoCycle(true);
+    }
+
+    public final void setConnectByStartWith(Condition c) {
+        setStartWith(c);
+    }
+
+/*    static final void addPathConditions(Context<?> ctx, ConditionProviderImpl where0, TableList tablelist) {
+        Set<Condition> set = new LinkedHashSet<>();
+        for (Table<?> t : (Iterable<Table<?>>)tablelist)
+            addPathConditions(ctx, set, t);
+        Tools.traverseJoins(tablelist, set, (Predicate<? super Set<Condition>>)null, t -> {
+            if (t instanceof CrossJoin) {
+                CrossJoin j = (CrossJoin)t;
+                addPathConditions(ctx, set, j.lhs);
+                addPathConditions(ctx, set, j.rhs);
+            }
+            return true;
+        }(Predicate<? super JoinTable<?>>)null, (BiFunction<? super Set<Condition>, ? super JoinType, ? extends Set<Condition>>)null,
+
+                !ctx.subquery() ? null : ((w, t) -> {
+                    addPathConditions(ctx, w, t, ());
+                    return w;
+                }));
+        where0.addConditions(set);
+    }
+
+    private static final void addPathConditions(Context<?> ctx, Collection<Condition> result, Table<?> t) {
+        addPathConditions(ctx, result, t, (Predicate<? super TableImpl<?>>)null);
+    }
+
+    private static final void addPathConditions(Context<?> ctx, Collection<Condition> result, Table<?> t, Predicate<? super TableImpl<?>> predicate) {
+        if (t instanceof TableImpl) {
+            TableImpl<?> ti = (TableImpl)t;
+            if (ti.path != null && ctx.inScope((QueryPart)ti.path) && (predicate == null || predicate.test(ti)))
+                result.add(ti.pathCondition());
+        }
+    }*/
+
+/*    final Condition getSeekCondition(Context<?> ctx) {
+        SortFieldList o = getOrderBy();
+        Condition c = null;
+        QueryPartList<Field<?>> s = getSeek();
+        if (o.nulls());
+        if (o.size() > 1 && o.uniform() && !Boolean.FALSE.equals(ctx.settings().isRenderRowConditionForSeekClause())) {
+            List<Field<?>> l = o.fields();
+            List<Field<?>> r = s;
+            if (Tools.anyMatch(r, e -> e instanceof NoField)) {
+                l = new ArrayList<>(l);
+                r = new ArrayList<>(r);
+                Iterator<Field<?>> lit = l.iterator();
+                Iterator<Field<?>> rit = r.iterator();
+                while (lit.hasNext() && rit.hasNext()) {
+                    lit.next();
+                    if (rit.next() instanceof NoField) {
+                        lit.remove();
+                        rit.remove();
+                    }
+                }
+            }
+            if (l.isEmpty()) {
+                c = DSL.noCondition();
+            } else if ((((o.get(0).getOrder() != SortOrder.DESC) ? 1 : 0) ^ this.seekBefore) != 0) {
+                if (l.size() == 1) {
+                    c = ((Field)l.get(0)).gt(r.get(0));
+                } else {
+                    c = DSL.row(l).gt(DSL.row(r));
+                }
+            } else if (l.size() == 1) {
+                c = ((Field)l.get(0)).lt(r.get(0));
+            } else {
+                c = DSL.row(l).lt(DSL.row(r));
+            }
+        } else {
+            ConditionProviderImpl or = new ConditionProviderImpl();
+            for (int i = 0; i < o.size(); i++) {
+                if (!(s.get(i) instanceof NoField)) {
+                    ConditionProviderImpl and = new ConditionProviderImpl();
+                    for (int j = 0; j < i; j++) {
+                        if (!(s.get(j) instanceof NoField))
+                            and.addConditions(o.get(j).$field().eq(s.get(j)));
+                    }
+                    SortField<?> sf = o.get(i);
+                    if ((((sf.getOrder() != SortOrder.DESC) ? 1 : 0) ^ this.seekBefore) != 0) {
+                        and.addConditions(sf.$field().gt(s.get(i)));
+                    } else {
+                        and.addConditions(sf.$field().lt(s.get(i)));
+                    }
+                    or.addConditions(Operator.OR, and);
+                }
+            }
+            c = or.getWhere();
+        }
+        if (o.size() > 1 && Boolean.TRUE.equals(ctx.settings().isRenderRedundantConditionForSeekClause()))
+            if ((((o.get(0).getOrder() != SortOrder.DESC) ? 1 : 0) ^ this.seekBefore) != 0) {
+                c = o.get(0).$field().ge(s.get(0)).and(c);
+            } else {
+                c = o.get(0).$field().le(s.get(0)).and(c);
+            }
+        return c;
+    }*/
+    final ConditionProviderImpl getConnectBy() {
+        return this.connectBy;
+    }
+    final ConditionProviderImpl getConnectByStartWith() {
+        return this.connectByStartWith;
+    }
 
 
 
@@ -3545,6 +3602,25 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
         return from;
     }
 
+    @Deprecated
+    final ConditionProviderImpl getWhere(Context<?> ctx, TableList tablelist) {
+        return this.getWhere(ctx, tablelist, new ConditionProviderImpl());
+    }
+
+    final ConditionProviderImpl getWhere(Context<?> ctx, TableList tablelist, ConditionProviderImpl where0) {
+        if (this.condition.hasWhere()) {
+            where0.addConditions(this.condition.getWhere());
+        }
+
+/*        if (!this.isGrouping() && !this.getOrderBy().isEmpty() && !this.getSeek().isEmpty() && this.unionOp.isEmpty()) {
+            where0.addConditions(this.getSeekCondition(ctx));
+        }*/
+
+        // addPathConditions(ctx, where0, tablelist);
+
+        return where0;
+    }
+
     final void setGrouping() {
         grouping = true;
     }
@@ -3618,13 +3694,13 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
 
 
 
+    final boolean isGrouping() {
+        return !this.groupBy.isEmpty() || this.having.hasWhere();
+    }
 
-
-
-
-
-
-
+    final QueryPartList<GroupField> getGroupBy() {
+        return this.groupBy;
+    }
 
     final ConditionProviderImpl getHaving() {
         return having;
@@ -3773,7 +3849,13 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
         condition.addConditions(operator, conditions);
     }
 
+    final void setConnectByNoCycle(boolean connectByNoCycle) {
+        this.connectByNoCycle = connectByNoCycle;
+    }
 
+    final void setStartWith(Condition condition) {
+        this.connectByStartWith.addConditions(condition);
+    }
 
 
 
@@ -4172,5 +4254,9 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
     @Override
     public final void addOption(String o) {
         setOption(o);
+    }
+
+    private static class ConnectByEmulation {
+        private static final List<Field<?>> LEVEL = Arrays.asList(new Level(), new Rownum());
     }
 }

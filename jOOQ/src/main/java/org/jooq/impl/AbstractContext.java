@@ -62,6 +62,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import org.jooq.BindContext;
 import org.jooq.Clause;
@@ -660,6 +661,27 @@ abstract class AbstractContext<C extends Context<C>> extends AbstractScope imple
             paramType(p);
 
         return (C) this;
+    }
+
+    public final C paramType(ParamType p, Consumer<? super C> runnable) {
+        ParamType previous = paramType();
+        try {
+            paramType(p);
+            runnable.accept((C)this);
+        } finally {
+            paramType(previous);
+        }
+        return (C)this;
+    }
+
+    @Override
+    public final C paramTypeIf(ParamType p, boolean condition, Consumer<? super C> runnable) {
+        if (condition) {
+            paramType(p, runnable);
+        } else {
+            runnable.accept((C)this);
+        }
+        return (C)this;
     }
 
     @Override
