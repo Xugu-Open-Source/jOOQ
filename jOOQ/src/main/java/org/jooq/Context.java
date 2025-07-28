@@ -562,10 +562,10 @@ public interface Context<C extends Context<C>> extends Scope {
     C paramTypeIf(ParamType paramType, boolean condition);
 
     @NotNull
-    C paramType(ParamType paramParamType, Consumer<? super C> paramConsumer);
+    C paramType(ParamType paramType, Consumer<? super C> runnable);
 
     @NotNull
-    C paramTypeIf(ParamType paramParamType, boolean paramBoolean, Consumer<? super C> paramConsumer);
+    C paramTypeIf(ParamType paramType, boolean condition, Consumer<? super C> runnable);
 
     /**
      * The currently applied cast mode for bind values.

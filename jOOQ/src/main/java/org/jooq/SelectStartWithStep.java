@@ -45,31 +45,31 @@ public interface SelectStartWithStep<R extends Record> extends SelectGroupByStep
 
     @Support({XUGU})
     @NotNull
-    SelectGroupByStep<R> startWith(Condition paramCondition);
+    SelectGroupByStep<R> startWith(Condition condition);
 
     @Support({XUGU})
     @NotNull
-    SelectGroupByStep<R> startWith(Field<Boolean> paramField);
-
-    @Support({XUGU})
-    @PlainSQL
-    @NotNull
-    SelectGroupByStep<R> startWith(SQL paramSQL);
+    SelectGroupByStep<R> startWith(Field<Boolean> condition);
 
     @Support({XUGU})
     @PlainSQL
     @NotNull
-    SelectGroupByStep<R> startWith(String paramString);
+    SelectGroupByStep<R> startWith(SQL sql);
 
     @Support({XUGU})
     @PlainSQL
     @NotNull
-    SelectGroupByStep<R> startWith(String paramString, Object... paramVarArgs);
+    SelectGroupByStep<R> startWith(String sql);
 
     @Support({XUGU})
     @PlainSQL
     @NotNull
-    SelectGroupByStep<R> startWith(String paramString, QueryPart... paramVarArgs);
+    SelectGroupByStep<R> startWith(String sql, Object... bindings);
+
+    @Support({XUGU})
+    @PlainSQL
+    @NotNull
+    SelectGroupByStep<R> startWith(String sql, QueryPart... parts);
 }
 
 

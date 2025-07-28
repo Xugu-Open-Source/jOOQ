@@ -105,85 +105,85 @@ public interface SelectConnectByStep<R extends Record> extends SelectGroupByStep
 
     @Support({XUGU})
     @NotNull
-    SelectConnectByConditionStep<R> connectBy(Condition paramCondition);
+    SelectConnectByConditionStep<R> connectBy(Condition condition);
 
     @Support({XUGU})
     @NotNull
-    SelectConnectByConditionStep<R> connectBy(Field<Boolean> paramField);
+    SelectConnectByConditionStep<R> connectBy(Field<Boolean> condition);
 
     @Support({XUGU})
     @NotNull
-    SelectConnectByConditionStep<R> connectBy(SQL paramSQL);
-
-    @Support({XUGU})
-    @PlainSQL
-    @NotNull
-    SelectConnectByConditionStep<R> connectBy(String paramString);
+    SelectConnectByConditionStep<R> connectBy(SQL sql);
 
     @Support({XUGU})
     @PlainSQL
     @NotNull
-    SelectConnectByConditionStep<R> connectBy(String paramString, Object... paramVarArgs);
+    SelectConnectByConditionStep<R> connectBy(String sql);
 
     @Support({XUGU})
     @PlainSQL
     @NotNull
-    SelectConnectByConditionStep<R> connectBy(String paramString, QueryPart... paramVarArgs);
-
-
-    @Support({XUGU})
-    @NotNull
-    SelectConnectByConditionStep<R> connectByNoCycle(Condition paramCondition);
-
-    @Support({XUGU})
-    @NotNull
-    SelectConnectByConditionStep<R> connectByNoCycle(Field<Boolean> paramField);
+    SelectConnectByConditionStep<R> connectBy(String sql, Object... bindings);
 
     @Support({XUGU})
     @PlainSQL
     @NotNull
-    SelectConnectByConditionStep<R> connectByNoCycle(SQL paramSQL);
+    SelectConnectByConditionStep<R> connectBy(String sql, QueryPart... parts);
+
+
+    @Support({XUGU})
+    @NotNull
+    SelectConnectByConditionStep<R> connectByNoCycle(Condition condition);
+
+    @Support({XUGU})
+    @NotNull
+    SelectConnectByConditionStep<R> connectByNoCycle(Field<Boolean> condition);
 
     @Support({XUGU})
     @PlainSQL
     @NotNull
-    SelectConnectByConditionStep<R> connectByNoCycle(String paramString);
+    SelectConnectByConditionStep<R> connectByNoCycle(SQL sql);
 
     @Support({XUGU})
     @PlainSQL
     @NotNull
-    SelectConnectByConditionStep<R> connectByNoCycle(String paramString, Object... paramVarArgs);
+    SelectConnectByConditionStep<R> connectByNoCycle(String sql);
 
     @Support({XUGU})
     @PlainSQL
     @NotNull
-    SelectConnectByConditionStep<R> connectByNoCycle(String paramString, QueryPart... paramVarArgs);
-
-    @Support({XUGU})
-    @NotNull
-    SelectConnectByAfterStartWithStep<R> startWith(Condition paramCondition);
-
-    @Support({XUGU})
-    @NotNull
-    SelectConnectByAfterStartWithStep<R> startWith(Field<Boolean> paramField);
+    SelectConnectByConditionStep<R> connectByNoCycle(String sql, Object... bindings);
 
     @Support({XUGU})
     @PlainSQL
     @NotNull
-    SelectConnectByAfterStartWithStep<R> startWith(SQL paramSQL);
+    SelectConnectByConditionStep<R> connectByNoCycle(String sql, QueryPart... parts);
+
+    @Support({XUGU})
+    @NotNull
+    SelectConnectByAfterStartWithStep<R> startWith(Condition condition);
+
+    @Support({XUGU})
+    @NotNull
+    SelectConnectByAfterStartWithStep<R> startWith(Field<Boolean> condition);
 
     @Support({XUGU})
     @PlainSQL
     @NotNull
-    SelectConnectByAfterStartWithStep<R> startWith(String paramString);
+    SelectConnectByAfterStartWithStep<R> startWith(SQL sql);
 
     @Support({XUGU})
     @PlainSQL
     @NotNull
-    SelectConnectByAfterStartWithStep<R> startWith(String paramString, Object... paramVarArgs);
+    SelectConnectByAfterStartWithStep<R> startWith(String sql);
 
     @Support({XUGU})
     @PlainSQL
     @NotNull
-    SelectConnectByAfterStartWithStep<R> startWith(String paramString, QueryPart... paramVarArgs);
+    SelectConnectByAfterStartWithStep<R> startWith(String sql, Object... bindings);
+
+    @Support({XUGU})
+    @PlainSQL
+    @NotNull
+    SelectConnectByAfterStartWithStep<R> startWith(String sql, QueryPart... parts);
 }

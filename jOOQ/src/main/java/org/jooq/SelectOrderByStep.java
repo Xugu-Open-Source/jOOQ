@@ -293,49 +293,16 @@ public interface SelectOrderByStep<R extends Record> extends SelectLimitStep<R> 
     @Support
     SelectLimitStep<R> orderBy(int... fieldIndexes);
 
+    @Support({SQLDialect.XUGU})
+    @NotNull
+    SelectLimitStep<R> orderSiblingsBy(OrderField<?>... fields);
 
+    @Support({SQLDialect.XUGU})
+    @NotNull
+    SelectLimitStep<R> orderSiblingsBy(Collection<? extends OrderField<?>> fields);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Support({SQLDialect.XUGU})
+    @NotNull
+    SelectLimitStep<R> orderSiblingsBy(int... fieldIndexes);
 
 }

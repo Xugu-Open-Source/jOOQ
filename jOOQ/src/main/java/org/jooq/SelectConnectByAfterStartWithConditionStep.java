@@ -43,29 +43,29 @@ public interface SelectConnectByAfterStartWithConditionStep<R extends Record> ex
 
     @Support({SQLDialect.XUGU})
     @NotNull
-    SelectConnectByAfterStartWithConditionStep<R> and(Condition paramCondition);
+    SelectConnectByAfterStartWithConditionStep<R> and(Condition condition);
 
     @Support({SQLDialect.XUGU})
     @NotNull
-    SelectConnectByAfterStartWithConditionStep<R> and(Field<Boolean> paramField);
-
-    @Support({SQLDialect.XUGU})
-    @PlainSQL
-    @NotNull
-    SelectConnectByAfterStartWithConditionStep<R> and(SQL paramSQL);
+    SelectConnectByAfterStartWithConditionStep<R> and(Field<Boolean> condition);
 
     @Support({SQLDialect.XUGU})
     @PlainSQL
     @NotNull
-    SelectConnectByAfterStartWithConditionStep<R> and(String paramString);
+    SelectConnectByAfterStartWithConditionStep<R> and(SQL sql);
 
     @Support({SQLDialect.XUGU})
     @PlainSQL
     @NotNull
-    SelectConnectByAfterStartWithConditionStep<R> and(String paramString, Object... paramVarArgs);
+    SelectConnectByAfterStartWithConditionStep<R> and(String sql);
 
     @Support({SQLDialect.XUGU})
     @PlainSQL
     @NotNull
-    SelectConnectByAfterStartWithConditionStep<R> and(String paramString, QueryPart... paramVarArgs);
+    SelectConnectByAfterStartWithConditionStep<R> and(String sql, Object... bindings);
+
+    @Support({SQLDialect.XUGU})
+    @PlainSQL
+    @NotNull
+    SelectConnectByAfterStartWithConditionStep<R> and(String sql, QueryPart... parts);
 }

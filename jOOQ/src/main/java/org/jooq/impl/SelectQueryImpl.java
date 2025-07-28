@@ -342,7 +342,7 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
     private final SortFieldList                          orderBy;
 
 
-
+    private boolean orderBySiblings;
 
     private final QueryPartList<Field<?>>                seek;
     private boolean                                      seekBefore;
@@ -351,7 +351,7 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
     private final List<QueryPartList<Select<?>>>         union;
     private final SortFieldList                          unionOrderBy;
 
-
+    private boolean unionOrderBySiblings;
 
 
     private final QueryPartList<Field<?>>                unionSeek;
@@ -409,10 +409,9 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
         result.distinctOn = distinctOn;
 
 
-
-
-
-
+        result.connectBy.setWhere(this.connectBy.getWhere());
+        result.connectByNoCycle = this.connectByNoCycle;
+        result.connectByStartWith.setWhere(this.connectByStartWith.getWhere());
         result.forLock = forLock;
         result.from.addAll(from);
         result.groupBy = groupBy;
@@ -426,7 +425,7 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
         result.orderBy.addAll(orderBy);
 
 
-
+        result.orderBySiblings = this.orderBySiblings;
         result.qualify.setWhere(qualify.getWhere());
         result.seek.addAll(seek);
         result.select.addAll(select);
@@ -436,7 +435,7 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
         result.unionLimit.from(unionLimit);
         result.unionOp.addAll(unionOp);
         result.unionOrderBy.addAll(unionOrderBy);
-
+        result.unionOrderBySiblings = this.unionOrderBySiblings;
 
 
         result.unionSeek.addAll(unionSeek);
@@ -2775,12 +2774,9 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
             if (!actualOrderBy.isEmpty()) {
                 ctx.formatSeparator()
                    .visit(K_ORDER);
-
-
-
-
-
-
+                if (this.orderBySiblings) {
+                    ctx.sql(' ').visit((QueryPart) Keywords.K_SIBLINGS);
+                }
                 ctx.sql(' ').visit(K_BY).separatorRequired(true);
 
 
@@ -3774,18 +3770,13 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
         addOrderBy(Tools.inline(fieldIndexes));
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    public final void setOrderBySiblings(boolean orderBySiblings) {
+        if (this.unionOp.size() == 0) {
+            this.orderBySiblings = orderBySiblings;
+        } else {
+            this.unionOrderBySiblings = orderBySiblings;
+        }
+    }
 
     @Override
     public final void addSeekAfter(Field<?>... fields) {

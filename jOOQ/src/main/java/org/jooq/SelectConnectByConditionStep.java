@@ -44,24 +44,24 @@ import static org.jooq.SQLDialect.XUGU;
 public interface SelectConnectByConditionStep<R extends Record> extends SelectStartWithStep<R> {
 
     @Support({XUGU})
-    @NotNull SelectConnectByConditionStep<R> and(Condition var1);
+    @NotNull SelectConnectByConditionStep<R> and(Condition condition);
 
     @Support({XUGU})
-    @NotNull SelectConnectByConditionStep<R> and(Field<Boolean> var1);
-
-    @Support({XUGU})
-    @PlainSQL
-    @NotNull SelectConnectByConditionStep<R> and(SQL var1);
+    @NotNull SelectConnectByConditionStep<R> and(Field<Boolean> condition);
 
     @Support({XUGU})
     @PlainSQL
-    @NotNull SelectConnectByConditionStep<R> and(String var1);
+    @NotNull SelectConnectByConditionStep<R> and(SQL sql);
 
     @Support({XUGU})
     @PlainSQL
-    @NotNull SelectConnectByConditionStep<R> and(String var1, Object... var2);
+    @NotNull SelectConnectByConditionStep<R> and(String sql);
 
     @Support({XUGU})
     @PlainSQL
-    @NotNull SelectConnectByConditionStep<R> and(String var1, QueryPart... var2);
+    @NotNull SelectConnectByConditionStep<R> and(String sql, Object... bindings);
+
+    @Support({XUGU})
+    @PlainSQL
+    @NotNull SelectConnectByConditionStep<R> and(String sql, QueryPart... parts);
 }

@@ -606,24 +606,8 @@ public interface SelectQuery<R extends Record> extends Select<R>, ConditionProvi
     @Support
     void addOrderBy(int... fieldIndexes);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Support({XUGU})
+    void setOrderBySiblings(boolean paramBoolean);
 
     /**
      * Adds seeking fields.
@@ -1184,13 +1168,13 @@ public interface SelectQuery<R extends Record> extends Select<R>, ConditionProvi
     void setForLockModeSkipLocked();
 
     @Support({XUGU})
-    void addConnectBy(Condition paramCondition);
+    void addConnectBy(Condition condition);
 
     @Support({XUGU})
-    void addConnectByNoCycle(Condition paramCondition);
+    void addConnectByNoCycle(Condition condition);
 
     @Support({XUGU})
-    void setConnectByStartWith(Condition paramCondition);
+    void setConnectByStartWith(Condition condition);
 
 
 
