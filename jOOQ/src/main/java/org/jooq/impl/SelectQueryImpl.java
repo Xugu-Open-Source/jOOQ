@@ -1520,6 +1520,7 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
                 case FIREBIRD:
                 case MARIADB:
                 case MYSQL:
+                case XUGU:
                 case POSTGRES: {
                     if (getLimit().isApplicable() && getLimit().withTies())
                         toSQLReferenceLimitWithWindowFunctions(context);
