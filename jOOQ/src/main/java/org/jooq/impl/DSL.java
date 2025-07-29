@@ -18697,7 +18697,7 @@ public class DSL {
      * @see #rollup(FieldOrRow...)
      */
     @NotNull
-    @Support({ CUBRID, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, MARIADB, MYSQL, POSTGRES, XUGU })
     public static GroupField rollup(Field<?>... fields) {
         return rollup((FieldOrRow[]) nullSafe(fields));
     }
@@ -18726,7 +18726,7 @@ public class DSL {
      * @return A field to be used in a <code>GROUP BY</code> clause
      */
     @NotNull
-    @Support({ CUBRID, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, MARIADB, MYSQL, POSTGRES, XUGU })
     public static GroupField rollup(FieldOrRow... fields) {
         return new Rollup(fields);
     }
@@ -18737,7 +18737,7 @@ public class DSL {
      * @see #cube(Field...)
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static GroupField cube(Field<?>... fields) {
         return cube((FieldOrRow[]) nullSafe(fields));
     }
@@ -18765,7 +18765,7 @@ public class DSL {
      * @return A field to be used in a <code>GROUP BY</code> clause
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static GroupField cube(FieldOrRow... fields) {
         return field("{0} ({1})", Object.class, K_CUBE, new QueryPartList<>(fields));
     }
@@ -18794,7 +18794,7 @@ public class DSL {
      * @return A field to be used in a <code>GROUP BY</code> clause
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static GroupField groupingSets(Field<?>... fields) {
         List<Field<?>>[] array = new List[fields.length];
 
@@ -18828,7 +18828,7 @@ public class DSL {
      * @return A field to be used in a <code>GROUP BY</code> clause
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static GroupField groupingSets(Field<?>[]... fieldSets) {
         List<Field<?>>[] array = new List[fieldSets.length];
 
@@ -18862,7 +18862,7 @@ public class DSL {
      * @return A field to be used in a <code>GROUP BY</code> clause
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static GroupField groupingSets(Collection<? extends Field<?>>... fieldSets) {
         QueryPartList<WrappedList> arg = new QueryPartList<>();
 
@@ -22047,7 +22047,7 @@ public class DSL {
      * Create a {@link WindowSpecification} with an <code>ORDER BY</code> clause.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static WindowSpecificationRowsStep orderBy(Field<?>... fields) {
         return new WindowSpecificationImpl().orderBy(fields);
     }
@@ -22056,7 +22056,7 @@ public class DSL {
      * Create a {@link WindowSpecification} with an <code>ORDER BY</code> clause.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static WindowSpecificationRowsStep orderBy(OrderField<?>... fields) {
         return new WindowSpecificationImpl().orderBy(fields);
     }
@@ -22065,7 +22065,7 @@ public class DSL {
      * Create a {@link WindowSpecification} with an <code>ORDER BY</code> clause.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static WindowSpecificationRowsStep orderBy(Collection<? extends OrderField<?>> fields) {
         return new WindowSpecificationImpl().orderBy(fields);
     }
@@ -22462,7 +22462,7 @@ public class DSL {
      * The <code>lead(field) over ([analytic clause])</code> function.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T> WindowIgnoreNullsStep<T> lead(Field<T> field) {
         return new PositionalWindowFunction(LEAD, nullSafe(field));
     }
@@ -22471,7 +22471,7 @@ public class DSL {
      * The <code>lead(field, offset) over ([analytic clause])</code> function.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T> WindowIgnoreNullsStep<T> lead(Field<T> field, int offset) {
         return new PositionalWindowFunction(LEAD, nullSafe(field), inline(offset), null);
     }
@@ -22482,7 +22482,7 @@ public class DSL {
      * function.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T> WindowIgnoreNullsStep<T> lead(Field<T> field, int offset, T defaultValue) {
         return lead(nullSafe(field), offset, Tools.field(defaultValue, field));
     }
@@ -22493,7 +22493,7 @@ public class DSL {
      * function.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T> WindowIgnoreNullsStep<T> lead(Field<T> field, int offset, Field<T> defaultValue) {
         return new PositionalWindowFunction(LEAD, nullSafe(field), inline(offset), nullSafe(defaultValue));
     }
@@ -22502,7 +22502,7 @@ public class DSL {
      * The <code>lag(field) over ([analytic clause])</code> function.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T> WindowIgnoreNullsStep<T> lag(Field<T> field) {
         return new PositionalWindowFunction(LAG, nullSafe(field));
     }
@@ -22511,7 +22511,7 @@ public class DSL {
      * The <code>lag(field, offset) over ([analytic clause])</code> function.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T> WindowIgnoreNullsStep<T> lag(Field<T> field, int offset) {
         return new PositionalWindowFunction(LAG, nullSafe(field), inline(offset), null);
     }
@@ -22522,7 +22522,7 @@ public class DSL {
      * function.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T> WindowIgnoreNullsStep<T> lag(Field<T> field, int offset, T defaultValue) {
         return lag(nullSafe(field), offset, Tools.field(defaultValue, field));
     }
@@ -22533,7 +22533,7 @@ public class DSL {
      * function.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T> WindowIgnoreNullsStep<T> lag(Field<T> field, int offset, Field<T> defaultValue) {
         return new PositionalWindowFunction(LAG, nullSafe(field), inline(offset), nullSafe(defaultValue));
     }

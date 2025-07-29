@@ -70,21 +70,21 @@ public interface AlterDatabaseStep {
     /**
      * Add the <code>RENAME TO</code> clause to the <code>ALTER DATABASE</code> statement.
      */
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     @NotNull
     AlterDatabaseFinalStep renameTo(String renameTo);
 
     /**
      * Add the <code>RENAME TO</code> clause to the <code>ALTER DATABASE</code> statement.
      */
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     @NotNull
     AlterDatabaseFinalStep renameTo(Name renameTo);
 
     /**
      * Add the <code>RENAME TO</code> clause to the <code>ALTER DATABASE</code> statement.
      */
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     @NotNull
     AlterDatabaseFinalStep renameTo(Catalog renameTo);
 }
