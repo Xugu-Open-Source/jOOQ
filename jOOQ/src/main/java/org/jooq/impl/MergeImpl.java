@@ -54,6 +54,7 @@ import static org.jooq.SQLDialect.HSQLDB;
 // ...
 // ...
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.impl.DSL.condition;
 import static org.jooq.impl.DSL.exists;
 import static org.jooq.impl.DSL.insertInto;
@@ -1578,7 +1579,7 @@ implements
 
 
 
-        boolean onParentheses = false;
+        boolean onParentheses = SQLDialect.supportedBy(XUGU).contains(ctx.dialect());
         ctx.end(MERGE_USING)
            .formatSeparator()
            .start(MERGE_ON)

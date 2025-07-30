@@ -856,7 +856,7 @@ final class InsertQueryImpl<R extends Record> extends AbstractStoreQuery<R> impl
             Select<?> s = select;
 
             // [#10461] Multi row inserts need to be emulated using select
-            if (s == null && insertMaps.maps().size() > 1)
+            if (s == null && insertMaps.maps().size() >= 1)
                 s = insertMaps.insertSelect();
 
             // [#6375]  INSERT .. VALUES and INSERT .. SELECT distinction also in MERGE
