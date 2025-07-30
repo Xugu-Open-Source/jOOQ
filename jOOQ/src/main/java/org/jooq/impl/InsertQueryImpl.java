@@ -569,27 +569,7 @@ final class InsertQueryImpl<R extends Record> extends AbstractStoreQuery<R> impl
                 // Some databases allow for emulating this clause using a MERGE statement
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                case XUGU:
                 case H2:
                 case HSQLDB: {
                     ctx.visit(toMerge(ctx.configuration()));
