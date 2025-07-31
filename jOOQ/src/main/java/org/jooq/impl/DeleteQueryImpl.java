@@ -68,6 +68,7 @@ import static org.jooq.SQLDialect.SQLITE;
 // ...
 // ...
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.conf.SettingsTools.getExecuteDeleteWithoutWhere;
 import static org.jooq.impl.DSL.row;
 import static org.jooq.impl.DSL.select;
@@ -219,7 +220,7 @@ final class DeleteQueryImpl<R extends Record> extends AbstractDMLQuery<R> implem
 
         if (!using.isEmpty())
             ctx.formatSeparator()
-               .visit(K_USING)
+               .visit(ctx.dialect() == XUGU ? K_FROM : K_USING)
                .sql(' ')
                .visit(using);
 
