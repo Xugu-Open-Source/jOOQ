@@ -69,6 +69,7 @@ import static org.jooq.SQLDialect.SQLITE;
 // ...
 // ...
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.conf.SettingsTools.getExecuteUpdateWithoutWhere;
 import static org.jooq.impl.DSL.row;
 import static org.jooq.impl.DSL.select;
@@ -160,7 +161,7 @@ final class UpdateQueryImpl<R extends Record> extends AbstractStoreQuery<R> impl
 
 
     private static final Set<SQLDialect> SUPPORT_RVE_SET        = SQLDialect.supportedBy(H2, HSQLDB, POSTGRES);
-    private static final Set<SQLDialect> NO_SUPPORT_LIMIT       = SQLDialect.supportedBy(CUBRID, DERBY, FIREBIRD, H2, HSQLDB, POSTGRES, SQLITE);
+    private static final Set<SQLDialect> NO_SUPPORT_LIMIT       = SQLDialect.supportedBy(CUBRID, DERBY, FIREBIRD, H2, HSQLDB, POSTGRES, SQLITE, XUGU);
     private static final Set<SQLDialect> REQUIRE_RVE_ROW_CLAUSE = SQLDialect.supportedBy(POSTGRES);
 
     private final FieldMapForUpdate      updateMap;
