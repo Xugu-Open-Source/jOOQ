@@ -55,6 +55,7 @@ import static org.jooq.SQLDialect.MARIADB;
 import static org.jooq.SQLDialect.MYSQL;
 // ...
 import static org.jooq.SQLDialect.POSTGRES;
+import static org.jooq.SQLDialect.XUGU;
 // ...
 // ...
 // ...
@@ -109,7 +110,7 @@ public interface MergeUsingStep<R extends Record> extends MergeKeyStepN<R> {
      * ordinary table references, not with derived tables.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, XUGU })
     MergeOnStep<R> using(TableLike<?> table);
 
     /**

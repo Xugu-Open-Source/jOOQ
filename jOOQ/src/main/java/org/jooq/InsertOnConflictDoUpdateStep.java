@@ -52,6 +52,7 @@ import static org.jooq.SQLDialect.HSQLDB;
 // ...
 import static org.jooq.SQLDialect.POSTGRES;
 import static org.jooq.SQLDialect.SQLITE;
+import static org.jooq.SQLDialect.XUGU;
 // ...
 // ...
 // ...
@@ -79,7 +80,7 @@ public interface InsertOnConflictDoUpdateStep<R extends Record> {
      * Add the <code>DO UPDATE</code> clause.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, POSTGRES, SQLITE })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, POSTGRES, SQLITE, XUGU })
     InsertOnDuplicateSetStep<R> doUpdate();
 
     /**

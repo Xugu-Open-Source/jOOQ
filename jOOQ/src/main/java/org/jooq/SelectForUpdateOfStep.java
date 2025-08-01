@@ -50,6 +50,7 @@ import static org.jooq.SQLDialect.HSQLDB;
 import static org.jooq.SQLDialect.MYSQL;
 // ...
 import static org.jooq.SQLDialect.POSTGRES;
+import static org.jooq.SQLDialect.XUGU;
 // ...
 // ...
 
@@ -126,7 +127,7 @@ public interface SelectForUpdateOfStep<R extends Record> extends SelectForUpdate
      * @see SelectQuery#setForLockModeOf(Field...)
      */
     @NotNull
-    @Support({ DERBY, FIREBIRD, H2, HSQLDB })
+    @Support({ DERBY, FIREBIRD, H2, HSQLDB, XUGU })
     SelectForUpdateWaitStep<R> of(Field<?>... fields);
 
     /**
@@ -136,7 +137,7 @@ public interface SelectForUpdateOfStep<R extends Record> extends SelectForUpdate
      * @see SelectQuery#setForLockModeOf(Collection)
      */
     @NotNull
-    @Support({ DERBY, FIREBIRD, H2, HSQLDB })
+    @Support({ DERBY, FIREBIRD, H2, HSQLDB, XUGU })
     SelectForUpdateWaitStep<R> of(Collection<? extends Field<?>> fields);
 
     /**
@@ -146,7 +147,7 @@ public interface SelectForUpdateOfStep<R extends Record> extends SelectForUpdate
      * @see SelectQuery#setForLockModeOf(Table...)
      */
     @NotNull
-    @Support({ DERBY, FIREBIRD, H2, HSQLDB, MYSQL, POSTGRES })
+    @Support({ DERBY, FIREBIRD, H2, HSQLDB, MYSQL, POSTGRES, XUGU })
     SelectForUpdateWaitStep<R> of(Table<?>... tables);
 
 }

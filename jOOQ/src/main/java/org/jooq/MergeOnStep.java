@@ -47,6 +47,7 @@ import static org.jooq.SQLDialect.FIREBIRD;
 import static org.jooq.SQLDialect.H2;
 // ...
 import static org.jooq.SQLDialect.HSQLDB;
+import static org.jooq.SQLDialect.XUGU;
 // ...
 // ...
 // ...
@@ -99,7 +100,7 @@ public interface MergeOnStep<R extends Record> {
      * with each other with {@link Operator#AND}.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, XUGU })
     MergeOnConditionStep<R> on(Condition condition);
 
     /**
@@ -107,14 +108,14 @@ public interface MergeOnStep<R extends Record> {
      * with each other with {@link Operator#AND}.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, XUGU })
     MergeOnConditionStep<R> on(Condition... conditions);
 
     /**
      * Provide join conditions and proceed to the next step
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, XUGU })
     MergeOnConditionStep<R> on(Field<Boolean> condition);
 
     /**
@@ -131,7 +132,7 @@ public interface MergeOnStep<R extends Record> {
      */
     @Deprecated
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, XUGU })
     MergeOnConditionStep<R> on(Boolean condition);
 
     /**
@@ -146,7 +147,7 @@ public interface MergeOnStep<R extends Record> {
      * @see SQL
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, XUGU })
     @PlainSQL
     MergeOnConditionStep<R> on(SQL sql);
 
@@ -162,7 +163,7 @@ public interface MergeOnStep<R extends Record> {
      * @see SQL
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, XUGU })
     @PlainSQL
     MergeOnConditionStep<R> on(String sql);
 
@@ -179,7 +180,7 @@ public interface MergeOnStep<R extends Record> {
      * @see SQL
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, XUGU })
     @PlainSQL
     MergeOnConditionStep<R> on(String sql, Object... bindings);
 
@@ -196,7 +197,7 @@ public interface MergeOnStep<R extends Record> {
      * @see SQL
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, XUGU })
     @PlainSQL
     MergeOnConditionStep<R> on(String sql, QueryPart... parts);
 }

@@ -55,6 +55,7 @@ import static org.jooq.SQLDialect.MARIADB;
 import static org.jooq.SQLDialect.POSTGRES;
 // ...
 import static org.jooq.SQLDialect.SQLITE;
+import static org.jooq.SQLDialect.XUGU;
 // ...
 // ...
 // ...
@@ -146,7 +147,7 @@ public interface SelectUnionStep<R extends Record> extends SelectCorrelatedSubqu
      */
     @Override
     @NotNull
-    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, POSTGRES, SQLITE })
+    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, POSTGRES, SQLITE, XUGU })
     SelectOrderByStep<R> except(Select<? extends R> select);
 
     /**
@@ -154,7 +155,7 @@ public interface SelectUnionStep<R extends Record> extends SelectCorrelatedSubqu
      */
     @Override
     @NotNull
-    @Support({ CUBRID, DERBY, HSQLDB, POSTGRES })
+    @Support({ CUBRID, DERBY, HSQLDB, POSTGRES, XUGU })
     SelectOrderByStep<R> exceptAll(Select<? extends R> select);
 
     /**
@@ -162,7 +163,7 @@ public interface SelectUnionStep<R extends Record> extends SelectCorrelatedSubqu
      */
     @Override
     @NotNull
-    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, POSTGRES, SQLITE })
+    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, POSTGRES, SQLITE, XUGU })
     SelectOrderByStep<R> intersect(Select<? extends R> select);
 
     /**
@@ -170,6 +171,6 @@ public interface SelectUnionStep<R extends Record> extends SelectCorrelatedSubqu
      */
     @Override
     @NotNull
-    @Support({ CUBRID, DERBY, HSQLDB, POSTGRES })
+    @Support({ CUBRID, DERBY, HSQLDB, POSTGRES, XUGU })
     SelectOrderByStep<R> intersectAll(Select<? extends R> select);
 }

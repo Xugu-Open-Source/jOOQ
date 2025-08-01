@@ -45,6 +45,7 @@ import static org.jooq.SQLDialect.MARIADB;
 import static org.jooq.SQLDialect.MYSQL;
 // ...
 import static org.jooq.SQLDialect.POSTGRES;
+import static org.jooq.SQLDialect.XUGU;
 // ...
 // ...
 
@@ -119,7 +120,7 @@ public interface SelectForUpdateWaitStep<R extends Record> extends SelectForStep
      * @see SelectQuery#setForLockModeWait(int)
      */
     @NotNull
-    @Support({ MARIADB })
+    @Support({ MARIADB, XUGU })
     SelectForStep<R> wait(int seconds);
 
     /**
@@ -129,7 +130,7 @@ public interface SelectForUpdateWaitStep<R extends Record> extends SelectForStep
      * @see SelectQuery#setForLockModeNoWait()
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     SelectForStep<R> noWait();
 
     /**

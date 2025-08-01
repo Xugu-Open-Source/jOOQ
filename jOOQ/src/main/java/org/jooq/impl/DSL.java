@@ -10550,7 +10550,7 @@ public class DSL {
      * @see #default_()
      */
     @NotNull
-    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<Object> defaultValue() {
         return default_();
     }
@@ -10564,7 +10564,7 @@ public class DSL {
      * @see #default_(Class)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static <T> Field<T> defaultValue(Class<T> type) {
         return default_(type);
     }
@@ -10578,7 +10578,7 @@ public class DSL {
      * @see #default_(DataType)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU})
     public static <T> Field<T> defaultValue(DataType<T> type) {
         return default_(type);
     }
@@ -10592,7 +10592,7 @@ public class DSL {
      * @see #default_(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static <T> Field<T> defaultValue(Field<T> field) {
         return default_(field);
     }

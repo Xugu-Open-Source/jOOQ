@@ -58,6 +58,7 @@ import static org.jooq.SQLDialect.MARIADB;
 import static org.jooq.SQLDialect.MYSQL;
 // ...
 import static org.jooq.SQLDialect.POSTGRES;
+import static org.jooq.SQLDialect.XUGU;
 // ...
 // ...
 
@@ -135,7 +136,7 @@ public interface SelectForUpdateStep<R extends Record> extends SelectForStep<R> 
      * @see SelectQuery#setForUpdate(boolean)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     SelectForUpdateOfStep<R> forUpdate();
 
     /**
