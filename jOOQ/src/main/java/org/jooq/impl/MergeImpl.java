@@ -250,8 +250,7 @@ implements
     private static final Clause[]        CLAUSES                                 = { MERGE };
 
 
-
-
+    private static final Set<SQLDialect> NO_SUPPORT_AND = SQLDialect.supportedBy(XUGU);
     private static final Set<SQLDialect> NO_SUPPORT_MULTI                        = SQLDialect.supportedBy(HSQLDB);
     private static final Set<SQLDialect> REQUIRE_NEGATION                        = SQLDialect.supportedBy(H2, HSQLDB);
     private static final Set<SQLDialect> NO_SUPPORT_CONDITION_AFTER_NO_CONDITION = SQLDialect.supportedBy(FIREBIRD);
@@ -1612,13 +1611,13 @@ implements
         }
 
         emulateCheck:
-        if ((NO_SUPPORT_MULTI.contains(ctx.dialect()) && matched.size() > 1)) {
+        if ((NO_SUPPORT_MULTI.contains(ctx.dialect()) && matched.size() > 1) || NO_SUPPORT_AND.contains(ctx.dialect())) {
             boolean matchUpdate = false;
             boolean matchDelete = false;
 
             for (MatchedClause m : matched) {
                 if (m.delete) {
-                    if (emulate |= matchDelete)
+                    if (emulate |= (matchDelete || NO_SUPPORT_AND.contains(ctx.dialect())))
                         break emulateCheck;
 
                     matchDelete = true;
@@ -1668,19 +1667,14 @@ implements
             }
 
 
+            if (NO_SUPPORT_AND.contains(ctx.dialect())) {
+                if (update == null && delete != null && this.table.fields().length > 0) {
+                    update = new MatchedClause(this.table, delete.condition);
+                    update.updateMap.put(this.table.field(0), this.table.field(0));
+                }
 
-
-
-
-
-
-
-
-
-
-
-
-            {
+                toSQLMatched(ctx, update, delete, requireMatchedConditions);
+            } else {
                 if (delete != null)
                     toSQLMatched(ctx, delete, requireMatchedConditions);
 
@@ -1747,7 +1741,7 @@ implements
         MatchedClause m = update != null ? update : delete;
 
         // [#7291] Standard SQL AND clause in updates
-        if ((requireMatchedConditions || !(m.condition instanceof NoCondition)))
+        if ((requireMatchedConditions || !(m.condition instanceof NoCondition)) && !NO_SUPPORT_AND.contains(ctx.dialect()))
             ctx.sql(' ').visit(K_AND).sql(' ').visit(m.condition);
 
         ctx.sql(' ').visit(K_THEN);
@@ -1759,7 +1753,9 @@ implements
                .visit(update.updateMap)
                .formatIndentEnd();
 
-
+            if ((requireMatchedConditions || !(update.condition instanceof NoCondition)) && NO_SUPPORT_AND.contains(ctx.dialect())) {
+                ctx.formatSeparator().visit((QueryPart) Keywords.K_WHERE).sql(' ').visit(update.condition);
+            }
 
 
 
@@ -1815,11 +1811,17 @@ implements
         FieldMapForUpdate         updateMap;
         boolean                   delete;
         Condition                 condition;
+        boolean notMatchedBySource;
 
         MatchedClause(Condition condition) {
             this(condition, false);
         }
-
+        MatchedClause(Table<?> table, Condition condition) {
+            this(table, condition, false, false);
+        }
+        MatchedClause(Table<?> table, Condition condition, boolean delete, boolean notMatchedBySource) {
+            this(table, condition, delete, notMatchedBySource, new FieldMapForUpdate(table, Clause.MERGE_SET_ASSIGNMENT));
+        }
         MatchedClause(Condition condition, boolean delete) {
             this(condition, delete, new FieldMapForUpdate(table, MERGE_SET_ASSIGNMENT));
         }
@@ -1828,6 +1830,13 @@ implements
             this.updateMap = updateMap;
             this.condition = condition == null ? noCondition() : condition;
             this.delete = delete;
+        }
+
+        MatchedClause(Table<?> table, Condition condition, boolean delete, boolean notMatchedBySource, FieldMapForUpdate updateMap) {
+            this.updateMap = updateMap;
+            this.condition = condition == null ? DSL.noCondition() : condition;
+            this.delete = delete;
+            this.notMatchedBySource = notMatchedBySource;
         }
     }
 
