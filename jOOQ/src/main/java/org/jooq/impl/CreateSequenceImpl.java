@@ -241,7 +241,7 @@ implements
     private static final Set<SQLDialect>     NO_SUPPORT_IF_NOT_EXISTS = SQLDialect.supportedBy(DERBY, FIREBIRD);
     private static final Set<SQLDialect>     REQUIRES_START_WITH      = SQLDialect.supportedBy(DERBY);
     private static final Set<SQLDialect>     NO_SUPPORT_CACHE         = SQLDialect.supportedBy(DERBY, FIREBIRD, HSQLDB);
-    private static final Set<SQLDialect>     NO_SEPARATOR             = SQLDialect.supportedBy(CUBRID, MARIADB);
+    private static final Set<SQLDialect>     NO_SEPARATOR             = SQLDialect.supportedBy(CUBRID, MARIADB, XUGU);
     private static final Set<SQLDialect>     OMIT_NO_CACHE            = SQLDialect.supportedBy(FIREBIRD, POSTGRES);
     private static final Set<SQLDialect>     OMIT_NO_CYCLE            = SQLDialect.supportedBy(FIREBIRD);
     private static final Set<SQLDialect>     OMIT_NO_MINVALUE         = SQLDialect.supportedBy(FIREBIRD);
