@@ -166,22 +166,11 @@ public interface SelectForUpdateStep<R extends Record> extends SelectForStep<R> 
     @Support({ POSTGRES })
     SelectForUpdateOfStep<R> forKeyShare();
 
+    @Support({XUGU})
+    @NotNull
+    SelectFinalStep<R> withCheckOption();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Support({XUGU})
+    @NotNull
+    SelectFinalStep<R> withReadOnly();
 }

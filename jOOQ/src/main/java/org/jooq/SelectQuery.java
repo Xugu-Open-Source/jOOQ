@@ -1280,14 +1280,9 @@ public interface SelectQuery<R extends Record> extends Select<R>, ConditionProvi
 
 
 
+    @Support({XUGU})
+    void setWithCheckOption();
 
-
-
-
-
-
-
-
-
-
+    @Support({XUGU})
+    void setWithReadOnly();
 }

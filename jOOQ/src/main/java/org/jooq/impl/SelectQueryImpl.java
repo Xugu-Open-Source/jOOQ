@@ -283,9 +283,9 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
     private static final Set<SQLDialect> EMULATE_DISTINCT_ON             = SQLDialect.supportedBy(DERBY, FIREBIRD, HSQLDB, MARIADB, MYSQL, SQLITE);
 
 
-
-
-
+    static final Set<SQLDialect> NO_SUPPORT_WITH_READ_ONLY = SQLDialect.supportedBy(new SQLDialect[]{
+            SQLDialect.CUBRID, SQLDialect.DERBY, SQLDialect.EXASOL, SQLDialect.FIREBIRD, SQLDialect.H2, SQLDialect.HSQLDB,
+            SQLDialect.MARIADB, SQLDialect.MYSQL, SQLDialect.POSTGRES, SQLDialect.SQLITE});
 
 
 
@@ -316,9 +316,8 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
     private boolean                                      distinct;
     private QueryPartList<SelectFieldOrAsterisk>         distinctOn;
     private ForLock                                      forLock;
-
-
-
+    private boolean withCheckOption;
+    private boolean withReadOnly;
 
 
 
@@ -1539,8 +1538,15 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
             }
 
             // [#1296] [#7328] FOR UPDATE is emulated in some dialects using hints
-            if (forLock != null)
+            if (forLock != null) {
                 context.visit(forLock);
+            } else if (withCheckOption) {
+                context.formatSeparator()
+                        .visit((QueryPart) Keywords.K_WITH_CHECK_OPTION);
+            }else if(withReadOnly && !NO_SUPPORT_WITH_READ_ONLY.contains(context.dialect())){
+                context.formatSeparator()
+                        .visit((QueryPart)Keywords.K_WITH_READ_ONLY);
+            }
 
 
 
@@ -2736,18 +2742,15 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
 
 
 
+    public final void setWithCheckOption() {
+        this.withCheckOption = true;
+        this.withReadOnly = false;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
+    public final void setWithReadOnly() {
+        this.withCheckOption = false;
+        this.withReadOnly = true;
+    }
 
     private final void toSQLOrderBy(
         final Context<?> ctx,
