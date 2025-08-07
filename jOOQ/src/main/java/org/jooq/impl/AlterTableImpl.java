@@ -1061,11 +1061,9 @@ final class AlterTableImpl extends AbstractRowCountQuery implements
                 // [#5724] These databases use table-scoped index names
 
 
-
-
-
-
-
+                case XUGU:
+                    ctx.visit(DSL.alterIndex(this.renameIndex.getQualifiedName().qualified() ? this.renameIndex.getQualifiedName() : this.table.getQualifiedName().append(this.renameIndex.getQualifiedName())).renameTo(this.renameIndexTo));
+                    return;
 
 
 
