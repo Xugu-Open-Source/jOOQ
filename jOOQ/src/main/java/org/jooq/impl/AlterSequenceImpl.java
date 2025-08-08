@@ -57,6 +57,7 @@ import static org.jooq.SQLDialect.MARIADB;
 import static org.jooq.SQLDialect.POSTGRES;
 // ...
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.impl.Keywords.K_ALTER;
 import static org.jooq.impl.Keywords.K_ALTER_TABLE;
 import static org.jooq.impl.Keywords.K_CACHE;
@@ -106,7 +107,7 @@ final class AlterSequenceImpl<T extends Number> extends AbstractRowCountQuery im
     private static final long            serialVersionUID     = 8904572826501186329L;
     private static final Clause[]        CLAUSES              = { ALTER_SEQUENCE };
     private static final Set<SQLDialect> NO_SUPPORT_IF_EXISTS = SQLDialect.supportedBy(CUBRID, DERBY, FIREBIRD);
-    private static final Set<SQLDialect> NO_SEPARATOR         = SQLDialect.supportedBy(CUBRID, MARIADB);
+    private static final Set<SQLDialect> NO_SEPARATOR         = SQLDialect.supportedBy(CUBRID, MARIADB, XUGU);
     private static final Set<SQLDialect> NO_SUPPORT_CACHE     = SQLDialect.supportedBy(DERBY, FIREBIRD, HSQLDB);
     private static final Set<SQLDialect> EMULATE_NO_CACHE  = SQLDialect.supportedBy(POSTGRES);
 
