@@ -47,6 +47,7 @@ import static org.jooq.SQLDialect.H2;
 import static org.jooq.SQLDialect.HSQLDB;
 // ...
 import static org.jooq.SQLDialect.POSTGRES;
+import static org.jooq.SQLDialect.XUGU;
 
 /**
  * The step in the <code>ALTER TABLE</code> DSL used to <code>DROP</code>
@@ -79,7 +80,7 @@ public interface AlterTableDropStep extends AlterTableFinalStep {
      * <code>ALTER TABLE .. DROP</code> statement.
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, POSTGRES, XUGU })
     AlterTableFinalStep cascade();
 
     /**
@@ -87,6 +88,6 @@ public interface AlterTableDropStep extends AlterTableFinalStep {
      * <code>ALTER TABLE .. DROP</code> statement.
      */
     @NotNull
-    @Support({ DERBY, HSQLDB, POSTGRES })
+    @Support({ DERBY, HSQLDB, POSTGRES, XUGU })
     AlterTableFinalStep restrict();
 }

@@ -107,7 +107,7 @@ public interface AlterTableStep {
      * @see DSLContext#commentOnTable(Table)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableFinalStep comment(String comment);
 
     /**
@@ -117,7 +117,7 @@ public interface AlterTableStep {
      * @see DSLContext#commentOnTable(Table)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableFinalStep comment(Comment comment);
 
     /**
@@ -125,7 +125,7 @@ public interface AlterTableStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     AlterTableFinalStep renameTo(Table<?> newName);
 
     /**
@@ -133,7 +133,7 @@ public interface AlterTableStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     AlterTableFinalStep renameTo(Name newName);
 
     /**
@@ -141,7 +141,7 @@ public interface AlterTableStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     AlterTableFinalStep renameTo(String newName);
 
     /**
@@ -173,7 +173,7 @@ public interface AlterTableStep {
      * statement.
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableRenameIndexToStep renameIndex(Name oldName);
 
     /**
@@ -181,7 +181,7 @@ public interface AlterTableStep {
      * statement.
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableRenameIndexToStep renameIndex(Index oldName);
 
     /**
@@ -189,7 +189,7 @@ public interface AlterTableStep {
      * statement.
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableRenameIndexToStep renameIndex(String oldName);
 
     /**
@@ -238,7 +238,7 @@ public interface AlterTableStep {
      * This is an alias for {@link #alterColumn(Field)}.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     <T> AlterTableAlterStep<T> alter(Field<T> field);
 
     /**
@@ -248,7 +248,7 @@ public interface AlterTableStep {
      * This is an alias for {@link #alterColumn(Name)}
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableAlterStep<Object> alter(Name field);
 
     /**
@@ -258,7 +258,7 @@ public interface AlterTableStep {
      * This is an alias for {@link #alterColumn(String)}
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableAlterStep<Object> alter(String field);
 
     /**
@@ -312,7 +312,7 @@ public interface AlterTableStep {
      * the <code>ALTER TABLE</code> statement.
      */
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableAddStep add(FieldOrConstraint... fields);
 
     /**
@@ -320,7 +320,7 @@ public interface AlterTableStep {
      * the <code>ALTER TABLE</code> statement.
      */
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableAddStep add(Collection<? extends FieldOrConstraint> fields);
 
     /**
@@ -462,7 +462,7 @@ public interface AlterTableStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableUsingIndexStep add(Constraint constraint);
 
     /**
@@ -580,7 +580,7 @@ public interface AlterTableStep {
      * This is an alias for {@link #dropColumns(Collection)}.
      */
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableDropStep drop(Field<?>... fields);
 
     /**
@@ -590,7 +590,7 @@ public interface AlterTableStep {
      * This is an alias for {@link #dropColumns(Collection)}.
      */
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableDropStep drop(Name... fields);
 
     /**
@@ -600,7 +600,7 @@ public interface AlterTableStep {
      * This is an alias for {@link #dropColumns(Collection)}.
      */
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableDropStep drop(String... fields);
 
     /**
@@ -660,7 +660,7 @@ public interface AlterTableStep {
      * @see DSL#constraint(String)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterTableDropStep dropConstraint(Constraint constraint);
 
     /**
@@ -670,7 +670,7 @@ public interface AlterTableStep {
      * @see DSL#constraint(String)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterTableDropStep dropConstraint(Name constraint);
 
     /**
@@ -680,7 +680,7 @@ public interface AlterTableStep {
      * @see DSL#constraint(String)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterTableDropStep dropConstraint(String constraint);
 
     /**
@@ -726,7 +726,7 @@ public interface AlterTableStep {
      * statement.
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, XUGU })
     AlterTableDropStep dropPrimaryKey();
 
     /**
@@ -740,7 +740,7 @@ public interface AlterTableStep {
      * {@link #dropConstraint(Constraint)}.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableDropStep dropPrimaryKey(Constraint constraint);
 
     /**
@@ -756,7 +756,7 @@ public interface AlterTableStep {
      * @see DSL#constraint(Name)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableDropStep dropPrimaryKey(Name constraint);
 
     /**
@@ -772,7 +772,7 @@ public interface AlterTableStep {
      * @see DSL#constraint(String)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableDropStep dropPrimaryKey(String constraint);
 
     /**
@@ -785,7 +785,7 @@ public interface AlterTableStep {
      * using <code>DROP INDEX .. CASCADE</code>.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableDropStep dropUnique(Constraint constraint);
 
     /**
@@ -800,7 +800,7 @@ public interface AlterTableStep {
      * @see DSL#constraint(Name)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableDropStep dropUnique(Name constraint);
 
     /**
@@ -815,7 +815,7 @@ public interface AlterTableStep {
      * @see DSL#constraint(String)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableDropStep dropUnique(String constraint);
 
     /**
@@ -823,7 +823,7 @@ public interface AlterTableStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableDropStep dropForeignKey(Constraint constraint);
 
     /**
@@ -833,7 +833,7 @@ public interface AlterTableStep {
      * @see DSL#constraint(Name)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableDropStep dropForeignKey(Name constraint);
 
     /**
@@ -843,6 +843,6 @@ public interface AlterTableStep {
      * @see DSL#constraint(String)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableDropStep dropForeignKey(String constraint);
 }

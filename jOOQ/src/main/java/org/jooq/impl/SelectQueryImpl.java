@@ -2740,8 +2740,7 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
 
 
 
-
-
+    @Override
     public final void setWithCheckOption() {
         this.withCheckOption = true;
         this.withReadOnly = false;
@@ -3774,6 +3773,7 @@ final class SelectQueryImpl<R extends Record> extends AbstractResultQuery<R> imp
         addOrderBy(Tools.inline(fieldIndexes));
     }
 
+    @Override
     public final void setOrderBySiblings(boolean orderBySiblings) {
         if (this.unionOp.size() == 0) {
             this.orderBySiblings = orderBySiblings;

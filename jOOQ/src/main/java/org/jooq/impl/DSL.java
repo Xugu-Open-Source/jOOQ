@@ -7050,7 +7050,7 @@ public class DSL {
      * Create an unnamed (system named) <code>CHECK</code> constraint.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, POSTGRES, SQLITE })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, POSTGRES, SQLITE, XUGU })
     public static ConstraintEnforcementStep check(Condition condition) {
         return constraint().check(condition);
     }
@@ -12528,7 +12528,7 @@ public class DSL {
      * <code>DOMAIN</code> specifications.
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     public static <T> Field<T> value(Class<T> type) {
         return value(DefaultDataType.getDataType(null, type));
     }
@@ -12538,7 +12538,7 @@ public class DSL {
      * <code>DOMAIN</code> specifications.
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     public static <T> Field<T> value(DataType<T> type) {
         return field("{0}", type, N_VALUE);
     }

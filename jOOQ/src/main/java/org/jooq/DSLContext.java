@@ -9177,7 +9177,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createDatabase(String)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     CreateDatabaseFinalStep createDatabase(String database);
 
     /**
@@ -9186,7 +9186,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createDatabase(Name)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     CreateDatabaseFinalStep createDatabase(Name database);
 
     /**
@@ -9195,7 +9195,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createDatabase(Catalog)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     CreateDatabaseFinalStep createDatabase(Catalog database);
 
     /**
@@ -9204,8 +9204,8 @@ public interface DSLContext extends Scope {
      * @see DSL#createDatabaseIfNotExists(String)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL })
-    CreateDatabaseFinalStep createDatabaseIfNotExists(String database);
+    @Support({ MARIADB, MYSQL, XUGU })
+        CreateDatabaseFinalStep createDatabaseIfNotExists(String database);
 
     /**
      * The <code>CREATE DATABASE IF NOT EXISTS</code> statement.
@@ -9213,7 +9213,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createDatabaseIfNotExists(Name)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL })
+    @Support({ MARIADB, MYSQL, XUGU })
     CreateDatabaseFinalStep createDatabaseIfNotExists(Name database);
 
     /**
@@ -9222,7 +9222,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createDatabaseIfNotExists(Catalog)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL })
+    @Support({ MARIADB, MYSQL, XUGU })
     CreateDatabaseFinalStep createDatabaseIfNotExists(Catalog database);
 
     /**
@@ -9231,7 +9231,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createDomain(String)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     CreateDomainAsStep createDomain(String domain);
 
     /**
@@ -9240,7 +9240,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createDomain(Name)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     CreateDomainAsStep createDomain(Name domain);
 
     /**
@@ -9249,7 +9249,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createDomain(Domain)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     CreateDomainAsStep createDomain(Domain<?> domain);
 
     /**
@@ -9285,7 +9285,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createSchema(String)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateSchemaFinalStep createSchema(String schema);
 
     /**
@@ -9294,7 +9294,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createSchema(Name)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateSchemaFinalStep createSchema(Name schema);
 
     /**
@@ -9303,7 +9303,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createSchema(Schema)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateSchemaFinalStep createSchema(Schema schema);
 
     /**
@@ -9339,7 +9339,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createSequence(String)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     CreateSequenceFlagsStep createSequence(String sequence);
 
     /**
@@ -9348,7 +9348,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createSequence(Name)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     CreateSequenceFlagsStep createSequence(Name sequence);
 
     /**
@@ -9357,7 +9357,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createSequence(Sequence)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     CreateSequenceFlagsStep createSequence(Sequence<?> sequence);
 
     /**
@@ -9366,7 +9366,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createSequenceIfNotExists(String)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     CreateSequenceFlagsStep createSequenceIfNotExists(String sequence);
 
     /**
@@ -9375,7 +9375,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createSequenceIfNotExists(Name)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     CreateSequenceFlagsStep createSequenceIfNotExists(Name sequence);
 
     /**
@@ -9384,7 +9384,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createSequenceIfNotExists(Sequence)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     CreateSequenceFlagsStep createSequenceIfNotExists(Sequence<?> sequence);
 
     /**
@@ -9447,7 +9447,7 @@ public interface DSLContext extends Scope {
      * @see DSL#alterDomain(String)
      */
     @NotNull
-    @Support({ FIREBIRD, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, HSQLDB, POSTGRES, XUGU })
     <T> AlterDomainStep<T> alterDomain(String domain);
 
     /**
@@ -9456,7 +9456,7 @@ public interface DSLContext extends Scope {
      * @see DSL#alterDomain(Name)
      */
     @NotNull
-    @Support({ FIREBIRD, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, HSQLDB, POSTGRES, XUGU })
     <T> AlterDomainStep<T> alterDomain(Name domain);
 
     /**
@@ -9465,7 +9465,7 @@ public interface DSLContext extends Scope {
      * @see DSL#alterDomain(Domain)
      */
     @NotNull
-    @Support({ FIREBIRD, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, HSQLDB, POSTGRES, XUGU })
     <T> AlterDomainStep<T> alterDomain(Domain<T> domain);
 
     /**
@@ -9501,7 +9501,7 @@ public interface DSLContext extends Scope {
      * @see DSL#alterSchema(String)
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     AlterSchemaStep alterSchema(String schema);
 
     /**
@@ -9510,7 +9510,7 @@ public interface DSLContext extends Scope {
      * @see DSL#alterSchema(Name)
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     AlterSchemaStep alterSchema(Name schema);
 
     /**
@@ -9519,7 +9519,7 @@ public interface DSLContext extends Scope {
      * @see DSL#alterSchema(Schema)
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     AlterSchemaStep alterSchema(Schema schema);
 
     /**
@@ -9555,7 +9555,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropDatabase(String)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     DropDatabaseFinalStep dropDatabase(String database);
 
     /**
@@ -9564,7 +9564,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropDatabase(Name)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     DropDatabaseFinalStep dropDatabase(Name database);
 
     /**
@@ -9573,7 +9573,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropDatabase(Catalog)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     DropDatabaseFinalStep dropDatabase(Catalog database);
 
     /**
@@ -9582,7 +9582,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropDatabaseIfExists(String)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     DropDatabaseFinalStep dropDatabaseIfExists(String database);
 
     /**
@@ -9591,7 +9591,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropDatabaseIfExists(Name)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     DropDatabaseFinalStep dropDatabaseIfExists(Name database);
 
     /**
@@ -9600,7 +9600,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropDatabaseIfExists(Catalog)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     DropDatabaseFinalStep dropDatabaseIfExists(Catalog database);
 
     /**
@@ -9609,7 +9609,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropDomain(String)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     DropDomainCascadeStep dropDomain(String domain);
 
     /**
@@ -9618,7 +9618,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropDomain(Name)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     DropDomainCascadeStep dropDomain(Name domain);
 
     /**
@@ -9627,7 +9627,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropDomain(Domain)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     DropDomainCascadeStep dropDomain(Domain<?> domain);
 
     /**
@@ -9663,7 +9663,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropSchema(String)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     DropSchemaStep dropSchema(String schema);
 
     /**
@@ -9672,7 +9672,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropSchema(Name)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     DropSchemaStep dropSchema(Name schema);
 
     /**
@@ -9681,7 +9681,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropSchema(Schema)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     DropSchemaStep dropSchema(Schema schema);
 
     /**
@@ -9717,7 +9717,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropSequence(String)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     DropSequenceFinalStep dropSequence(String sequence);
 
     /**
@@ -9726,7 +9726,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropSequence(Name)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     DropSequenceFinalStep dropSequence(Name sequence);
 
     /**
@@ -9735,7 +9735,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropSequence(Sequence)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     DropSequenceFinalStep dropSequence(Sequence<?> sequence);
 
     /**
@@ -9744,7 +9744,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropSequenceIfExists(String)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     DropSequenceFinalStep dropSequenceIfExists(String sequence);
 
     /**
@@ -9753,7 +9753,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropSequenceIfExists(Name)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     DropSequenceFinalStep dropSequenceIfExists(Name sequence);
 
     /**
@@ -9762,7 +9762,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropSequenceIfExists(Sequence)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     DropSequenceFinalStep dropSequenceIfExists(Sequence<?> sequence);
 
     /**
@@ -9986,7 +9986,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createTemporaryTable(String)
      */
     @NotNull
-    @Support({ FIREBIRD, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateTableColumnStep createTemporaryTable(String table);
 
     /**
@@ -9995,7 +9995,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createTemporaryTable(Name)
      */
     @NotNull
-    @Support({ FIREBIRD, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateTableColumnStep createTemporaryTable(Name table);
 
     /**
@@ -10004,7 +10004,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createTemporaryTable(Table)
      */
     @NotNull
-    @Support({ FIREBIRD, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateTableColumnStep createTemporaryTable(Table<?> table);
 
     /**
@@ -10040,7 +10040,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createGlobalTemporaryTable(String)
      */
     @NotNull
-    @Support({ FIREBIRD, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateTableColumnStep createGlobalTemporaryTable(String table);
 
     /**
@@ -10049,7 +10049,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createGlobalTemporaryTable(Name)
      */
     @NotNull
-    @Support({ FIREBIRD, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateTableColumnStep createGlobalTemporaryTable(Name table);
 
     /**
@@ -10058,7 +10058,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createGlobalTemporaryTable(Table)
      */
     @NotNull
-    @Support({ FIREBIRD, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateTableColumnStep createGlobalTemporaryTable(Table<?> table);
 
     /**
@@ -10210,7 +10210,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createOrReplaceView(String, String...)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateViewAsStep<Record> createOrReplaceView(String view, String... fields);
 
     /**
@@ -10219,7 +10219,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createOrReplaceView(Name, Name...)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateViewAsStep<Record> createOrReplaceView(Name view, Name... fields);
 
     /**
@@ -10228,7 +10228,7 @@ public interface DSLContext extends Scope {
      * @see DSL#createOrReplaceView(Table, Field...)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateViewAsStep<Record> createOrReplaceView(Table<?> view, Field<?>... fields);
 
 
@@ -10248,7 +10248,7 @@ public interface DSLContext extends Scope {
      */
     @Deprecated
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateViewAsStep<Record> createOrReplaceView(String view, Function<? super Field<?>, ? extends String> fieldNameFunction);
 
     /**
@@ -10267,7 +10267,7 @@ public interface DSLContext extends Scope {
      */
     @Deprecated
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateViewAsStep<Record> createOrReplaceView(String view, BiFunction<? super Field<?>, ? super Integer, ? extends String> fieldNameFunction);
 
     /**
@@ -10286,7 +10286,7 @@ public interface DSLContext extends Scope {
      */
     @Deprecated
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateViewAsStep<Record> createOrReplaceView(Name view, Function<? super Field<?>, ? extends Name> fieldNameFunction);
 
     /**
@@ -10305,7 +10305,7 @@ public interface DSLContext extends Scope {
      */
     @Deprecated
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateViewAsStep<Record> createOrReplaceView(Name view, BiFunction<? super Field<?>, ? super Integer, ? extends Name> fieldNameFunction);
 
     /**
@@ -10324,7 +10324,7 @@ public interface DSLContext extends Scope {
      */
     @Deprecated
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateViewAsStep<Record> createOrReplaceView(Table<?> view, Function<? super Field<?>, ? extends Field<?>> fieldNameFunction);
 
     /**
@@ -10343,7 +10343,7 @@ public interface DSLContext extends Scope {
      */
     @Deprecated
     @NotNull
-    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, XUGU })
     CreateViewAsStep<Record> createOrReplaceView(Table<?> view, BiFunction<? super Field<?>, ? super Integer, ? extends Field<?>> fieldNameFunction);
 
 
@@ -10532,7 +10532,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropType(String)
      */
     @NotNull
-    @Support({ H2, POSTGRES })
+    @Support({ H2, POSTGRES, XUGU })
     DropTypeStep dropType(String type);
 
     /**
@@ -10541,7 +10541,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropType(Name)
      */
     @NotNull
-    @Support({ H2, POSTGRES })
+    @Support({ H2, POSTGRES, XUGU })
     DropTypeStep dropType(Name type);
 
     /**
@@ -10550,7 +10550,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropType(String...)
      */
     @NotNull
-    @Support({ H2, POSTGRES })
+    @Support({ H2, POSTGRES, XUGU })
     DropTypeStep dropType(String... type);
 
     /**
@@ -10559,7 +10559,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropType(Name...)
      */
     @NotNull
-    @Support({ H2, POSTGRES })
+    @Support({ H2, POSTGRES, XUGU })
     DropTypeStep dropType(Name... type);
 
     /**
@@ -10568,7 +10568,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropType(Collection)
      */
     @NotNull
-    @Support({ H2, POSTGRES })
+    @Support({ H2, POSTGRES, XUGU })
     DropTypeStep dropType(Collection<?> type);
 
     /**
@@ -10748,7 +10748,7 @@ public interface DSLContext extends Scope {
      * @see DSL#alterSequence(String)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterSequenceStep<BigInteger> alterSequence(String sequence);
 
     /**
@@ -10757,7 +10757,7 @@ public interface DSLContext extends Scope {
      * @see DSL#alterSequence(Name)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterSequenceStep<BigInteger> alterSequence(Name sequence);
 
     /**
@@ -10766,7 +10766,7 @@ public interface DSLContext extends Scope {
      * @see DSL#alterSequence(Sequence)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     <T extends Number> AlterSequenceStep<T> alterSequence(Sequence<T> sequence);
 
     /**
@@ -10994,7 +10994,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropViewIfExists(String)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     DropViewFinalStep dropViewIfExists(String view);
 
     /**
@@ -11006,7 +11006,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropViewIfExists(Name)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     DropViewFinalStep dropViewIfExists(Name view);
 
     /**
@@ -11018,7 +11018,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropViewIfExists(Table)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     DropViewFinalStep dropViewIfExists(Table<?> view);
 
     /**
@@ -11057,7 +11057,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropTableIfExists(String)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     DropTableStep dropTableIfExists(String table);
 
     /**
@@ -11069,7 +11069,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropTableIfExists(Name)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     DropTableStep dropTableIfExists(Name table);
 
     /**
@@ -11081,7 +11081,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropTableIfExists(Table)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     DropTableStep dropTableIfExists(Table<?> table);
 
     /**
@@ -11174,7 +11174,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropIndexIfExists(String)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, SQLITE, XUGU })
     DropIndexOnStep dropIndexIfExists(String index);
 
     /**
@@ -11186,7 +11186,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropIndexIfExists(Name)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, SQLITE, XUGU })
     DropIndexOnStep dropIndexIfExists(Name index);
 
     /**
@@ -11198,7 +11198,7 @@ public interface DSLContext extends Scope {
      * @see DSL#dropIndexIfExists(Name)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, SQLITE, XUGU })
     DropIndexOnStep dropIndexIfExists(Index index);
 
     /**

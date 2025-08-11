@@ -70,28 +70,28 @@ public interface AlterDomainStep<T> {
     /**
      * Add the <code>ADD</code> clause to the <code>ALTER DOMAIN</code> statement.
      */
-    @Support({ FIREBIRD, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, HSQLDB, POSTGRES, XUGU })
     @NotNull
     AlterDomainFinalStep add(Constraint addConstraint);
 
     /**
      * Add the <code>DROP CONSTRAINT</code> clause to the <code>ALTER DOMAIN</code> statement.
      */
-    @Support({ FIREBIRD, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, HSQLDB, POSTGRES, XUGU })
     @NotNull
     AlterDomainDropConstraintCascadeStep dropConstraint(String dropConstraint);
 
     /**
      * Add the <code>DROP CONSTRAINT</code> clause to the <code>ALTER DOMAIN</code> statement.
      */
-    @Support({ FIREBIRD, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, HSQLDB, POSTGRES, XUGU })
     @NotNull
     AlterDomainDropConstraintCascadeStep dropConstraint(Name dropConstraint);
 
     /**
      * Add the <code>DROP CONSTRAINT</code> clause to the <code>ALTER DOMAIN</code> statement.
      */
-    @Support({ FIREBIRD, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, HSQLDB, POSTGRES, XUGU })
     @NotNull
     AlterDomainDropConstraintCascadeStep dropConstraint(Constraint dropConstraint);
 
@@ -182,35 +182,35 @@ public interface AlterDomainStep<T> {
     /**
      * Add the <code>SET DEFAULT</code> clause to the <code>ALTER DOMAIN</code> statement.
      */
-    @Support({ FIREBIRD, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, HSQLDB, POSTGRES, XUGU })
     @NotNull
     AlterDomainFinalStep setDefault(T setDefault);
 
     /**
      * Add the <code>SET DEFAULT</code> clause to the <code>ALTER DOMAIN</code> statement.
      */
-    @Support({ FIREBIRD, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, HSQLDB, POSTGRES, XUGU })
     @NotNull
     AlterDomainFinalStep setDefault(Field<T> setDefault);
 
     /**
      * Add the <code>DROP DEFAULT</code> clause to the <code>ALTER DOMAIN</code> statement.
      */
-    @Support({ FIREBIRD, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, HSQLDB, POSTGRES, XUGU })
     @NotNull
     AlterDomainFinalStep dropDefault();
 
     /**
      * Add the <code>SET NOT NULL</code> clause to the <code>ALTER DOMAIN</code> statement.
      */
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     @NotNull
     AlterDomainFinalStep setNotNull();
 
     /**
      * Add the <code>DROP NOT NULL</code> clause to the <code>ALTER DOMAIN</code> statement.
      */
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     @NotNull
     AlterDomainFinalStep dropNotNull();
 }

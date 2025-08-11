@@ -70,14 +70,14 @@ public interface CreateDomainDefaultStep<T> extends CreateDomainConstraintStep {
     /**
      * Add the <code>DEFAULT_</code> clause to the <code>CREATE DOMAIN</code> statement.
      */
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     @NotNull
     CreateDomainConstraintStep default_(T default_);
 
     /**
      * Add the <code>DEFAULT_</code> clause to the <code>CREATE DOMAIN</code> statement.
      */
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     @NotNull
     CreateDomainConstraintStep default_(Field<T> default_);
 }

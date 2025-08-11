@@ -663,6 +663,7 @@ abstract class AbstractContext<C extends Context<C>> extends AbstractScope imple
         return (C) this;
     }
 
+    @Override
     public final C paramType(ParamType p, Consumer<? super C> runnable) {
         ParamType previous = paramType();
         try {

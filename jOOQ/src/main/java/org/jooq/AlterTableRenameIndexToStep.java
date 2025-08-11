@@ -54,6 +54,7 @@ import static org.jooq.SQLDialect.MARIADB;
 import static org.jooq.SQLDialect.MYSQL;
 // ...
 import static org.jooq.SQLDialect.POSTGRES;
+import static org.jooq.SQLDialect.XUGU;
 // ...
 // ...
 
@@ -87,21 +88,21 @@ public interface AlterTableRenameIndexToStep {
      * Specify a new index name.
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableFinalStep to(String newName);
 
     /**
      * Specify a new index name.
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableFinalStep to(Name newName);
 
     /**
      * Specify a new index name.
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     AlterTableFinalStep to(Index newName);
 
 }

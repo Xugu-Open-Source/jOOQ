@@ -54,6 +54,7 @@ import static org.jooq.SQLDialect.HSQLDB;
 import static org.jooq.SQLDialect.MARIADB;
 // ...
 import static org.jooq.SQLDialect.POSTGRES;
+import static org.jooq.SQLDialect.XUGU;
 // ...
 // ...
 // ...
@@ -111,7 +112,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ MARIADB, POSTGRES })
+    @Support({ MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep startWith(Number value);
 
     /**
@@ -119,7 +120,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ MARIADB, POSTGRES })
+    @Support({ MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep startWith(Field<? extends Number> value);
 
     /**
@@ -127,7 +128,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep incrementBy(Number value);
 
     /**
@@ -135,7 +136,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep incrementBy(Field<? extends Number> value);
 
     /**
@@ -143,7 +144,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep minvalue(Number value);
 
     /**
@@ -151,7 +152,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep minvalue(Field<? extends Number> value);
 
     /**
@@ -159,7 +160,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep noMinvalue();
 
     /**
@@ -167,7 +168,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep maxvalue(Number value);
 
     /**
@@ -175,7 +176,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep maxvalue(Field<? extends Number> value);
 
     /**
@@ -183,7 +184,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep noMaxvalue();
 
     /**
@@ -191,7 +192,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep cycle();
 
     /**
@@ -199,7 +200,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep noCycle();
 
     /**
@@ -207,7 +208,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, H2, MARIADB, POSTGRES })
+    @Support({ CUBRID, H2, MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep cache(Number value);
 
     /**
@@ -215,7 +216,7 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, H2, MARIADB, POSTGRES })
+    @Support({ CUBRID, H2, MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep cache(Field<? extends Number> value);
 
     /**
@@ -223,6 +224,6 @@ public interface AlterSequenceFlagsStep extends AlterSequenceFinalStep {
      * statement.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     AlterSequenceFlagsStep noCache();
 }
