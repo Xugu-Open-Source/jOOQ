@@ -166,6 +166,7 @@ import java.util.Set;
 
 import org.jooq.AlterTableAddStep;
 // ...
+import org.jooq.AlterTableAlterConstraintStep;
 import org.jooq.AlterTableAlterStep;
 import org.jooq.AlterTableDropStep;
 import org.jooq.AlterTableFinalStep;
@@ -205,7 +206,7 @@ final class AlterTableImpl extends AbstractRowCountQuery implements
     AlterTableAddStep,
     AlterTableDropStep,
     AlterTableAlterStep,
-
+    AlterTableAlterConstraintStep,
 
 
     AlterTableUsingIndexStep,
@@ -268,8 +269,8 @@ final class AlterTableImpl extends AbstractRowCountQuery implements
 
 
 
-
-
+    private Constraint alterConstraint;
+    private boolean alterConstraintEnforced;
     private Field<?>                         alterColumn;
     private Nullability                      alterColumnNullability;
     private DataType<?>                      alterColumnType;
@@ -308,12 +309,12 @@ final class AlterTableImpl extends AbstractRowCountQuery implements
     final DataType<?>              $alterColumnType()         { return alterColumnType; }
     final Field<?>                 $alterColumnDefault()      { return alterColumnDefault; }
     final boolean                  $alterColumnDropDefault()  { return alterColumnDropDefault; }
-
-
-
-
-
-
+    final Constraint $alterConstraint() {
+        return alterConstraint;
+    }
+    final boolean $alterConstraintEnforced() {
+        return alterConstraintEnforced;
+    }
     final Table<?>                 $renameTo()                { return renameTo; }
     final Field<?>                 $renameColumn()            { return renameColumn; }
     final Field<?>                 $renameColumnTo()          { return renameColumnTo; }
@@ -652,42 +653,37 @@ final class AlterTableImpl extends AbstractRowCountQuery implements
         return this;
     }
 
+    public final AlterTableImpl alter(Constraint constraint) {
+        return this.alterConstraint(constraint);
+    }
 
+    @Override
+    public final AlterTableImpl alterConstraint(Name constraint) {
+        return this.alterConstraint((Constraint)DSL.constraint(constraint));
+    }
 
+    @Override
+    public final AlterTableImpl alterConstraint(String constraint) {
+        return this.alterConstraint((Constraint)DSL.constraint(constraint));
+    }
 
+    @Override
+    public final AlterTableImpl alterConstraint(Constraint constraint) {
+        this.alterConstraint = constraint;
+        return this;
+    }
 
+    @Override
+    public final AlterTableImpl enforced() {
+        this.alterConstraintEnforced = true;
+        return this;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public final AlterTableImpl notEnforced() {
+        this.alterConstraintEnforced = false;
+        return this;
+    }
 
     @Override
     public final AlterTableImpl set(DataType type) {
@@ -1394,32 +1390,33 @@ final class AlterTableImpl extends AbstractRowCountQuery implements
 
 
             ctx.end(ALTER_TABLE_ADD);
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        else if (alterColumn != null) {
+        } else if (this.alterConstraint != null) {
+            ctx.start(Clause.ALTER_TABLE_ALTER);
+            ctx.data(DATA_CONSTRAINT_REFERENCE, true);
+            switch (family) {
+                case XUGU:
+                    if (alterConstraintEnforced) {
+                        ctx.sql(' ').visit(Keywords.K_ENABLE);
+                    } else {
+                        ctx.sql(' ').visit(Keywords.K_DISABLE);
+                    }
+                    break;
+                default:
+                    ctx.visit(Keywords.K_ALTER);
+            }
+            ctx.sql(' ').visit(Keywords.K_CONSTRAINT).sql(' ').visit(this.alterConstraint);
+            switch (family) {
+                case XUGU:
+                    break;
+                default:
+                    if (alterConstraintEnforced) {
+                        ctx.sql(' ').visit(Keywords.K_ENFORCED);
+                    } else {
+                        ctx.sql(' ').visit(Keywords.K_NOT).sql(' ').visit(Keywords.K_ENFORCED);
+                    }
+            }
+            ctx.end(Clause.ALTER_TABLE_ALTER);
+        } else if (alterColumn != null) {
             ctx.start(ALTER_TABLE_ALTER);
 
             switch (family) {

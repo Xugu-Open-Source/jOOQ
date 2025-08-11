@@ -39,53 +39,11 @@ package org.jooq;
 
 import org.jetbrains.annotations.*;
 
+public interface AlterTableAlterConstraintStep {
 
+    @Support({SQLDialect.XUGU})
+    @NotNull AlterTableFinalStep enforced();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Support({SQLDialect.XUGU})
+    @NotNull AlterTableFinalStep notEnforced();
+}

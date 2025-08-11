@@ -60,6 +60,7 @@ import static org.jooq.SQLDialect.POSTGRES;
 // ...
 // ...
 import static org.jooq.SQLDialect.SQLITE;
+import static org.jooq.SQLDialect.XUGU;
 // ...
 // ...
 // ...
@@ -284,36 +285,17 @@ public interface AlterTableStep {
     @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
     AlterTableAlterStep<Object> alterColumn(String field);
 
+    @Support({XUGU})
+    @NotNull
+    AlterTableAlterConstraintStep alterConstraint(Constraint paramConstraint);
 
+    @Support({XUGU})
+    @NotNull
+    AlterTableAlterConstraintStep alterConstraint(Name paramName);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Support({XUGU})
+    @NotNull
+    AlterTableAlterConstraintStep alterConstraint(String paramString);
 
     /**
      * Add an <code>ADD COLUMN</code> clause to the <code>ALTER TABLE</code>
