@@ -1735,9 +1735,9 @@ final class AlterTableImpl extends AbstractRowCountQuery implements
 
     private final void acceptDropColumn(Context<?> ctx) {
         switch (ctx.family()) {
-
-
-
+            case XUGU:
+                ctx.visit(K_DROP_COLUMN);
+                break;
 
 
 
