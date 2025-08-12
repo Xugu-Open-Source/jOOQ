@@ -43,6 +43,7 @@ import static org.jooq.SQLDialect.FIREBIRD;
 import static org.jooq.SQLDialect.POSTGRES;
 // ...
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.impl.DSL.comment;
 import static org.jooq.impl.DSL.inline;
 import static org.jooq.impl.Keywords.K_ALTER_TABLE;
@@ -85,7 +86,7 @@ implements
      * Generated UID
      */
     private static final long                serialVersionUID         = 2665659331902435568L;
-    private static final Set<SQLDialect>     SUPPORTS_COMMENT_ON_VIEW = SQLDialect.supportedBy(FIREBIRD, POSTGRES);
+    private static final Set<SQLDialect>     SUPPORTS_COMMENT_ON_VIEW = SQLDialect.supportedBy(FIREBIRD, POSTGRES, XUGU);
 
     private final Table<?>                   table;
     private final boolean                    isView;
