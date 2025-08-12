@@ -72,10 +72,9 @@ final class SetCatalog extends AbstractRowCountQuery {
 
 
 
-
-
-
-
+            case XUGU:
+                ctx.visit(K_USE).sql(' ').visit(catalog);
+                break;
             case DERBY:
             case H2:
             case HSQLDB:

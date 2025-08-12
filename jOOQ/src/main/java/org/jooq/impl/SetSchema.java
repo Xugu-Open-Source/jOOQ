@@ -48,6 +48,7 @@ import static org.jooq.impl.Keywords.K_USE;
 
 import org.jooq.Configuration;
 import org.jooq.Context;
+import org.jooq.QueryPart;
 import org.jooq.Schema;
 
 /**
@@ -79,9 +80,9 @@ final class SetSchema extends AbstractRowCountQuery {
 
 
 
-
-
-
+            case XUGU:
+                ctx.visit(K_ALTER).sql(' ').visit(K_SESSION).sql(' ').visit(K_SET).sql(' ').visit(K_CURRENT_SCHEMA).sql(" = ").visit(schema);
+                break;
             case MARIADB:
             case MYSQL:
                 ctx.visit(K_USE).sql(' ').visit(schema);
