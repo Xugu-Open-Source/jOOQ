@@ -9108,7 +9108,7 @@ public interface DSLContext extends Scope {
      * @see DSL#catalog(Name)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL })
+    @Support({ MARIADB, MYSQL, XUGU })
     RowCountQuery setCatalog(String catalog);
 
     /**
@@ -9117,14 +9117,14 @@ public interface DSLContext extends Scope {
      * @see DSL#catalog(Name)
      */
     @NotNull
-    @Support({ MARIADB, MYSQL })
+    @Support({ MARIADB, MYSQL, XUGU })
     RowCountQuery setCatalog(Name catalog);
 
     /**
      * Set the current catalog to a new value.
      */
     @NotNull
-    @Support({ MARIADB, MYSQL })
+    @Support({ MARIADB, MYSQL, XUGU })
     RowCountQuery setCatalog(Catalog catalog);
 
     /**
@@ -9134,7 +9134,7 @@ public interface DSLContext extends Scope {
      * @see DSL#setSchema(String)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     RowCountQuery setSchema(String schema);
 
     /**
@@ -9144,7 +9144,7 @@ public interface DSLContext extends Scope {
      * @see DSL#setSchema(Name)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     RowCountQuery setSchema(Name schema);
 
     /**
@@ -9153,7 +9153,7 @@ public interface DSLContext extends Scope {
      * @see DSL#setSchema(Schema)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     RowCountQuery setSchema(Schema schema);
 
     /**
@@ -9771,7 +9771,7 @@ public interface DSLContext extends Scope {
      * @see DSL#grant(Privilege)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     GrantOnStep grant(Privilege privileges);
 
     /**
@@ -9780,7 +9780,7 @@ public interface DSLContext extends Scope {
      * @see DSL#grant(Privilege...)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     GrantOnStep grant(Privilege... privileges);
 
     /**
@@ -9789,7 +9789,7 @@ public interface DSLContext extends Scope {
      * @see DSL#grant(Collection)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     GrantOnStep grant(Collection<? extends Privilege> privileges);
 
     /**
@@ -9798,7 +9798,7 @@ public interface DSLContext extends Scope {
      * @see DSL#revoke(Privilege)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     RevokeOnStep revoke(Privilege privileges);
 
     /**
@@ -9807,7 +9807,7 @@ public interface DSLContext extends Scope {
      * @see DSL#revoke(Privilege...)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     RevokeOnStep revoke(Privilege... privileges);
 
     /**
@@ -9816,7 +9816,7 @@ public interface DSLContext extends Scope {
      * @see DSL#revoke(Collection)
      */
     @NotNull
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     RevokeOnStep revoke(Collection<? extends Privilege> privileges);
 
     /**
@@ -9825,7 +9825,7 @@ public interface DSLContext extends Scope {
      * @see DSL#revokeGrantOptionFor(Privilege)
      */
     @NotNull
-    @Support({ HSQLDB, POSTGRES })
+    @Support({ HSQLDB, POSTGRES, XUGU })
     RevokeOnStep revokeGrantOptionFor(Privilege privileges);
 
     /**
@@ -9834,7 +9834,7 @@ public interface DSLContext extends Scope {
      * @see DSL#revokeGrantOptionFor(Privilege...)
      */
     @NotNull
-    @Support({ HSQLDB, POSTGRES })
+    @Support({ HSQLDB, POSTGRES, XUGU })
     RevokeOnStep revokeGrantOptionFor(Privilege... privileges);
 
     /**
@@ -9843,7 +9843,7 @@ public interface DSLContext extends Scope {
      * @see DSL#revokeGrantOptionFor(Collection)
      */
     @NotNull
-    @Support({ HSQLDB, POSTGRES })
+    @Support({ HSQLDB, POSTGRES, XUGU })
     RevokeOnStep revokeGrantOptionFor(Collection<? extends Privilege> privileges);
 
 
@@ -9855,7 +9855,7 @@ public interface DSLContext extends Scope {
      * @see AlterTableStep#comment(Comment)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     CommentOnIsStep commentOnTable(String tableName);
 
     /**
@@ -9865,7 +9865,7 @@ public interface DSLContext extends Scope {
      * @see AlterTableStep#comment(Comment)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     CommentOnIsStep commentOnTable(Name tableName);
 
     /**
@@ -9875,7 +9875,7 @@ public interface DSLContext extends Scope {
      * @see AlterTableStep#comment(Comment)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     CommentOnIsStep commentOnTable(Table<?> table);
 
     /**
@@ -9885,7 +9885,7 @@ public interface DSLContext extends Scope {
      * @see AlterViewStep#comment(Comment)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     CommentOnIsStep commentOnView(String viewName);
 
     /**
@@ -9895,7 +9895,7 @@ public interface DSLContext extends Scope {
      * @see AlterViewStep#comment(Comment)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     CommentOnIsStep commentOnView(Name viewName);
 
     /**
@@ -9905,7 +9905,7 @@ public interface DSLContext extends Scope {
      * @see AlterViewStep#comment(Comment)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     CommentOnIsStep commentOnView(Table<?> view);
 
     /**
@@ -9914,7 +9914,7 @@ public interface DSLContext extends Scope {
      * @see DSL#commentOnColumn(Name)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     CommentOnIsStep commentOnColumn(Name columnName);
 
     /**
@@ -9923,7 +9923,7 @@ public interface DSLContext extends Scope {
      * @see DSL#commentOnColumn(Field)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     CommentOnIsStep commentOnColumn(Field<?> field);
 
     /**
@@ -10856,7 +10856,7 @@ public interface DSLContext extends Scope {
      * @see DSL#alterView(String)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     AlterViewStep alterView(String view);
 
     /**
@@ -10865,7 +10865,7 @@ public interface DSLContext extends Scope {
      * @see DSL#alterView(Name)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     AlterViewStep alterView(Name view);
 
     /**
@@ -10874,7 +10874,7 @@ public interface DSLContext extends Scope {
      * @see DSL#alterView(Table)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     AlterViewStep alterView(Table<?> view);
 
     /**

@@ -70,21 +70,21 @@ public interface RevokeFromStep {
     /**
      * Add the <code>FROM</code> clause to the <code>REVOKE</code> statement.
      */
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     @NotNull
     RevokeFinalStep from(User from);
 
     /**
      * Add the <code>FROM</code> clause to the <code>REVOKE</code> statement.
      */
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     @NotNull
     RevokeFinalStep from(Role from);
 
     /**
      * Add the <code>FROM PUBLIC</code> clause to the <code>REVOKE</code> statement.
      */
-    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ DERBY, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     @NotNull
     RevokeFinalStep fromPublic();
 }

@@ -49,6 +49,7 @@ import static org.jooq.SQLDialect.H2;
 import static org.jooq.SQLDialect.HSQLDB;
 // ...
 import static org.jooq.SQLDialect.POSTGRES;
+import static org.jooq.SQLDialect.XUGU;
 // ...
 // ...
 // ...
@@ -88,7 +89,7 @@ public interface AlterViewStep {
      * @see DSLContext#commentOnView(Table)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     AlterViewFinalStep comment(String comment);
 
     /**
@@ -99,7 +100,7 @@ public interface AlterViewStep {
      * @see DSLContext#commentOnView(Table)
      */
     @NotNull
-    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES })
+    @Support({ FIREBIRD, H2, HSQLDB, POSTGRES, XUGU })
     AlterViewFinalStep comment(Comment comment);
 
     /**
