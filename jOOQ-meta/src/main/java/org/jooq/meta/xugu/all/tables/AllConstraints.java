@@ -40,7 +40,7 @@ public class AllConstraints extends TableImpl<Record> {
     public final TableField<Record, String> REF_TABLE_ID = createField(DSL.name("REF_TABLE_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
 
     /**
-     * 添加新字段
+     * 约束类型('F'：外键；'R'：引用外键；'C'：值检查；'U'：唯一值；'P'：主键)
      */
     public final TableField<Record, String> CONS_TYPE = createField(DSL.name("CONS_TYPE"), SQLDataType.VARCHAR(64).nullable(false), this, "");
 

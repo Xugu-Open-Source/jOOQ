@@ -377,7 +377,7 @@ public class XuGuDatabase extends AbstractDatabase {
                     .leftJoin(ALL_TABLES).on(ALL_TABLES.TABLE_ID.eq(ALL_CONSTRAINTS.TABLE_ID))
                     .leftJoin(ALL_SCHEMAS).on(ALL_SCHEMAS.SCHEMA_ID.eq(ALL_TABLES.SCHEMA_ID))
                     .leftJoin(ALL_DATABASES).on(ALL_TABLES.DB_ID.eq(ALL_DATABASES.DB_ID))
-                    .where(ALL_SCHEMAS.SCHEMA_NAME.in(getInputSchemata()))
+                    .where(ALL_SCHEMAS.SCHEMA_NAME.in(getInputSchemata()).and(ALL_CONSTRAINTS.CONS_TYPE.eq("C")))
                     .orderBy(
                             ALL_SCHEMAS.SCHEMA_NAME,
                             ALL_TABLES.TABLE_NAME,
