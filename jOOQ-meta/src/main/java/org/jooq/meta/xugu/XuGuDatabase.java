@@ -90,7 +90,7 @@ public class XuGuDatabase extends AbstractDatabase {
                         ALL_SCHEMAS.SCHEMA_NAME,
                         ALL_TABLES.TABLE_NAME,
                         ALL_INDEXES.INDEX_NAME,
-                        when(ALL_INDEXES.IS_UNIQUE.eq("TRUE"),inline("NO")).otherwise(inline("YES")).as("IS_UNIQUE"),
+                        when(ALL_INDEXES.IS_UNIQUE.eq(true),inline("NO")).otherwise(inline("YES")).as("IS_UNIQUE"),
                         ALL_INDEXES.KEYS,
                         inline("").as(ALL_INDEXES.SEQ_IN_INDEX))
                 .from(ALL_INDEXES)
@@ -100,14 +100,7 @@ public class XuGuDatabase extends AbstractDatabase {
                         getInputSchemata().size() == 1
                                 ? ALL_SCHEMAS.SCHEMA_NAME.in(getInputSchemata())
                                 : falseCondition()))
-                .and(getIncludeSystemIndexes()
-                                ? noCondition()
-                                : row(ALL_SCHEMAS.SCHEMA_NAME, ALL_TABLES.TABLE_NAME, ALL_INDEXES.INDEX_NAME).notIn(
-                                select(ALL_SCHEMAS.SCHEMA_NAME, ALL_TABLES.TABLE_NAME, ALL_CONSTRAINTS.CONS_NAME)
-                                        .from(ALL_CONSTRAINTS)
-                                        .leftJoin(ALL_TABLES).on(ALL_TABLES.TABLE_ID.eq(ALL_CONSTRAINTS.TABLE_ID))
-                                        .leftJoin(ALL_SCHEMAS).on(ALL_SCHEMAS.SCHEMA_ID.eq(ALL_TABLES.SCHEMA_ID))
-                        )
+                .and(ALL_INDEXES.IS_UNIQUE.eq(false).and(ALL_INDEXES.IS_PRIMARY.eq(false))
                 )
                 .orderBy(
                         ALL_SCHEMAS.SCHEMA_NAME,
@@ -269,8 +262,8 @@ public class XuGuDatabase extends AbstractDatabase {
                                 ? ALL_SCHEMAS.SCHEMA_NAME.in(getInputSchemata())
                                 : falseCondition()))
                 .and(primary
-                        ? ALL_INDEXES.IS_PRIMARY.eq(inline(1))
-                        : ALL_INDEXES.IS_PRIMARY.ne(inline(1)).and(ALL_INDEXES.IS_UNIQUE.eq(inline("TRUE"))))
+                        ? ALL_INDEXES.IS_PRIMARY.eq(true)
+                        : ALL_INDEXES.IS_PRIMARY.ne(true).and(ALL_INDEXES.IS_UNIQUE.eq(inline(true))))
                 .orderBy(
                         ALL_SCHEMAS.SCHEMA_NAME,
                         ALL_TABLES.TABLE_NAME,
@@ -303,7 +296,7 @@ public class XuGuDatabase extends AbstractDatabase {
                 //依赖所在表
                 .join(rt).on(ALL_CONSTRAINTS.REF_TABLE_ID.eq(rt.TABLE_ID))
                 .join(rs).on(rs.SCHEMA_ID.eq(rt.SCHEMA_ID))
-                .join(ALL_INDEXES).on(ALL_INDEXES.TABLE_ID.eq(rt.TABLE_ID)).and(ALL_INDEXES.IS_UNIQUE.eq("TRUE"))
+                .join(ALL_INDEXES).on(ALL_INDEXES.TABLE_ID.eq(rt.TABLE_ID)).and(ALL_INDEXES.IS_UNIQUE.eq(true))
                 .where(ALL_CONSTRAINTS.CONS_TYPE.eq("F"))
                 .and(s.SCHEMA_NAME.in(getInputSchemata()).or(
                         getInputSchemata().size() == 1
