@@ -66,6 +66,7 @@ import static org.jooq.SQLDialect.POSTGRES;
 // ...
 import static org.jooq.SQLDialect.SQLITE;
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.impl.DSL.exists;
 import static org.jooq.impl.DSL.name;
 import static org.jooq.impl.DSL.noCondition;
@@ -105,7 +106,7 @@ final class RowSubqueryCondition extends AbstractCondition {
      */
     private static final long            serialVersionUID             = -1806139685201770706L;
     private static final Clause[]        CLAUSES                      = { CONDITION, CONDITION_COMPARISON };
-    private static final Set<SQLDialect> SUPPORT_NATIVE               = SQLDialect.supportedBy(H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE);
+    private static final Set<SQLDialect> SUPPORT_NATIVE               = SQLDialect.supportedBy(H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU);
     private static final Set<SQLDialect> NO_SUPPORT_NATIVE_QUANTIFIED = SQLDialect.supportedBy(DERBY, FIREBIRD, MARIADB, MYSQL, SQLITE);
 
 
