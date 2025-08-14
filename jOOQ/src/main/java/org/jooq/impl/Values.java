@@ -55,6 +55,7 @@ import static org.jooq.SQLDialect.MYSQL;
 // ...
 // ...
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.impl.Keywords.K_MULTISET;
 import static org.jooq.impl.Keywords.K_ROW;
 import static org.jooq.impl.Keywords.K_TABLE;
@@ -84,7 +85,7 @@ final class Values<R extends Record> extends AbstractTable<R> {
      * Generated UID
      */
     private static final long    serialVersionUID  = -637982217747670311L;
-    static final Set<SQLDialect> NO_SUPPORT_VALUES = SQLDialect.supportedUntil(FIREBIRD, MARIADB);
+    static final Set<SQLDialect> NO_SUPPORT_VALUES = SQLDialect.supportedUntil(FIREBIRD, MARIADB, XUGU);
 
     private final Row[]                  rows;
 
