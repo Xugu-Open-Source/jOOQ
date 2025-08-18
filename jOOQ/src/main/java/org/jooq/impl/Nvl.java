@@ -77,8 +77,7 @@ final class Nvl<T> extends AbstractField<T> {
 
 
 
-
-
+            case XUGU:
             case H2:
             case HSQLDB:
                 ctx.visit(N_NVL).sql('(').visit(arg1).sql(", ").visit(arg2).sql(')');
