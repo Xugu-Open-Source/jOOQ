@@ -80,8 +80,7 @@ final class Decode<T, Z> extends AbstractField<Z> {
 
 
 
-
-
+            case XUGU:
             case H2:
                 ctx.visit(function("decode", getDataType(), Tools.combine(field, search, result, more)));
                 return;
