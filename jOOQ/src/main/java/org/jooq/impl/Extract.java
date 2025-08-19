@@ -322,8 +322,7 @@ final class Extract extends AbstractField<Integer> {
 
 
 
-
-
+            case XUGU:
             case MARIADB:
             case MYSQL:
                 switch (datePart) {
