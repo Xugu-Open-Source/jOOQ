@@ -96,8 +96,7 @@ final class DateDiff<T> extends AbstractField<Integer> {
         switch (ctx.family()) {
 
 
-
-
+            case XUGU:
             case MARIADB:
             case MYSQL:
                 switch (p) {
