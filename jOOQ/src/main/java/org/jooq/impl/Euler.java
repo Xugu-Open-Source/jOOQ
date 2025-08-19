@@ -80,8 +80,7 @@ final class Euler extends AbstractField<BigDecimal> {
 
 
 
-
-
+            case XUGU:
             case CUBRID:
             case DERBY:
             case FIREBIRD:
