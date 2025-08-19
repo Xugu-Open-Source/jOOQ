@@ -731,8 +731,7 @@ final class Expression<T> extends AbstractTransformable<T> {
 
 
 
-
-
+                case XUGU:
                 case CUBRID:
                 case MARIADB:
                 case MYSQL: {
