@@ -88,8 +88,7 @@ final class RTrim extends AbstractField<String> {
 
 
 
-
-
+                case XUGU:
                 case SQLITE:
                     ctx.visit(N_RTRIM).sql('(').visit(argument).sql(", ").visit(characters).sql(')');
                     break;

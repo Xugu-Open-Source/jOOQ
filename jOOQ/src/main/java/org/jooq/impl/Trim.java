@@ -43,6 +43,7 @@ package org.jooq.impl;
 import static org.jooq.SQLDialect.SQLITE;
 // ...
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.impl.Keywords.K_BOTH;
 import static org.jooq.impl.Keywords.K_FROM;
 import static org.jooq.impl.Names.N_TRIM;
@@ -94,7 +95,7 @@ final class Trim extends AbstractField<String> {
 
             ctx.visit(N_TRIM).sql('(').visit(argument).sql(')');
         }
-        else if (ctx.family() == SQLITE)
+        else if (ctx.family() == SQLITE || ctx.family() == XUGU)
             ctx.visit(N_TRIM).sql('(').visit(argument).sql(", ").visit(characters).sql(')');
 
 

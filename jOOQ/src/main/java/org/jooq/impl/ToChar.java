@@ -43,6 +43,7 @@ import static org.jooq.SQLDialect.H2;
 // ...
 import static org.jooq.SQLDialect.POSTGRES;
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.impl.Names.N_TO_CHAR;
 import static org.jooq.impl.SQLDataType.VARCHAR;
 
@@ -62,7 +63,7 @@ final class ToChar extends AbstractField<String> {
      */
     private static final long            serialVersionUID            = 2484479701190490450L;
     private static final Set<SQLDialect> SUPPORT_NATIVE_WITHOUT_MASK = SQLDialect.supportedBy(H2);
-    private static final Set<SQLDialect> SUPPORT_NATIVE_WITH_MASK    = SQLDialect.supportedBy(H2, POSTGRES);
+    private static final Set<SQLDialect> SUPPORT_NATIVE_WITH_MASK    = SQLDialect.supportedBy(H2, POSTGRES, XUGU);
     private final Field<?>               field;
     private final Field<String>          format;
 
