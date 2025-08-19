@@ -96,6 +96,7 @@ final class Names {
     static final Name N_CURRVAL                = unquotedName("currval");
     static final Name N_DATE_ADD               = unquotedName("date_add");
     static final Name N_DATE_DIFF              = unquotedName("date_diff");
+    static final Name N_DATE_SUB               = unquotedName("date_sub");
     static final Name N_DATE_TRUNC             = unquotedName("date_trunc");
     static final Name N_DATEADD                = unquotedName("dateadd");
     static final Name N_DATEDIFF               = unquotedName("datediff");

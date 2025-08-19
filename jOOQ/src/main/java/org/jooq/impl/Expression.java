@@ -59,6 +59,7 @@ import static org.jooq.SQLDialect.SQLITE;
 // ...
 // ...
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.impl.DSL.function;
 import static org.jooq.impl.DSL.inline;
 import static org.jooq.impl.DSL.keyword;
@@ -96,6 +97,7 @@ import static org.jooq.impl.Names.N_ADD_MONTHS;
 import static org.jooq.impl.Names.N_ADD_SECONDS;
 import static org.jooq.impl.Names.N_DATEADD;
 import static org.jooq.impl.Names.N_DATE_ADD;
+import static org.jooq.impl.Names.N_DATE_SUB;
 import static org.jooq.impl.Names.N_SQL_TSI_FRAC_SECOND;
 import static org.jooq.impl.Names.N_SQL_TSI_MILLI_SECOND;
 import static org.jooq.impl.Names.N_SQL_TSI_MONTH;
@@ -737,7 +739,9 @@ final class Expression<T> extends AbstractTransformable<T> {
                 case MYSQL: {
                     if (operator == ADD)
                         ctx.visit(N_DATE_ADD).sql('(').visit(lhs).sql(", ").visit(K_INTERVAL).sql(' ').visit(rhsAsNumber()).sql(' ').visit(K_DAY).sql(')');
-                    else
+                    else if (operator == SUBTRACT && ctx.dialect() == XUGU) {
+                        ctx.visit(N_DATE_SUB).sql('(').visit(lhs).sql(", ").visit(K_INTERVAL).sql(' ').visit(rhsAsNumber()).sql(' ').visit(K_DAY).sql(')');
+                    } else
                         ctx.visit(N_DATE_ADD).sql('(').visit(lhs).sql(", ").visit(K_INTERVAL).sql(' ').visit(rhsAsNumber().neg()).sql(' ').visit(K_DAY).sql(')');
 
                     break;
