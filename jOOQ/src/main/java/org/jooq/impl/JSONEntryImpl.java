@@ -127,8 +127,7 @@ final class JSONEntryImpl<T> extends AbstractQueryPart implements JSONEntry<T>, 
 
 
 
-
-
+            case XUGU:
             case MARIADB:
             case MYSQL:
             case POSTGRES:
