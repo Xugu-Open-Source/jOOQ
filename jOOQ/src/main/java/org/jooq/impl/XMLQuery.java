@@ -52,6 +52,7 @@ import static org.jooq.impl.XMLTable.acceptXPath;
 
 import org.jooq.Context;
 import org.jooq.Field;
+import org.jooq.SQLDialect;
 import org.jooq.XML;
 import org.jooq.XMLQueryPassingStep;
 
@@ -145,9 +146,9 @@ final class XMLQuery extends AbstractField<XML> implements XMLQueryPassingStep {
                 acceptPassing(ctx, passing, passingMechanism);
 
 
-
-
-
+                if (ctx.dialect() == SQLDialect.XUGU) {
+                    ctx.formatSeparator().visit(K_RETURNING).sql(' ').visit(K_CONTENT);
+                }
 
                 ctx.formatIndentEnd()
                    .formatNewLine()
