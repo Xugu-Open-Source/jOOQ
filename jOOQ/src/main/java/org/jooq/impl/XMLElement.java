@@ -52,6 +52,7 @@ import org.jooq.Context;
 import org.jooq.DataType;
 import org.jooq.Field;
 import org.jooq.Name;
+import org.jooq.SQLDialect;
 import org.jooq.XML;
 import org.jooq.XMLAttributes;
 
@@ -91,7 +92,11 @@ final class XMLElement extends AbstractField<XML> {
             ctx.data(DATA_LIST_ALREADY_INDENTED, true);
         }
 
-        ctx.visit(K_NAME).sql(' ').visit(elementName);
+        if (ctx.dialect() == SQLDialect.XUGU) {
+            ctx.visit(elementName);
+        } else {
+            ctx.visit(K_NAME).sql(' ').visit(elementName);
+        }
 
         if (hasAttributes)
             if (format)
