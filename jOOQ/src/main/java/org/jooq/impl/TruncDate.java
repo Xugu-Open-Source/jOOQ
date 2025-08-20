@@ -78,6 +78,7 @@ final class TruncDate<T> extends AbstractField<T> {
         switch (ctx.family()) {
 
             // [http://jira.cubrid.org/browse/ENGINE-120] This currently doesn't work for all date parts in CUBRID
+            case XUGU:
             case CUBRID:
             case HSQLDB: {
                 switch (part) {
