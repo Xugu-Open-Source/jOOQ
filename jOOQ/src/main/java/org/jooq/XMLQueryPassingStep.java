@@ -43,6 +43,7 @@ import org.jetbrains.annotations.*;
 // ...
 // ...
 import static org.jooq.SQLDialect.POSTGRES;
+import static org.jooq.SQLDialect.XUGU;
 
 /**
  * A step in the construction of an <code>XMLQUERY</code> expression.
@@ -56,7 +57,7 @@ public interface XMLQueryPassingStep {
      * expression.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     Field<XML> passing(XML xml);
 
     /**
@@ -64,7 +65,7 @@ public interface XMLQueryPassingStep {
      * expression.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     Field<XML> passing(Field<XML> xml);
 
     /**

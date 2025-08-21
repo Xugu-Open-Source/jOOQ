@@ -15174,7 +15174,7 @@ public class DSL {
      * @see #rpad(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> rpad(Field<String> field, int length) {
         return rpad(nullSafe(field), Tools.field(length));
     }
@@ -15189,7 +15189,7 @@ public class DSL {
      * <code><pre>concat([field], repeat(' ', [length] - length([field])))</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> rpad(Field<String> field, Field<? extends Number> length) {
         return new Rpad(nullSafe(field), nullSafe(length));
     }
@@ -15200,7 +15200,7 @@ public class DSL {
      * @see #rpad(Field, Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> rpad(Field<String> field, int length, char character) {
         return rpad(field, length, Character.toString(character));
     }
@@ -15211,7 +15211,7 @@ public class DSL {
      * @see #rpad(Field, Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> rpad(Field<String> field, int length, String character) {
         return rpad(nullSafe(field), Tools.field(length), Tools.field(character));
     }
@@ -15229,7 +15229,7 @@ public class DSL {
      * <code><pre>[field] || replace(replace(substr(quote(zeroblob(([length] + 1) / 2)), 3, ([length] - length([field]))), '\''', ''), '0', [character])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> rpad(Field<String> field, Field<? extends Number> length, Field<String> character) {
         return new Rpad(nullSafe(field), nullSafe(length), nullSafe(character));
     }
@@ -15240,7 +15240,7 @@ public class DSL {
      * @see #lpad(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> lpad(Field<String> field, int length) {
         return lpad(nullSafe(field), Tools.field(length));
     }
@@ -15255,7 +15255,7 @@ public class DSL {
      * <code><pre>concat(repeat(' ', [length] - length([field])), [field])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> lpad(Field<String> field, Field<? extends Number> length) {
         return new Lpad(nullSafe(field), nullSafe(length));
     }
@@ -15266,7 +15266,7 @@ public class DSL {
      * @see #lpad(Field, Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> lpad(Field<String> field, int length, char character) {
         return lpad(field, length, Character.toString(character));
     }
@@ -15277,7 +15277,7 @@ public class DSL {
      * @see #lpad(Field, Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> lpad(Field<String> field, int length, String character) {
         return lpad(nullSafe(field), Tools.field(length), Tools.field(character));
     }
@@ -15295,7 +15295,7 @@ public class DSL {
      * <code><pre>replace(replace(substr(quote(zeroblob(([length] + 1) / 2)), 3, ([length] - length([field]))), '\''', ''), '0', [character]) || [field]</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> lpad(Field<String> field, Field<? extends Number> length, Field<String> character) {
         return new Lpad(nullSafe(field), nullSafe(length), nullSafe(character));
     }
@@ -15306,7 +15306,7 @@ public class DSL {
      * @see #translate(Field, Field, Field)
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<String> translate(Field<String> text, String from, String to) {
         return translate(text, Tools.field(from), Tools.field(to));
     }
@@ -15315,7 +15315,7 @@ public class DSL {
      * Get the translate(field, from, to) function.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<String> translate(Field<String> text, Field<String> from, Field<String> to) {
         return new Translate(text, from, to);
     }
@@ -15326,7 +15326,7 @@ public class DSL {
      * @see #repeat(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> repeat(String field, int count) {
         return repeat(Tools.field(field), Tools.field(count));
     }
@@ -15337,7 +15337,7 @@ public class DSL {
      * @see #repeat(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> repeat(String field, Field<? extends Number> count) {
         return repeat(Tools.field(field), nullSafe(count));
     }
@@ -15348,7 +15348,7 @@ public class DSL {
      * @see #repeat(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> repeat(Field<String> field, int count) {
         return repeat(nullSafe(field), Tools.field(count));
     }
@@ -15367,7 +15367,7 @@ public class DSL {
      * <code><pre>replace(substr(quote(zeroblob(([count] + 1) / 2)), 3, [count]), '0', [field])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> repeat(Field<String> field, Field<? extends Number> count) {
         return new Repeat(nullSafe(field), nullSafe(count));
     }
@@ -15382,7 +15382,7 @@ public class DSL {
      *      href="http://technet.microsoft.com/en-us/library/ms187950.aspx">http://technet.microsoft.com/en-us/library/ms187950.aspx</a>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> space(int value) {
         return space(val(value));
     }
@@ -15397,7 +15397,7 @@ public class DSL {
      *      href="http://technet.microsoft.com/en-us/library/ms187950.aspx">http://technet.microsoft.com/en-us/library/ms187950.aspx</a>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> space(Field<Integer> value) {
         return new Space(nullSafe(value));
     }
@@ -15406,7 +15406,7 @@ public class DSL {
      * Get the <code>reverse(field)</code> function.
      */
     @NotNull
-    @Support({ CUBRID, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<String> reverse(String value) {
         return reverse(val(value));
     }
@@ -15415,7 +15415,7 @@ public class DSL {
      * Get the <code>reverse(field)</code> function.
      */
     @NotNull
-    @Support({ CUBRID, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<String> reverse(Field<String> field) {
         return new Reverse(nullSafe(field));
     }
@@ -15468,7 +15468,7 @@ public class DSL {
      * @see #replace(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> replace(Field<String> field, String search) {
         return replace(nullSafe(field), Tools.field(search));
     }
@@ -15483,7 +15483,7 @@ public class DSL {
      * <code><pre>replace([field], [search], '')</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> replace(Field<String> field, Field<String> search) {
         return new Replace(nullSafe(field), nullSafe(search), null);
     }
@@ -15494,7 +15494,7 @@ public class DSL {
      * @see #replace(Field, Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> replace(Field<String> field, String search, String replace) {
         return replace(nullSafe(field), Tools.field(search), Tools.field(replace));
     }
@@ -15507,7 +15507,7 @@ public class DSL {
      * str_replace([field], [search])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<String> replace(Field<String> field, Field<String> search, Field<String> replace) {
         return new Replace(nullSafe(field), nullSafe(search), nullSafe(replace));
     }
@@ -15516,7 +15516,7 @@ public class DSL {
      * Get the <code>REGEXP_REPLACE_ALL</code> function.
      */
     @NotNull
-    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<String> regexpReplaceAll(Field<String> field, String pattern, String replacement) {
         return regexpReplaceAll(field, Tools.field(pattern), Tools.field(replacement));
     }
@@ -15525,7 +15525,7 @@ public class DSL {
      * Get the <code>REGEXP_REPLACE_ALL</code> function.
      */
     @NotNull
-    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<String> regexpReplaceAll(Field<String> field, Field<String> pattern, Field<String> replacement) {
         return new RegexpReplace(field, nullSafe(pattern), nullSafe(replacement), true);
     }
@@ -15534,7 +15534,7 @@ public class DSL {
      * Get the <code>REGEXP_REPLACE_ALL</code> function.
      */
     @NotNull
-    @Support({ MYSQL, POSTGRES })
+    @Support({ MYSQL, POSTGRES, XUGU })
     public static Field<String> regexpReplaceFirst(Field<String> field, String pattern, String replacement) {
         return regexpReplaceFirst(field, Tools.field(pattern), Tools.field(replacement));
     }
@@ -15543,7 +15543,7 @@ public class DSL {
      * Get the <code>REGEXP_REPLACE_ALL</code> function.
      */
     @NotNull
-    @Support({ MYSQL, POSTGRES })
+    @Support({ MYSQL, POSTGRES, XUGU })
     public static Field<String> regexpReplaceFirst(Field<String> field, Field<String> pattern, Field<String> replacement) {
         return new RegexpReplace(field, nullSafe(pattern), nullSafe(replacement), false);
     }
@@ -15755,7 +15755,7 @@ public class DSL {
      * @see #ascii(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<Integer> ascii(String field) {
         return ascii(Tools.field(field));
     }
@@ -15767,7 +15767,7 @@ public class DSL {
      * <code><pre>ascii([field])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<Integer> ascii(Field<String> field) {
         return new Ascii(nullSafe(field));
     }
@@ -16128,7 +16128,7 @@ public class DSL {
      * </table>
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<String> md5(String string) {
         return md5(Tools.field(string));
     }
@@ -16162,7 +16162,7 @@ public class DSL {
      * </table>
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<String> md5(Field<String> string) {
         return new MD5(nullSafe(string));
     }
@@ -17207,7 +17207,7 @@ public class DSL {
      * Truncate a date to the beginning of the day.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, POSTGRES, XUGU })
     public static Field<Date> trunc(Date date) {
         return trunc(date, DatePart.DAY);
     }
@@ -17216,7 +17216,7 @@ public class DSL {
      * Truncate a date to a given datepart.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, POSTGRES, XUGU })
     public static Field<Date> trunc(Date date, DatePart part) {
         return trunc(Tools.field(date), part);
     }
@@ -17227,7 +17227,7 @@ public class DSL {
      * Truncate a date to the beginning of the day.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, POSTGRES, XUGU })
     public static Field<LocalDate> trunc(LocalDate date) {
         return trunc(date, DatePart.DAY);
     }
@@ -17236,7 +17236,7 @@ public class DSL {
      * Truncate a date to a given datepart.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, POSTGRES, XUGU })
     public static Field<LocalDate> trunc(LocalDate date, DatePart part) {
         return trunc(Tools.field(date), part);
     }
@@ -17247,7 +17247,7 @@ public class DSL {
      * Truncate a timestamp to the beginning of the day.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, POSTGRES, XUGU })
     public static Field<Timestamp> trunc(Timestamp timestamp) {
         return trunc(timestamp, DatePart.DAY);
     }
@@ -17256,7 +17256,7 @@ public class DSL {
      * Truncate a timestamp to a given datepart.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, POSTGRES, XUGU })
     public static Field<Timestamp> trunc(Timestamp timestamp, DatePart part) {
         return trunc(Tools.field(timestamp), part);
     }
@@ -17267,7 +17267,7 @@ public class DSL {
      * Truncate a timestamp to the beginning of the day.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, POSTGRES, XUGU })
     public static Field<LocalDateTime> trunc(LocalDateTime timestamp) {
         return trunc(timestamp, DatePart.DAY);
     }
@@ -17276,7 +17276,7 @@ public class DSL {
      * Truncate a timestamp to a given datepart.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, POSTGRES, XUGU })
     public static Field<LocalDateTime> trunc(LocalDateTime timestamp, DatePart part) {
         return trunc(Tools.field(timestamp), part);
     }
@@ -17287,7 +17287,7 @@ public class DSL {
      * Truncate a date or a timestamp to the beginning of the day.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, POSTGRES, XUGU })
     public static <T> Field<T> trunc(Field<T> date) {
         return trunc(date, DatePart.DAY);
     }
@@ -17296,7 +17296,7 @@ public class DSL {
      * Truncate a date or a timestamp to a given datepart.
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, POSTGRES, XUGU })
     public static <T> Field<T> trunc(Field<T> date, DatePart part) {
         return new TruncDate<>(date, part);
     }
@@ -17345,7 +17345,7 @@ public class DSL {
      * with {@link DatePart#EPOCH}
      */
     @NotNull
-    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Integer> epoch(java.util.Date value) {
         return extract(value, DatePart.EPOCH);
     }
@@ -17359,7 +17359,7 @@ public class DSL {
      * with {@link DatePart#EPOCH}
      */
     @NotNull
-    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Integer> epoch(Temporal value) {
         return extract(value, DatePart.EPOCH);
     }
@@ -17373,7 +17373,7 @@ public class DSL {
      * with {@link DatePart#EPOCH}
      */
     @NotNull
-    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Integer> epoch(Field<?> field) {
         return extract(field, DatePart.EPOCH);
     }
@@ -17745,7 +17745,7 @@ public class DSL {
      * with {@link DatePart#ISO_DAY_OF_WEEK}
      */
     @NotNull
-    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Integer> isoDayOfWeek(java.util.Date value) {
         return extract(value, DatePart.ISO_DAY_OF_WEEK);
     }
@@ -17759,7 +17759,7 @@ public class DSL {
      * with {@link DatePart#ISO_DAY_OF_WEEK}
      */
     @NotNull
-    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Integer> isoDayOfWeek(Temporal value) {
         return extract(value, DatePart.ISO_DAY_OF_WEEK);
     }
@@ -17773,7 +17773,7 @@ public class DSL {
      * with {@link DatePart#ISO_DAY_OF_WEEK}
      */
     @NotNull
-    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Integer> isoDayOfWeek(Field<?> field) {
         return extract(field, DatePart.ISO_DAY_OF_WEEK);
     }
@@ -17785,7 +17785,7 @@ public class DSL {
      * with {@link DatePart#DAY_OF_YEAR}
      */
     @NotNull
-    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Integer> dayOfYear(java.util.Date value) {
         return extract(value, DatePart.DAY_OF_YEAR);
     }
@@ -17799,7 +17799,7 @@ public class DSL {
      * with {@link DatePart#DAY_OF_YEAR}
      */
     @NotNull
-    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Integer> dayOfYear(Temporal value) {
         return extract(value, DatePart.DAY_OF_YEAR);
     }
@@ -17813,7 +17813,7 @@ public class DSL {
      * with {@link DatePart#DAY_OF_YEAR}
      */
     @NotNull
-    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Integer> dayOfYear(Field<?> field) {
         return extract(field, DatePart.DAY_OF_YEAR);
     }
@@ -18142,7 +18142,7 @@ public class DSL {
      * Convert a string value to a <code>DATE</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Date> date(String value) {
         return Tools.field(Convert.convert(value, Date.class));
     }
@@ -18151,7 +18151,7 @@ public class DSL {
      * Convert a temporal value to a <code>DATE</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Date> date(java.util.Date value) {
         return Tools.field(Convert.convert(value, Date.class));
     }
@@ -18160,7 +18160,7 @@ public class DSL {
      * Convert a temporal value to a <code>DATE</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Date> date(Field<? extends java.util.Date> field) {
         return new DateOrTime<>(field, SQLDataType.DATE);
     }
@@ -18169,7 +18169,7 @@ public class DSL {
      * Convert a string value to a <code>TIME</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Time> time(String value) {
         return Tools.field(Convert.convert(value, Time.class));
     }
@@ -18178,7 +18178,7 @@ public class DSL {
      * Convert a temporal value to a <code>TIME</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Time> time(java.util.Date value) {
         return Tools.field(Convert.convert(value, Time.class));
     }
@@ -18187,7 +18187,7 @@ public class DSL {
      * Convert a temporal value to a <code>TIME</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Time> time(Field<? extends java.util.Date> field) {
         return new DateOrTime<>(field, SQLDataType.TIME);
     }
@@ -18196,7 +18196,7 @@ public class DSL {
      * Convert a string value to a <code>TIMESTAMP</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Timestamp> timestamp(String value) {
         return Tools.field(Convert.convert(value, Timestamp.class));
     }
@@ -18205,7 +18205,7 @@ public class DSL {
      * Convert a temporal value to a <code>TIMESTAMP</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Timestamp> timestamp(java.util.Date value) {
         return Tools.field(Convert.convert(value, Timestamp.class));
     }
@@ -18214,7 +18214,7 @@ public class DSL {
      * Convert a temporal value to a <code>TIMESTAMP</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Timestamp> timestamp(Field<? extends java.util.Date> field) {
         return new DateOrTime<>(field, SQLDataType.TIMESTAMP);
     }
@@ -18224,7 +18224,7 @@ public class DSL {
      * Convert a string value to a <code>DATE</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<LocalDate> localDate(String value) {
         return Tools.field(Convert.convert(value, LocalDate.class));
     }
@@ -18233,7 +18233,7 @@ public class DSL {
      * Convert a temporal value to a <code>DATE</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<LocalDate> localDate(LocalDate value) {
         return Tools.field(value);
     }
@@ -18242,7 +18242,7 @@ public class DSL {
      * Convert a temporal value to a <code>DATE</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<LocalDate> localDate(Field<LocalDate> field) {
         return new DateOrTime<>(field, SQLDataType.LOCALDATE);
     }
@@ -18251,7 +18251,7 @@ public class DSL {
      * Convert a string value to a <code>TIME</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<LocalTime> localTime(String value) {
         return Tools.field(Convert.convert(value, LocalTime.class));
     }
@@ -18260,7 +18260,7 @@ public class DSL {
      * Convert a temporal value to a <code>TIME</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<LocalTime> localTime(LocalTime value) {
         return Tools.field(value);
     }
@@ -18269,7 +18269,7 @@ public class DSL {
      * Convert a temporal value to a <code>TIME</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<LocalTime> localTime(Field<LocalTime> field) {
         return new DateOrTime<>(field, SQLDataType.LOCALTIME);
     }
@@ -18278,7 +18278,7 @@ public class DSL {
      * Convert a string value to a <code>TIMESTAMP</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<LocalDateTime> localDateTime(String value) {
         return Tools.field(Convert.convert(value, LocalDateTime.class));
     }
@@ -18287,7 +18287,7 @@ public class DSL {
      * Convert a temporal value to a <code>TIMESTAMP</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<LocalDateTime> localDateTime(LocalDateTime value) {
         return Tools.field(value);
     }
@@ -18296,7 +18296,7 @@ public class DSL {
      * Convert a temporal value to a <code>TIMESTAMP</code>.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<LocalDateTime> localDateTime(Field<LocalDateTime> field) {
         return new DateOrTime<>(field, SQLDataType.LOCALDATETIME);
     }
@@ -18459,7 +18459,7 @@ public class DSL {
      * The Oracle-specific <code>TO_CHAR</code> function.
      */
     @NotNull
-    @Support({ H2, POSTGRES })
+    @Support({ H2, POSTGRES, XUGU })
     public static Field<String> toChar(Object value, String formatMask) {
         return toChar(val(value), val(formatMask));
     }
@@ -18468,7 +18468,7 @@ public class DSL {
      * The Oracle-specific <code>TO_CHAR</code> function.
      */
     @NotNull
-    @Support({ H2, POSTGRES })
+    @Support({ H2, POSTGRES, XUGU })
     public static Field<String> toChar(Object value, Field<String> formatMask) {
         return toChar(val(value), formatMask);
     }
@@ -18477,7 +18477,7 @@ public class DSL {
      * The Oracle-specific <code>TO_CHAR</code> function.
      */
     @NotNull
-    @Support({ H2, POSTGRES })
+    @Support({ H2, POSTGRES, XUGU })
     public static Field<String> toChar(Field<?> value, String formatMask) {
         return toChar(value, val(formatMask));
     }
@@ -18486,7 +18486,7 @@ public class DSL {
      * The Oracle-specific <code>TO_CHAR</code> function.
      */
     @NotNull
-    @Support({ H2, POSTGRES })
+    @Support({ H2, POSTGRES, XUGU })
     public static Field<String> toChar(Field<?> value, Field<String> formatMask) {
         return new ToChar(value, formatMask);
     }
@@ -18498,7 +18498,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<Date> toDate(String value, String format) {
         return toDate(Tools.field(value), Tools.field(format));
     }
@@ -18510,7 +18510,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<Date> toDate(String value, Field<String> format) {
         return toDate(Tools.field(value), nullSafe(format));
     }
@@ -18522,7 +18522,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<Date> toDate(Field<String> value, String format) {
         return toDate(nullSafe(value), Tools.field(format));
     }
@@ -18534,7 +18534,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<Date> toDate(Field<String> value, Field<String> format) {
         return function("to_date", SQLDataType.DATE, value, format);
     }
@@ -18546,7 +18546,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<Timestamp> toTimestamp(String value, String format) {
         return toTimestamp(Tools.field(value), Tools.field(format));
     }
@@ -18558,7 +18558,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<Timestamp> toTimestamp(String value, Field<String> format) {
         return toTimestamp(Tools.field(value), nullSafe(format));
     }
@@ -18570,7 +18570,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<Timestamp> toTimestamp(Field<String> value, String format) {
         return toTimestamp(nullSafe(value), Tools.field(format));
     }
@@ -18582,7 +18582,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<Timestamp> toTimestamp(Field<String> value, Field<String> format) {
         return function("to_timestamp", SQLDataType.TIMESTAMP, value, format);
     }
@@ -18596,7 +18596,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<LocalDate> toLocalDate(String value, String format) {
         return toDate(value, format).coerce(SQLDataType.LOCALDATE);
     }
@@ -18608,7 +18608,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<LocalDate> toLocalDate(String value, Field<String> format) {
         return toDate(value, format).coerce(SQLDataType.LOCALDATE);
     }
@@ -18620,7 +18620,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<LocalDate> toLocalDate(Field<String> value, String format) {
         return toDate(value, format).coerce(SQLDataType.LOCALDATE);
     }
@@ -18632,7 +18632,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<LocalDate> toLocalDate(Field<String> value, Field<String> format) {
         return toDate(value, format).coerce(SQLDataType.LOCALDATE);
     }
@@ -18644,7 +18644,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<LocalDateTime> toLocalDateTime(String value, String format) {
         return toTimestamp(value, format).coerce(SQLDataType.LOCALDATETIME);
     }
@@ -18656,7 +18656,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<LocalDateTime> toLocalDateTime(String value, Field<String> format) {
         return toTimestamp(value, format).coerce(SQLDataType.LOCALDATETIME);
     }
@@ -18668,7 +18668,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<LocalDateTime> toLocalDateTime(Field<String> value, String format) {
         return toTimestamp(value, format).coerce(SQLDataType.LOCALDATETIME);
     }
@@ -18680,7 +18680,7 @@ public class DSL {
      * @param format The vendor-specific formatting string.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<LocalDateTime> toLocalDateTime(Field<String> value, Field<String> format) {
         return toTimestamp(value, format).coerce(SQLDataType.LOCALDATETIME);
     }
@@ -18950,7 +18950,7 @@ public class DSL {
      * @see #bitCount(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Integer> bitCount(Number value) {
         return bitCount(Tools.field(value));
     }
@@ -18973,7 +18973,7 @@ public class DSL {
      * More efficient algorithms are very welcome
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static Field<Integer> bitCount(Field<? extends Number> field) {
         return new BitCount(nullSafe(field));
     }
@@ -18984,7 +18984,7 @@ public class DSL {
      * @see #bitNot(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitNot(T value) {
         return bitNot(Tools.field(value));
     }
@@ -18996,7 +18996,7 @@ public class DSL {
      * emulates this operator in some dialects using <code>-[field] - 1</code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitNot(Field<T> field) {
         return new Neg<>(nullSafe(field), false, ExpressionOperator.BIT_NOT);
     }
@@ -19007,7 +19007,7 @@ public class DSL {
      * @see #bitAnd(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitAnd(T value1, T value2) {
         return bitAnd(Tools.field(value1), Tools.field(value2));
     }
@@ -19018,7 +19018,7 @@ public class DSL {
      * @see #bitAnd(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitAnd(T value1, Field<T> value2) {
         return bitAnd(Tools.field(value1, value2), nullSafe(value2));
     }
@@ -19029,7 +19029,7 @@ public class DSL {
      * @see #bitAnd(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitAnd(Field<T> value1, T value2) {
         return bitAnd(nullSafe(value1), Tools.field(value2, value1));
     }
@@ -19045,7 +19045,7 @@ public class DSL {
      * <code><pre>bitand([field1], [field2])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitAnd(Field<T> field1, Field<T> field2) {
         return new Expression<>(ExpressionOperator.BIT_AND, false, nullSafe(field1), nullSafe(field2));
     }
@@ -19057,7 +19057,7 @@ public class DSL {
      * @see #bitNot(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitNand(T value1, T value2) {
         return bitNand(Tools.field(value1), Tools.field(value2));
     }
@@ -19069,7 +19069,7 @@ public class DSL {
      * @see #bitNot(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitNand(T value1, Field<T> value2) {
         return bitNand(Tools.field(value1, value2), nullSafe(value2));
     }
@@ -19081,7 +19081,7 @@ public class DSL {
      * @see #bitNot(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitNand(Field<T> value1, T value2) {
         return bitNand(nullSafe(value1), Tools.field(value2, value1));
     }
@@ -19099,7 +19099,7 @@ public class DSL {
      * @see #bitNot(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitNand(Field<T> field1, Field<T> field2) {
         return new Expression<>(ExpressionOperator.BIT_NAND, false, nullSafe(field1), nullSafe(field2));
     }
@@ -19110,7 +19110,7 @@ public class DSL {
      * @see #bitOr(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitOr(T value1, T value2) {
         return bitOr(Tools.field(value1), Tools.field(value2));
     }
@@ -19121,7 +19121,7 @@ public class DSL {
      * @see #bitOr(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitOr(T value1, Field<T> value2) {
         return bitOr(Tools.field(value1, value2), nullSafe(value2));
     }
@@ -19132,7 +19132,7 @@ public class DSL {
      * @see #bitOr(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitOr(Field<T> value1, T value2) {
         return bitOr(nullSafe(value1), Tools.field(value2, value1));
     }
@@ -19148,7 +19148,7 @@ public class DSL {
      * <code><pre>bitor([field1], [field2])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitOr(Field<T> field1, Field<T> field2) {
         return new Expression<>(ExpressionOperator.BIT_OR, false, nullSafe(field1), nullSafe(field2));
     }
@@ -19160,7 +19160,7 @@ public class DSL {
      * @see #bitNot(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitNor(T value1, T value2) {
         return bitNor(Tools.field(value1), Tools.field(value2));
     }
@@ -19171,7 +19171,7 @@ public class DSL {
      * @see #bitNot(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitNor(T value1, Field<T> value2) {
         return bitNor(Tools.field(value1, value2), nullSafe(value2));
     }
@@ -19182,7 +19182,7 @@ public class DSL {
      * @see #bitNot(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitNor(Field<T> value1, T value2) {
         return bitNor(nullSafe(value1), Tools.field(value2, value1));
     }
@@ -19200,7 +19200,7 @@ public class DSL {
      * @see #bitNot(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitNor(Field<T> field1, Field<T> field2) {
         return new Expression<>(ExpressionOperator.BIT_NOR, false, nullSafe(field1), nullSafe(field2));
     }
@@ -19211,7 +19211,7 @@ public class DSL {
      * @see #bitXor(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitXor(T value1, T value2) {
         return bitXor(Tools.field(value1), Tools.field(value2));
     }
@@ -19222,7 +19222,7 @@ public class DSL {
      * @see #bitXor(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitXor(T value1, Field<T> value2) {
         return bitXor(Tools.field(value1, value2), nullSafe(value2));
     }
@@ -19233,7 +19233,7 @@ public class DSL {
      * @see #bitXor(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitXor(Field<T> value1, T value2) {
         return bitXor(nullSafe(value1), Tools.field(value2, value1));
     }
@@ -19249,7 +19249,7 @@ public class DSL {
      * <code><pre>bitxor([field1], [field2])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitXor(Field<T> field1, Field<T> field2) {
         return new Expression<>(ExpressionOperator.BIT_XOR, false, nullSafe(field1), nullSafe(field2));
     }
@@ -19261,7 +19261,7 @@ public class DSL {
      * @see #bitNot(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitXNor(T value1, T value2) {
         return bitXNor(Tools.field(value1), Tools.field(value2));
     }
@@ -19273,7 +19273,7 @@ public class DSL {
      * @see #bitNot(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitXNor(T value1, Field<T> value2) {
         return bitXNor(Tools.field(value1, value2), nullSafe(value2));
     }
@@ -19285,7 +19285,7 @@ public class DSL {
      * @see #bitNot(Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitXNor(Field<T> value1, T value2) {
         return bitXNor(nullSafe(value1), Tools.field(value2, value1));
     }
@@ -19301,7 +19301,7 @@ public class DSL {
      * <code><pre>bitnot(bitxor([field1], [field2]))</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> bitXNor(Field<T> field1, Field<T> field2) {
         return new Expression<>(ExpressionOperator.BIT_XNOR, false, nullSafe(field1), nullSafe(field2));
     }
@@ -19313,7 +19313,7 @@ public class DSL {
      * @see #power(Field, Number)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> shl(T value1, Number value2) {
         return shl(Tools.field(value1), Tools.field(value2));
     }
@@ -19325,7 +19325,7 @@ public class DSL {
      * @see #power(Field, Number)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> shl(T value1, Field<? extends Number> value2) {
         return shl(Tools.field(value1), nullSafe(value2));
     }
@@ -19337,7 +19337,7 @@ public class DSL {
      * @see #power(Field, Number)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> shl(Field<T> value1, Number value2) {
         return shl(nullSafe(value1), Tools.field(value2));
     }
@@ -19352,7 +19352,7 @@ public class DSL {
      * @see #power(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> shl(Field<T> field1, Field<? extends Number> field2) {
         return new Expression<>(ExpressionOperator.SHL, false, nullSafe(field1), nullSafe(field2));
     }
@@ -19364,7 +19364,7 @@ public class DSL {
      * @see #power(Field, Number)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> shr(T value1, Number value2) {
         return shr(Tools.field(value1), Tools.field(value2));
     }
@@ -19376,7 +19376,7 @@ public class DSL {
      * @see #power(Field, Number)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> shr(T value1, Field<? extends Number> value2) {
         return shr(Tools.field(value1), nullSafe(value2));
     }
@@ -19388,7 +19388,7 @@ public class DSL {
      * @see #power(Field, Number)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> shr(Field<T> value1, Number value2) {
         return shr(nullSafe(value1), Tools.field(value2));
     }
@@ -19403,7 +19403,7 @@ public class DSL {
      * @see #power(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T extends Number> Field<T> shr(Field<T> field1, Field<? extends Number> field2) {
         return new Expression<>(ExpressionOperator.SHR, false, nullSafe(field1), nullSafe(field2));
     }
@@ -19698,7 +19698,7 @@ public class DSL {
      * @see #trunc(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static <T extends Number> Field<T> trunc(T number) {
         return trunc(Tools.field(number), inline(0));
     }
@@ -19709,7 +19709,7 @@ public class DSL {
      * @see #trunc(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static <T extends Number> Field<T> trunc(T number, int decimals) {
         return trunc(Tools.field(number), inline(decimals));
     }
@@ -19720,7 +19720,7 @@ public class DSL {
      * @see #trunc(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static <T extends Number> Field<T> trunc(Field<T> number, int decimals) {
         return trunc(nullSafe(number), inline(decimals));
     }
@@ -19731,7 +19731,7 @@ public class DSL {
      * @see #trunc(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static <T extends Number> Field<T> trunc(T number, Field<Integer> decimals) {
         return trunc(Tools.field(number), nullSafe(decimals));
     }
@@ -19780,7 +19780,7 @@ public class DSL {
      * @see #trunc(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static <T extends Number> Field<T> trunc(Field<T> number, Field<Integer> decimals) {
         return new Trunc<>(nullSafe(number), nullSafe(decimals));
     }
@@ -19791,7 +19791,7 @@ public class DSL {
      * @see #sqrt(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> sqrt(Number value) {
         return sqrt(Tools.field(value));
     }
@@ -19805,7 +19805,7 @@ public class DSL {
      * <code><pre>power([field], 0.5)</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> sqrt(Field<? extends Number> field) {
         return new Sqrt(nullSafe(field));
     }
@@ -19816,7 +19816,7 @@ public class DSL {
      * @see #exp(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> exp(Number value) {
         return exp(Tools.field(value));
     }
@@ -19828,7 +19828,7 @@ public class DSL {
      * <code><pre>exp([field])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> exp(Field<? extends Number> field) {
         return new Exp(nullSafe(field));
     }
@@ -19839,7 +19839,7 @@ public class DSL {
      * @see #ln(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> ln(Number value) {
         return ln(Tools.field(value));
     }
@@ -19852,7 +19852,7 @@ public class DSL {
      * log([field])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> ln(Field<? extends Number> field) {
         return new Ln(nullSafe(field));
     }
@@ -19863,7 +19863,7 @@ public class DSL {
      * @see #log(Field, int)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> log(Number value, int base) {
         return log(Tools.field(value), base);
     }
@@ -19877,7 +19877,7 @@ public class DSL {
      * <code><pre>ln([field]) / ln([base])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> log(Field<? extends Number> field, int base) {
         return new Ln(nullSafe(field), Tools.field(base));
     }
@@ -19891,7 +19891,7 @@ public class DSL {
      * <code><pre>ln([field]) / ln([base])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> log(Field<? extends Number> field, Field<? extends Number> base) {
         return new Ln(nullSafe(field), base);
     }
@@ -19902,7 +19902,7 @@ public class DSL {
      * @see #power(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> power(Number value, Number exponent) {
         return power(Tools.field(value), Tools.field(exponent));
     }
@@ -19913,7 +19913,7 @@ public class DSL {
      * @see #power(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> power(Field<? extends Number> field, Number exponent) {
         return power(nullSafe(field), Tools.field(exponent));
     }
@@ -19924,7 +19924,7 @@ public class DSL {
      * @see #power(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> power(Number value, Field<? extends Number> exponent) {
         return power(Tools.field(value), nullSafe(exponent));
     }
@@ -19938,7 +19938,7 @@ public class DSL {
      * <code><pre>exp(ln([field]) * [exponent])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> power(Field<? extends Number> field, Field<? extends Number> exponent) {
         return new Power(nullSafe(field), nullSafe(exponent));
     }
@@ -19949,7 +19949,7 @@ public class DSL {
      * @see #acos(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> acos(Number value) {
         return acos(Tools.field(value));
     }
@@ -19961,7 +19961,7 @@ public class DSL {
      * <code><pre>acos([field])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> acos(Field<? extends Number> field) {
         return new Acos(nullSafe(field));
     }
@@ -19972,7 +19972,7 @@ public class DSL {
      * @see #asin(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> asin(Number value) {
         return asin(Tools.field(value));
     }
@@ -19984,7 +19984,7 @@ public class DSL {
      * <code><pre>asin([field])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> asin(Field<? extends Number> field) {
         return new Asin(nullSafe(field));
     }
@@ -19995,7 +19995,7 @@ public class DSL {
      * @see #atan(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> atan(Number value) {
         return atan(Tools.field(value));
     }
@@ -20007,7 +20007,7 @@ public class DSL {
      * <code><pre>atan([field])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> atan(Field<? extends Number> field) {
         return new Atan(nullSafe(field));
     }
@@ -20018,7 +20018,7 @@ public class DSL {
      * @see #atan2(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> atan2(Number x, Number y) {
         return atan2(Tools.field(x), Tools.field(y));
     }
@@ -20029,7 +20029,7 @@ public class DSL {
      * @see #atan2(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> atan2(Number x, Field<? extends Number> y) {
         return atan2(Tools.field(x), nullSafe(y));
     }
@@ -20040,7 +20040,7 @@ public class DSL {
      * @see #atan2(Field, Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> atan2(Field<? extends Number> x, Number y) {
         return atan2(nullSafe(x), Tools.field(y));
     }
@@ -20053,7 +20053,7 @@ public class DSL {
      * atn2([x], [y])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> atan2(Field<? extends Number> x, Field<? extends Number> y) {
         return new DefaultAggregateFunction<>(Term.ATAN2, SQLDataType.NUMERIC, nullSafe(x), nullSafe(y));
     }
@@ -20064,7 +20064,7 @@ public class DSL {
      * @see #cos(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> cos(Number value) {
         return cos(Tools.field(value));
     }
@@ -20076,7 +20076,7 @@ public class DSL {
      * <code><pre>cos([field])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> cos(Field<? extends Number> field) {
         return function("cos", SQLDataType.NUMERIC, field);
     }
@@ -20087,7 +20087,7 @@ public class DSL {
      * @see #sin(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> sin(Number value) {
         return sin(Tools.field(value));
     }
@@ -20099,7 +20099,7 @@ public class DSL {
      * <code><pre>sin([field])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> sin(Field<? extends Number> field) {
         return function("sin", SQLDataType.NUMERIC, field);
     }
@@ -20110,7 +20110,7 @@ public class DSL {
      * @see #tan(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> tan(Number value) {
         return tan(Tools.field(value));
     }
@@ -20122,7 +20122,7 @@ public class DSL {
      * <code><pre>tan([field])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> tan(Field<? extends Number> field) {
         return function("tan", SQLDataType.NUMERIC, field);
     }
@@ -20133,7 +20133,7 @@ public class DSL {
      * @see #cot(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> cot(Number value) {
         return cot(Tools.field(value));
     }
@@ -20146,7 +20146,7 @@ public class DSL {
      * sin and cos: <code><pre>cos([field]) / sin([field])</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> cot(Field<? extends Number> field) {
         return new Cot(nullSafe(field));
     }
@@ -20157,7 +20157,7 @@ public class DSL {
      * @see #sinh(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> sinh(Number value) {
         return sinh(Tools.field(value));
     }
@@ -20170,7 +20170,7 @@ public class DSL {
      * exp: <code><pre>(exp([field] * 2) - 1) / (exp([field] * 2))</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> sinh(Field<? extends Number> field) {
         return new Sinh(nullSafe(field));
     }
@@ -20181,7 +20181,7 @@ public class DSL {
      * @see #cosh(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> cosh(Number value) {
         return cosh(Tools.field(value));
     }
@@ -20194,7 +20194,7 @@ public class DSL {
      * exp: <code><pre>(exp([field] * 2) + 1) / (exp([field] * 2))</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> cosh(Field<? extends Number> field) {
         return new Cosh(nullSafe(field));
     }
@@ -20205,7 +20205,7 @@ public class DSL {
      * @see #tanh(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> tanh(Number value) {
         return tanh(Tools.field(value));
     }
@@ -20219,7 +20219,7 @@ public class DSL {
      * <code><pre>(exp([field] * 2) - 1) / (exp([field] * 2) + 1)</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> tanh(Field<? extends Number> field) {
         return new Tanh(nullSafe(field));
     }
@@ -20230,7 +20230,7 @@ public class DSL {
      * @see #coth(Field)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> coth(Number value) {
         return coth(Tools.field(value));
     }
@@ -20242,7 +20242,7 @@ public class DSL {
      * <code><pre>(exp([field] * 2) + 1) / (exp([field] * 2) - 1)</pre></code>
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static Field<BigDecimal> coth(Field<? extends Number> field) {
         field = nullSafe(field);
         return idiv(
@@ -20486,7 +20486,7 @@ public class DSL {
      * The XML element constructor.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static Field<XML> xmlelement(String name, Field<?>... content) {
         return xmlelement(name(name), (XMLAttributes) null, asList(content));
     }
@@ -20495,7 +20495,7 @@ public class DSL {
      * The XML element constructor.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static Field<XML> xmlelement(String name, Collection<? extends Field<?>> content) {
         return xmlelement(name(name), (XMLAttributes) null, content);
     }
@@ -20504,7 +20504,7 @@ public class DSL {
      * The XML element constructor.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static Field<XML> xmlelement(Name name, Field<?>... content) {
         return xmlelement(name, (XMLAttributes) null, asList(content));
     }
@@ -20513,7 +20513,7 @@ public class DSL {
      * The XML element constructor.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static Field<XML> xmlelement(Name name, Collection<? extends Field<?>> content) {
         return xmlelement(name, (XMLAttributes) null, content);
     }
@@ -20522,7 +20522,7 @@ public class DSL {
      * The XML element constructor.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static Field<XML> xmlelement(String name, XMLAttributes attributes, Field<?>... content) {
         return xmlelement(name(name), attributes, asList(content));
     }
@@ -20531,7 +20531,7 @@ public class DSL {
      * The XML element constructor.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static Field<XML> xmlelement(String name, XMLAttributes attributes, Collection<? extends Field<?>> content) {
         return xmlelement(name(name), attributes, content);
     }
@@ -20540,7 +20540,7 @@ public class DSL {
      * The XML element constructor.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static Field<XML> xmlelement(Name name, XMLAttributes attributes, Field<?>... content) {
         return xmlelement(name, attributes, asList(content));
     }
@@ -20549,7 +20549,7 @@ public class DSL {
      * The XML element constructor.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static Field<XML> xmlelement(Name name, XMLAttributes attributes, Collection<? extends Field<?>> content) {
         return new XMLElement(name, attributes, content);
     }
@@ -20558,7 +20558,7 @@ public class DSL {
      * The XML attributes constructor.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static XMLAttributes xmlattributes(Field<?>... attributes) {
         return xmlattributes(asList(attributes));
     }
@@ -20567,7 +20567,7 @@ public class DSL {
      * The XML attributes constructor.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static XMLAttributes xmlattributes(Collection<? extends Field<?>> attributes) {
         return new XMLAttributesImpl(attributes);
     }
@@ -20612,7 +20612,7 @@ public class DSL {
      * The XML forest constructor.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static Field<XML> xmlforest(Field<?>... fields) {
         return xmlforest(asList(fields));
     }
@@ -20621,7 +20621,7 @@ public class DSL {
      * The XML forest constructor.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static Field<XML> xmlforest(Collection<? extends Field<?>> fields) {
         return new XMLForest(fields);
     }
@@ -20639,7 +20639,7 @@ public class DSL {
      * The XML query function.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static XMLQueryPassingStep xmlquery(String xpath) {
         return xmlquery(Tools.field(xpath));
     }
@@ -20648,7 +20648,7 @@ public class DSL {
      * The XML query function.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static XMLQueryPassingStep xmlquery(Field<String> xpath) {
         return new XMLQuery(xpath);
     }
@@ -20697,7 +20697,7 @@ public class DSL {
      * The JSON value extractor function.
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONValueOnStep<JSON> jsonValue(Field<JSON> json, String path) {
         return jsonValue(json, Tools.field(path));
     }
@@ -20706,7 +20706,7 @@ public class DSL {
      * The JSON value extractor function.
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONValueOnStep<JSON> jsonValue(Field<JSON> json, Field<String> path) {
         return new JSONValue<>(SQLDataType.JSON, json, path);
     }
@@ -20733,7 +20733,7 @@ public class DSL {
      * The JSON array constructor.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONArrayNullStep<JSON> jsonArray(Field<?>... fields) {
         return jsonArray(Arrays.asList(fields));
     }
@@ -20742,7 +20742,7 @@ public class DSL {
      * The JSON array constructor.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONArrayNullStep<JSON> jsonArray(Collection<? extends Field<?>> fields) {
         return new JSONArray<>(JSON, fields);
     }
@@ -20772,7 +20772,7 @@ public class DSL {
      * This is the same as calling {@link #jsonEntry(String, Field)}.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONEntryValueStep key(String key) {
         return key(Tools.field(key));
     }
@@ -20784,7 +20784,7 @@ public class DSL {
      * This is the same as calling {@link #jsonEntry(Field, Field)}.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONEntryValueStep key(Field<String> key) {
         return new JSONEntryImpl<>(key);
     }
@@ -20836,7 +20836,7 @@ public class DSL {
      * The JSON object constructor.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONObjectNullStep<JSON> jsonObject(String key, Field<?> value) {
         return jsonObject(jsonEntry(key, value));
     }
@@ -20845,7 +20845,7 @@ public class DSL {
      * The JSON object constructor.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONObjectNullStep<JSON> jsonObject(Field<String> key, Field<?> value) {
         return jsonObject(jsonEntry(key, value));
     }
@@ -20854,7 +20854,7 @@ public class DSL {
      * The JSON object constructor.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONObjectNullStep<JSON> jsonObject() {
         return jsonObject(Tools.EMPTY_JSONENTRY);
     }
@@ -20863,7 +20863,7 @@ public class DSL {
      * The JSON object constructor.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONObjectNullStep<JSON> jsonObject(Field<?>... entries) {
         return jsonObject(Tools.jsonEntries(entries));
     }
@@ -20872,7 +20872,7 @@ public class DSL {
      * The JSON object constructor.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONObjectNullStep<JSON> jsonObject(JSONEntry<?>... entries) {
         return jsonObject(Arrays.asList(entries));
     }
@@ -20881,7 +20881,7 @@ public class DSL {
      * The JSON object constructor.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONObjectNullStep<JSON> jsonObject(Collection<? extends JSONEntry<?>> entries) {
         return new JSONObject<>(JSON, entries);
     }
@@ -21338,7 +21338,7 @@ public class DSL {
      * </table>
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static <T> Field<T[]> array(T... values) {
         return array(Tools.fields(values));
     }
@@ -21367,7 +21367,7 @@ public class DSL {
      */
     @SafeVarargs
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static <T> Field<T[]> array(Field<T>... fields) {
         return array(Arrays.asList(fields));
     }
@@ -21395,7 +21395,7 @@ public class DSL {
      * </table>
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static <T> Field<T[]> array(Collection<? extends Field<T>> fields) {
         return new Array<>(fields);
     }
@@ -21404,7 +21404,7 @@ public class DSL {
      * Calculate the cardinality of an array field.
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static Field<Integer> cardinality(Field<? extends Object[]> field) {
         return new Cardinality(field);
     }
@@ -21413,7 +21413,7 @@ public class DSL {
      * Get an array element at a given index (1 based)
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static <T> Field<T> arrayGet(Field<T[]> field, int index) {
         return arrayGet(field, Tools.field(index));
     }
@@ -21422,7 +21422,7 @@ public class DSL {
      * Get an array element at a given index (1 based)
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static <T> Field<T> arrayGet(Field<T[]> field, Field<Integer> index) {
         return new ArrayGet<>(nullSafe(field), nullSafe(index));
     }
