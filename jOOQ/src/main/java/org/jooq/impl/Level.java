@@ -8,18 +8,17 @@ final class Level extends AbstractField<Integer> implements NamedField<Integer>,
         super(Names.N_LEVEL, Tools.allNotNull(SQLDataType.INTEGER));
     }
 
+    @Override
     public final void accept(Context<?> ctx) {
         ctx.visit(Names.N_LEVEL);
     }
 
-    private final void acceptJava(Context<?> ctx) {
-        ctx.sql("level()");
-    }
-
+    @Override
     public final Function0<? extends QOM.Level> $constructor() {
         return () -> new Level();
     }
 
+    @Override
     public boolean equals(Object that) {
         if (that instanceof QOM.Level) {
             QOM.Level o = (QOM.Level) that;

@@ -51,18 +51,17 @@ final class Rownum extends AbstractField<Integer> implements NamedField<Integer>
         super(Names.N_ROWNUM, Tools.allNotNull(SQLDataType.INTEGER));
     }
 
+    @Override
     public final void accept(Context<?> ctx) {
         ctx.visit(Names.N_ROWNUM);
     }
 
-    private final void acceptJava(Context<?> ctx) {
-        ctx.sql("rownum()");
-    }
-
+    @Override
     public final Function0<? extends QOM.Rownum> $constructor() {
         return () -> new Rownum();
     }
 
+    @Override
     public boolean equals(Object that) {
         if (that instanceof QOM.Rownum) {
             QOM.Rownum o = (QOM.Rownum) that;

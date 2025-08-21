@@ -62,7 +62,7 @@ public final class QOM {
 
         @NotNull
         default List<?> $args() {
-            return Collections.unmodifiableList(Arrays.asList(new Object[] { $arg1() }));
+            return Collections.unmodifiableList(Arrays.asList(new Object[]{$arg1()}));
         }
 
 /*        default <T> T $traverse(Traverser<?, T> traverser) {
@@ -98,7 +98,7 @@ public final class QOM {
 
         @NotNull
         default List<?> $args() {
-            return Collections.unmodifiableList(Arrays.asList(new Object[] { $arg1(), $arg2() }));
+            return Collections.unmodifiableList(Arrays.asList(new Object[]{$arg1(), $arg2()}));
         }
 
   /*      default <T> T $traverse(Traverser<?, T> traverser) {
@@ -142,7 +142,7 @@ public final class QOM {
 
         @NotNull
         default List<?> $args() {
-            return Collections.unmodifiableList(Arrays.asList(new Object[] { $arg1(), $arg2(), $arg3() }));
+            return Collections.unmodifiableList(Arrays.asList(new Object[]{$arg1(), $arg2(), $arg3()}));
         }
 
         // default <T> T $traverse(Traverser<?, T> traverser) {
@@ -194,7 +194,7 @@ public final class QOM {
 
         @NotNull
         default List<?> $args() {
-            return Collections.unmodifiableList(Arrays.asList(new Object[] { $arg1(), $arg2(), $arg3(), $arg4() }));
+            return Collections.unmodifiableList(Arrays.asList(new Object[]{$arg1(), $arg2(), $arg3(), $arg4()}));
         }
 
 /*        default <T> T $traverse(Traverser<?, T> traverser) {
