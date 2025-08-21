@@ -106,7 +106,11 @@ final class XMLElement extends AbstractField<XML> {
 
         if (hasContent)
             if (format)
-                ctx.sql(',').formatSeparator().visit(wrap(content).map(xmlCastMapper(ctx)));
+                if (ctx.dialect() == SQLDialect.XUGU) {
+                    ctx.sql(',').formatSeparator().visit(wrap(content).separator("||").map(xmlCastMapper(ctx)));
+                } else {
+                    ctx.sql(',').formatSeparator().visit(wrap(content).map(xmlCastMapper(ctx)));
+                }
             else
                 ctx.sql(", ").visit(wrap(content).map(xmlCastMapper(ctx)));
 
