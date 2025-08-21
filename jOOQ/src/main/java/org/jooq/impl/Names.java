@@ -81,6 +81,8 @@ final class Names {
     static final Name N_COALESCE               = unquotedName("coalesce");
     static final Name N_COLLECT                = unquotedName("collect");
     static final Name N_CONCAT                 = unquotedName("concat");
+    static final Name N_CONNECT_BY_ISCYCLE     = unquotedName("connect_by_iscycle");
+    static final Name N_CONNECT_BY_ISLEAF      = unquotedName("connect_by_isleaf");
     static final Name N_CONVERT                = unquotedName("convert");
     static final Name N_COSH                   = unquotedName("cosh");
     static final Name N_COT                    = unquotedName("cot");

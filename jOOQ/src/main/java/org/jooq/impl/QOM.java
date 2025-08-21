@@ -250,5 +250,13 @@ public final class QOM {
         }*/
     }
 
-    static interface UEmptyField<T> extends Field<T>, UEmpty {}
+    static interface UEmptyField<T> extends Field<T>, UEmpty {
+    }
+
+
+    public static interface ConnectByIsCycle extends UOperator0<ConnectByIsCycle>, Field<Boolean> {
+    }
+
+    public static interface ConnectByIsLeaf extends UOperator0<ConnectByIsLeaf>, Field<Boolean> {
+    }
 }
