@@ -297,6 +297,16 @@ public class SequenceImpl<T extends Number> extends AbstractTypedNamed<T> implem
                     break;
                 }
 
+                case XUGU:
+                    if (method == SequenceMethod.NEXTVAL) {
+                        ctx.visit(sequence).sql('.').visit(method.keyword);
+                    } else {
+                        ctx.visit(method.keyword).sql('(');
+                        ctx.sql('\'').stringLiteral(true).visit(sequence).stringLiteral(false).sql('\'');
+                        ctx.sql(')');
+                    }
+                    break;
+
                 // Default is needed for hashCode() and toString()
                 default: {
                     ctx.visit(sequence).sql('.').visit(method.keyword);
