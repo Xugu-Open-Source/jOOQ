@@ -22,4 +22,6 @@ public class Tables {
 
     public final AllDataBases ALL_DATABASES = AllDataBases.ALL_DATABASES;
 
+    public final AllSequences ALL_SEQUENCES = AllSequences.ALL_SEQUENCES;
+
 }

@@ -46,10 +46,14 @@ import org.jooq.meta.*;
 //import org.jooq.meta.xugu.all.tables.Schemata;
 //import org.jooq.meta.xugu.xugu.enums.ProcType;
 import org.jooq.meta.xugu.all.tables.AllSchemas;
+import org.jooq.meta.xugu.all.tables.AllSequences;
 import org.jooq.meta.xugu.all.tables.AllTables;
 import org.jooq.tools.csv.CSVReader;
+import org.jooq.util.mariadb.MariaDBDataType;
+import org.jooq.util.xugu.XuGuDataType;
 
 import java.io.StringReader;
+import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +63,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.jooq.impl.DSL.*;
+import static org.jooq.meta.mysql.information_schema.Tables.TABLES;
+import static org.jooq.meta.postgres.information_schema.Tables.SEQUENCES;
 import static org.jooq.meta.xugu.all.Tables.*;
 import static org.jooq.meta.xugu.all.tables.AllColumns.ALL_COLUMNS;
 import static org.jooq.meta.xugu.all.tables.AllConstraints.ALL_CONSTRAINTS;
@@ -67,6 +73,7 @@ import static org.jooq.meta.xugu.all.tables.AllIndexes.ALL_INDEXES;
 import static org.jooq.meta.xugu.all.tables.AllObjects.ALL_OBJECTS;
 import static org.jooq.meta.xugu.all.tables.AllProcedures.ALL_PROCEDURES;
 import static org.jooq.meta.xugu.all.tables.AllSchemas.ALL_SCHEMAS;
+import static org.jooq.meta.xugu.all.tables.AllSequences.ALL_SEQUENCES;
 import static org.jooq.meta.xugu.all.tables.AllTables.ALL_TABLES;
 import static org.jooq.meta.xugu.all.tables.AllViews.ALL_VIEWS;
 //import static org.jooq.meta.xugu.all.tables.AllDataBases.DATA_BASES;
@@ -415,6 +422,42 @@ public class XuGuDatabase extends AbstractDatabase {
     @Override
     protected List<SequenceDefinition> getSequences0() throws SQLException {
         List<SequenceDefinition> result = new ArrayList<>();
+        for (Record record : create().select(
+                        ALL_SEQUENCES.SEQ_NAME,
+                        ALL_SCHEMAS.SCHEMA_NAME,
+                        ALL_SEQUENCES.COMMENTS,
+                        ALL_SEQUENCES.CURR_VAL,
+                        ALL_SEQUENCES.STEP_VAL,
+                        ALL_SEQUENCES.MIN_VAL,
+                        ALL_SEQUENCES.MAX_VAL,
+                        ALL_SEQUENCES.IS_CYCLE,
+                        ALL_SEQUENCES.CACHE_VAL
+                ).from(ALL_SEQUENCES)
+                .join(ALL_SCHEMAS)
+                .on(ALL_SEQUENCES.DB_ID.eq(ALL_SCHEMAS.DB_ID)).and(ALL_SEQUENCES.SCHEMA_ID.eq(ALL_SCHEMAS.SCHEMA_ID))
+                .and(ALL_SEQUENCES.IS_SYS.eq(false))) {
+            SchemaDefinition schema = getSchema(record.get(ALL_SCHEMAS.SCHEMA_NAME));
+
+            DefaultDataTypeDefinition type = new DefaultDataTypeDefinition(
+                    this,
+                    schema,
+                    XuGuDataType.BIGINT.getTypeName()
+            );
+
+            result.add(new DefaultSequenceDefinition(
+                    schema,
+                    record.get(ALL_SEQUENCES.SEQ_NAME),
+                    type,
+                    record.get(ALL_SEQUENCES.COMMENTS),
+                    record.get(ALL_SEQUENCES.CURR_VAL),
+                    record.get(ALL_SEQUENCES.STEP_VAL),
+                    record.get(ALL_SEQUENCES.MIN_VAL),
+                    record.get(ALL_SEQUENCES.MAX_VAL),
+                    record.get(ALL_SEQUENCES.IS_CYCLE),
+                    record.get(ALL_SEQUENCES.CACHE_VAL)
+            ));
+        }
+
         return result;
     }
 

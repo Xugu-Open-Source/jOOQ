@@ -32,11 +32,14 @@ public class AllSchemas extends TableImpl<Record> {
      */
     public final TableField<Record, String> CATALOG_NAME = createField(DSL.name("CATALOG_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
 
+    public final TableField<Record, Integer> DB_ID = createField(DSL.name("DB_ID"), SQLDataType.INTEGER, this, "");
+
     /**
      * The column <code>information_schema.AllSchemas.SCHEMA_NAME</code>.
      */
     public final TableField<Record, String> SCHEMA_NAME = createField(DSL.name("SCHEMA_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
-    public final TableField<Record, String> SCHEMA_ID = createField(DSL.name("SCHEMA_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
+    public final TableField<Record, Integer> SCHEMA_ID = createField(DSL.name("SCHEMA_ID"), SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>information_schema.AllSchemas.DEFAULT_CHARACTER_SET_NAME</code>.

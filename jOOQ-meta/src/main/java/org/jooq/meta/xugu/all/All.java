@@ -32,6 +32,8 @@ public class All extends SchemaImpl {
 
     public final AllDataBases ALL_DATABASES = AllDataBases.ALL_DATABASES;
 
+    public final AllSequences ALL_SEQUENCES = AllSequences.ALL_SEQUENCES;
+
     /**
      * No further instances allowed
      */
@@ -55,7 +57,8 @@ public class All extends SchemaImpl {
                 AllSchemas.ALL_SCHEMAS,
                 AllTables.ALL_TABLES,
                 AllIndexes.ALL_INDEXES,
-                AllDataBases.ALL_DATABASES
+                AllDataBases.ALL_DATABASES,
+                AllSequences.ALL_SEQUENCES
         );
     }
 }
