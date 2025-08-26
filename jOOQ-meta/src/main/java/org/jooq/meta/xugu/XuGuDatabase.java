@@ -45,6 +45,9 @@ import org.jooq.impl.DSL;
 import org.jooq.meta.*;
 //import org.jooq.meta.xugu.all.tables.Schemata;
 //import org.jooq.meta.xugu.xugu.enums.ProcType;
+import org.jooq.meta.mysql.MySQLRoutineDefinition;
+import org.jooq.meta.mysql.mysql.enums.ProcType;
+import org.jooq.meta.postgres.PostgresRoutineDefinition;
 import org.jooq.meta.xugu.all.tables.AllSchemas;
 import org.jooq.meta.xugu.all.tables.AllSequences;
 import org.jooq.meta.xugu.all.tables.AllTables;
@@ -63,6 +66,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.jooq.impl.DSL.*;
+import static org.jooq.meta.mysql.information_schema.Tables.ROUTINES;
 import static org.jooq.meta.mysql.information_schema.Tables.TABLES;
 import static org.jooq.meta.postgres.information_schema.Tables.SEQUENCES;
 import static org.jooq.meta.xugu.all.Tables.*;
@@ -593,68 +597,29 @@ public class XuGuDatabase extends AbstractDatabase {
         return result;
     }
 
-    /**
-     * 这里的代码是改过的，可以先按照逻辑把查询结果还原。
-     * */
     @Override
     protected List<RoutineDefinition> getRoutines0() throws SQLException {
         List<RoutineDefinition> result = new ArrayList<>();
-        return result;
-//        Result<Record6<String, String, String, String, String, ProcType>> records = is8()
-//
-//                ? create().select(
-//                        ALL_SCHEMAS.SCHEMA_NAME,
-//                        ALL_PROCEDURES.ROUTINE_NAME,
-//                        ALL_PROCEDURES.ROUTINE_COMMENT,
-//                        inline("").as(PROC.PARAM_LIST),
-//                        inline("").as(PROC.RETURNS),
-//                        when(ALL_PROCEDURES.PROC_ID.isNull(),ProcType.FUNCTION)
-//                                .else_(ProcType.PROCEDURE).as(ALL_PROCEDURES.ROUTINE_TYPE))
-//                .from(ALL_OBJECTS)
-//                .leftJoin(ALL_SCHEMAS).on(ALL_SCHEMAS.SCHEMA_ID.eq(ALL_OBJECTS.SCHEMA_ID))
-//                .leftJoin(ALL_PROCEDURES).on(ALL_PROCEDURES.PROC_ID.eq(ALL_OBJECTS.OBJ_ID))
-//                .where(ALL_SCHEMAS.SCHEMA_NAME.in(getInputSchemata()))
-//                .and(ALL_OBJECTS.OBJ_TYPE.eq("7"))
-//                .orderBy(1, 2, 6)
-//                .fetch()
-//
-//                : create().select(
-//                        PROC.DB.as(ALL_PROCEDURES.ROUTINE_SCHEMA),
-//                        PROC.NAME.as(ALL_PROCEDURES.ROUTINE_NAME),
-//                        PROC.COMMENT.as(ALL_PROCEDURES.ROUTINE_COMMENT),
-//                        inline("").as(PROC.PARAM_LIST),
-//                        inline("").as(PROC.RETURNS),
-//                        PROC.TYPE.as(ALL_PROCEDURES.ROUTINE_TYPE))
-//                .from(PROC)
-//                .where(PROC.DB.in(getInputSchemata()))
-//                .orderBy(1, 2, 6)
-//                .fetch();
-//
-//        Map<Record, Result<Record6<String, String, String, String, String, ProcType>>> groups =
-//                records.intoGroups(new Field[]{ALL_SCHEMAS.SCHEMA_NAME, ALL_PROCEDURES.ROUTINE_NAME});
-//
-//        // procedures and functions with the same signature.
-//        for (Entry<Record, Result<Record6<String, String, String, String, String, ProcType>>> entry : groups.entrySet()) {
-//            Result<?> overloads = entry.getValue();
-//
-//            for (int i = 0; i < overloads.size(); i++) {
-//                Record record = overloads.get(i);
-//
-//                SchemaDefinition schema = getSchema(record.get(ALL_SCHEMAS.SCHEMA_NAME));
-//                String name = record.get(ALL_PROCEDURES.ROUTINE_NAME);
-//                String comment = record.get(ALL_PROCEDURES.ROUTINE_COMMENT);
-//                String params = is8() ? "" : new String();
-//                String returns = is8() ? "" : new String(record.get(PROC.RETURNS));
-//                ProcType type = record.get(ALL_PROCEDURES.ROUTINE_TYPE.coerce(PROC.TYPE).as(ALL_PROCEDURES.ROUTINE_TYPE));
-//
-//                if (overloads.size() > 1)
-//                    result.add(new XuGuRoutineDefinition(schema, name, comment, params, returns, type, "_" + type.name()));
-//                else
-//                    result.add(new XuGuRoutineDefinition(schema, name, comment, params, returns, type, null));
-//            }
-//        }
-//
-//        return result;
+        for (Record record : create().select(
+                        ALL_SCHEMAS.SCHEMA_NAME,
+                ALL_PROCEDURES.PROC_NAME,
+                        ALL_PROCEDURES.COMMENTS,
+                        ALL_PROCEDURES.DEFINE,
+                        ALL_PROCEDURES.PIPELINED,
+                        ALL_PROCEDURES.RET_TYPE
+        ).from(ALL_PROCEDURES).join(ALL_SCHEMAS)
+                .on(ALL_PROCEDURES.SCHEMA_ID.eq(ALL_SCHEMAS.SCHEMA_ID)
+                        .and(ALL_PROCEDURES.IS_SYS.eq(false)))
+                .fetch()) {
+            SchemaDefinition schema = getSchema(record.get(ALL_SCHEMAS.SCHEMA_NAME));
+            String name = record.get(ALL_PROCEDURES.PROC_NAME);
+            String comment = record.get(ALL_PROCEDURES.COMMENTS);
+            String define = record.get(ALL_PROCEDURES.DEFINE);
+            String retType = record.get(ALL_PROCEDURES.RET_TYPE);
+            boolean pipelined = record.get(ALL_PROCEDURES.PIPELINED);
+            result.add(new XuGuRoutineDefinition(schema, name, comment, define, retType, pipelined));
+        }
+       return result;
     }
 
     @Override

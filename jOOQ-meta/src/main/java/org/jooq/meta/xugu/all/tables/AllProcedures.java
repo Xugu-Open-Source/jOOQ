@@ -1,3 +1,41 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Other licenses:
+ * -----------------------------------------------------------------------------
+ * Commercial licenses for this work are available. These replace the above
+ * ASL 2.0 and offer limited warranties, support, maintenance, and commercial
+ * database integrations.
+ *
+ * For more information, please visit: http://www.jooq.org/licenses
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
 package org.jooq.meta.xugu.all.tables;
 
 import org.jooq.*;
@@ -10,11 +48,13 @@ import org.jooq.meta.xugu.all.Keys;
 import org.jooq.types.UInteger;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 public class AllProcedures extends TableImpl<Record> {
-    private static final long serialVersionUID = 828988306;
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * The reference instance of <code>information_schema.AllProcedures</code>
@@ -30,166 +70,80 @@ public class AllProcedures extends TableImpl<Record> {
     }
 
     /**
-     * The column <code>All.AllProcedures.SPECIFIC_NAME</code>.
+     * 库ID
      */
-    public final TableField<Record, String> SPECIFIC_NAME = createField(DSL.name("SPECIFIC_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
-
-    public final TableField<Record, String> PROC_NAME = createField(DSL.name("PROC_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
-
-
-    public final TableField<Record, String> SCHEMA_ID = createField(DSL.name("SCHEMA_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
-
-    public final TableField<Record, String> PROC_ID = createField(DSL.name("PROC_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, Integer> DB_ID = createField(DSL.name("DB_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>All.AllProcedures.ROUTINE_CATALOG</code>.
+     * 模式ID
      */
-    public final TableField<Record, String> ROUTINE_CATALOG = createField(DSL.name("ROUTINE_CATALOG"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, Integer> SCHEMA_ID = createField(DSL.name("SCHEMA_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>All.AllProcedures.ROUTINE_SCHEMA</code>.
+     * 属主ID
      */
-    public final TableField<Record, String> ROUTINE_SCHEMA = createField(DSL.name("ROUTINE_SCHEMA"), SQLDataType.VARCHAR(64).nullable(false), this, "");
-
-//    /**
-//     * The column <code>All.AllProcedures.ROUTINE_NAME</code>.
-//     */
-//    public final TableField<Record, String> ROUTINE_NAME = createField(DSL.name("PROC_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>All.AllProcedures.ROUTINE_TYPE</code>.
+     * 过程ID
      */
-    public final TableField<Record, String> ROUTINE_TYPE = createField(DSL.name("ROUTINE_TYPE"), SQLDataType.VARCHAR(9).nullable(false), this, "");
+    public final TableField<Record, Integer> PROC_ID = createField(DSL.name("PROC_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>All.AllProcedures.DATA_TYPE</code>.
+     * 过程或方法名
      */
-    public final TableField<Record, String> DATA_TYPE = createField(DSL.name("DATA_TYPE"), SQLDataType.CLOB, this, "");
+    public final TableField<Record, String> PROC_NAME = createField(DSL.name("PROC_NAME"), SQLDataType.VARCHAR(128), this, "");
 
     /**
-     * The column <code>All.AllProcedures.CHARACTER_MAXIMUM_LENGTH</code>.
+     * 语言
      */
-    public final TableField<Record, Long> CHARACTER_MAXIMUM_LENGTH = createField(DSL.name("CHARACTER_MAXIMUM_LENGTH"), SQLDataType.BIGINT, this, "");
+    public final TableField<Record, String> LANGUAGE = createField(DSL.name("LANGUAGE"), SQLDataType.VARCHAR(8), this, "");
 
     /**
-     * The column <code>All.AllProcedures.CHARACTER_OCTET_LENGTH</code>.
+     * 返回类型
      */
-    public final TableField<Record, Long> CHARACTER_OCTET_LENGTH = createField(DSL.name("CHARACTER_OCTET_LENGTH"), SQLDataType.BIGINT, this, "");
+    public final TableField<Record, String> RET_TYPE = createField(DSL.name("RET_TYPE"), SQLDataType.VARCHAR(128), this, "");
 
     /**
-     * The column <code>All.AllProcedures.NUMERIC_PRECISION</code>.
+     * 过程体的文本定义
      */
-    public final TableField<Record, UInteger> NUMERIC_PRECISION = createField(DSL.name("NUMERIC_PRECISION"), SQLDataType.INTEGERUNSIGNED, this, "");
+    public final TableField<Record, String> DEFINE = createField(DSL.name("DEFINE"), SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>All.AllProcedures.NUMERIC_SCALE</code>.
+     * 创建时间
      */
-    public final TableField<Record, UInteger> NUMERIC_SCALE = createField(DSL.name("NUMERIC_SCALE"), SQLDataType.INTEGERUNSIGNED, this, "");
+    public final TableField<Record, LocalDateTime> CREATE_TIME = createField(DSL.name("CREATE_TIME"), SQLDataType.LOCALDATETIME, this, "");
 
     /**
-     * The column <code>All.AllProcedures.DATETIME_PRECISION</code>.
+     * 是否有效
      */
-    public final TableField<Record, UInteger> DATETIME_PRECISION = createField(DSL.name("DATETIME_PRECISION"), SQLDataType.INTEGERUNSIGNED, this, "");
+    public final TableField<Record, Boolean> VALID = createField(DSL.name("VALID"), SQLDataType.BOOLEAN.defaultValue(true), this, "");
 
     /**
-     * The column <code>All.AllProcedures.CHARACTER_SET_NAME</code>.
+     * 注释信息
      */
-    public final TableField<Record, String> CHARACTER_SET_NAME = createField(DSL.name("CHARACTER_SET_NAME"), SQLDataType.VARCHAR(64), this, "");
+    public final TableField<Record, String> COMMENTS = createField(DSL.name("COMMENTS"), SQLDataType.VARCHAR.nullable(true), this, "");
 
     /**
-     * The column <code>All.AllProcedures.COLLATION_NAME</code>.
+     * 是否系统内建
      */
-    public final TableField<Record, String> COLLATION_NAME = createField(DSL.name("COLLATION_NAME"), SQLDataType.VARCHAR(64), this, "");
+    public final TableField<Record, Boolean> IS_SYS = createField(DSL.name("IS_SYS"), SQLDataType.BOOLEAN, this, "");
 
     /**
-     * The column <code>All.AllProcedures.DTD_IDENTIFIER</code>.
+     * 是否为管道函数
+     * xugudb v12 新增
      */
-    public final TableField<Record, String> DTD_IDENTIFIER = createField(DSL.name("DTD_IDENTIFIER"), SQLDataType.CLOB, this, "");
+    public final TableField<Record, Boolean> PIPELINED = createField(DSL.name("PIPELINED"), SQLDataType.BOOLEAN, this, "");
 
     /**
-     * The column <code>All.AllProcedures.ROUTINE_BODY</code>.
+     * 保留字段
      */
-    public final TableField<Record, String> ROUTINE_BODY = createField(DSL.name("ROUTINE_BODY"), SQLDataType.VARCHAR(3).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
+    public final TableField<Record, String> RESERVED1 = createField(DSL.name("RESERVED1"), SQLDataType.VARCHAR(128).nullable(true), this, "");
 
     /**
-     * The column <code>All.AllProcedures.ROUTINE_DEFINITION</code>.
+     * 保留字段
      */
-    public final TableField<Record, String> ROUTINE_DEFINITION = createField(DSL.name("ROUTINE_DEFINITION"), SQLDataType.CLOB, this, "");
-
-    /**
-     * The column <code>All.AllProcedures.EXTERNAL_NAME</code>.
-     */
-    public final TableField<Record, byte[]> EXTERNAL_NAME = createField(DSL.name("EXTERNAL_NAME"), SQLDataType.BINARY, this, "");
-
-    /**
-     * The column <code>All.AllProcedures.EXTERNAL_LANGUAGE</code>.
-     */
-    public final TableField<Record, String> EXTERNAL_LANGUAGE = createField(DSL.name("EXTERNAL_LANGUAGE"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.inline("SQL", SQLDataType.VARCHAR)), this, "");
-
-    /**
-     * The column <code>All.AllProcedures.PARAMETER_STYLE</code>.
-     */
-    public final TableField<Record, String> PARAMETER_STYLE = createField(DSL.name("PARAMETER_STYLE"), SQLDataType.VARCHAR(3).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
-
-    /**
-     * The column <code>All.AllProcedures.IS_DETERMINISTIC</code>.
-     */
-    public final TableField<Record, String> IS_DETERMINISTIC = createField(DSL.name("IS_DETERMINISTIC"), SQLDataType.VARCHAR(3).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
-
-    /**
-     * The column <code>All.AllProcedures.SQL_DATA_ACCESS</code>.
-     */
-    public final TableField<Record, String> SQL_DATA_ACCESS = createField(DSL.name("SQL_DATA_ACCESS"), SQLDataType.VARCHAR(17).nullable(false), this, "");
-
-    /**
-     * The column <code>All.AllProcedures.SQL_PATH</code>.
-     */
-    public final TableField<Record, byte[]> SQL_PATH = createField(DSL.name("SQL_PATH"), SQLDataType.BINARY, this, "");
-
-    /**
-     * The column <code>All.AllProcedures.SECURITY_TYPE</code>.
-     */
-    public final TableField<Record, String> SECURITY_TYPE = createField(DSL.name("SECURITY_TYPE"), SQLDataType.VARCHAR(7).nullable(false), this, "");
-
-    /**
-     * The column <code>All.AllProcedures.CREATED</code>.
-     */
-    public final TableField<Record, Timestamp> CREATED = createField(DSL.name("CREATED"), SQLDataType.TIMESTAMP(0).nullable(false), this, "");
-
-    /**
-     * The column <code>All.AllProcedures.LAST_ALTERED</code>.
-     */
-    public final TableField<Record, Timestamp> LAST_ALTERED = createField(DSL.name("LAST_ALTERED"), SQLDataType.TIMESTAMP(0).nullable(false), this, "");
-
-    /**
-     * The column <code>All.AllProcedures.SQL_MODE</code>.
-     */
-    public final TableField<Record, String> SQL_MODE = createField(DSL.name("SQL_MODE"), SQLDataType.VARCHAR(520).nullable(false), this, "");
-
-    /**
-     * The column <code>All.AllProcedures.ROUTINE_COMMENT</code>.
-     */
-    public final TableField<Record, String> ROUTINE_COMMENT = createField(DSL.name("COMMENTS"), SQLDataType.CLOB.nullable(false), this, "");
-
-    /**
-     * The column <code>All.AllProcedures.DEFINER</code>.
-     */
-    public final TableField<Record, String> DEFINER = createField(DSL.name("DEFINER"), SQLDataType.VARCHAR(288).nullable(false), this, "");
-
-    /**
-     * The column <code>All.AllProcedures.CHARACTER_SET_CLIENT</code>.
-     */
-    public final TableField<Record, String> CHARACTER_SET_CLIENT = createField(DSL.name("CHARACTER_SET_CLIENT"), SQLDataType.VARCHAR(64).nullable(false), this, "");
-
-    /**
-     * The column <code>All.AllProcedures.COLLATION_CONNECTION</code>.
-     */
-    public final TableField<Record, String> COLLATION_CONNECTION = createField(DSL.name("COLLATION_CONNECTION"), SQLDataType.VARCHAR(64).nullable(false), this, "");
-
-    /**
-     * The column <code>All.AllProcedures.DATABASE_COLLATION</code>.
-     */
-    public final TableField<Record, String> DATABASE_COLLATION = createField(DSL.name("DATABASE_COLLATION"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, String> RESERVED2 = createField(DSL.name("RESERVED2"), SQLDataType.VARCHAR(128).nullable(true), this, "");
 
     private AllProcedures(Name alias, Table<Record> aliased) {
         this(alias, aliased, null);
