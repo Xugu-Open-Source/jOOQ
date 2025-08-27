@@ -438,8 +438,9 @@ public class XuGuDatabase extends AbstractDatabase {
                         ALL_SEQUENCES.CACHE_VAL
                 ).from(ALL_SEQUENCES)
                 .join(ALL_SCHEMAS)
-                .on(ALL_SEQUENCES.DB_ID.eq(ALL_SCHEMAS.DB_ID)).and(ALL_SEQUENCES.SCHEMA_ID.eq(ALL_SCHEMAS.SCHEMA_ID))
-                .and(ALL_SEQUENCES.IS_SYS.eq(false))) {
+                .on(ALL_SEQUENCES.SCHEMA_ID.eq(ALL_SCHEMAS.SCHEMA_ID)
+                        .and(ALL_SCHEMAS.SCHEMA_NAME.in(getInputSchemata()))
+                        .and(ALL_SEQUENCES.IS_SYS.eq(false)))) {
             SchemaDefinition schema = getSchema(record.get(ALL_SCHEMAS.SCHEMA_NAME));
 
             DefaultDataTypeDefinition type = new DefaultDataTypeDefinition(
@@ -609,7 +610,8 @@ public class XuGuDatabase extends AbstractDatabase {
                         ALL_PROCEDURES.RET_TYPE
         ).from(ALL_PROCEDURES).join(ALL_SCHEMAS)
                 .on(ALL_PROCEDURES.SCHEMA_ID.eq(ALL_SCHEMAS.SCHEMA_ID)
-                        .and(ALL_PROCEDURES.IS_SYS.eq(false)))
+                        .and(ALL_PROCEDURES.IS_SYS.eq(false))
+                        .and(ALL_SCHEMAS.SCHEMA_NAME.in(getInputSchemata())))
                 .fetch()) {
             SchemaDefinition schema = getSchema(record.get(ALL_SCHEMAS.SCHEMA_NAME));
             String name = record.get(ALL_PROCEDURES.PROC_NAME);

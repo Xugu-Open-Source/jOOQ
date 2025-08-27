@@ -100,6 +100,7 @@ public class XuGuRoutineDefinition extends AbstractRoutineDefinition {
                         null,
                         null,
                         null,
+                        // 没有实际用处，内容正确性不作处理
                         hasDefaultValue ? p.getDefaultValue().toString() : null
                 );
                 SQLParameter.ParameterType paramType = p.getParamType();
