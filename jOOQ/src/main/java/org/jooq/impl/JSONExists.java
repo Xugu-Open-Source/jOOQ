@@ -129,9 +129,9 @@ final class JSONExists extends AbstractCondition implements JSONExistsOnStep {
     @Override
     public final void accept(Context<?> ctx) {
         switch (ctx.family()) {
-
-
-
+            case XUGU:
+                ctx.visit(N_JSON_CONTAINS_PATH).sql('(').visit(json).sql(", 'one', ").visit(path).sql(") = 1");
+                break;
             case MYSQL:
                 ctx.visit(N_JSON_CONTAINS_PATH).sql('(').visit(json).sql(", 'one', ").visit(path).sql(')');
                 break;
