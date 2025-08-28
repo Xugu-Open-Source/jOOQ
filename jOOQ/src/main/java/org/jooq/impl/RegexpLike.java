@@ -42,6 +42,7 @@ import static org.jooq.Clause.CONDITION_COMPARISON;
 import static org.jooq.impl.DSL.keyword;
 import static org.jooq.impl.Keywords.K_LIKE_REGEX;
 import static org.jooq.impl.Keywords.K_REGEXP;
+import static org.jooq.impl.Keywords.K_REGEXP_LIKE;
 
 import org.jooq.Clause;
 import org.jooq.Context;
@@ -123,11 +124,13 @@ final class RegexpLike extends AbstractCondition {
             // regular expressions
 
 
-
-
-
-
-
+            case XUGU:
+                ctx.visit(K_REGEXP_LIKE).sql('(')
+                        .visit(search)
+                        .sql(',').sql(' ')
+                        .visit(pattern)
+                        .sql(')');
+                break;
             case DERBY:
             case FIREBIRD:
             default: {

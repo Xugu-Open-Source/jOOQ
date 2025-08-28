@@ -236,6 +236,7 @@ final class Keywords {
     static final Keyword K_LEFT_OUTER_JOIN_LATERAL          = keyword("left outer join lateral");
     static final Keyword K_LIKE                             = keyword("like");
     static final Keyword K_LIKE_REGEX                       = keyword("like_regex");
+    static final Keyword K_REGEXP_LIKE                       = keyword("REGEXP_LIKE");
     static final Keyword K_LIMIT                            = keyword("limit");
     static final Keyword K_LOCK_IN_SHARE_MODE               = keyword("lock in share mode");
     static final Keyword K_LOOP                             = keyword("loop");
