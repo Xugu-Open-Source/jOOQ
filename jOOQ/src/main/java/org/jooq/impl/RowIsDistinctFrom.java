@@ -60,6 +60,7 @@ import static org.jooq.SQLDialect.SQLITE;
 // ...
 // ...
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.impl.DSL.exists;
 import static org.jooq.impl.DSL.notExists;
 import static org.jooq.impl.DSL.select;
@@ -85,7 +86,7 @@ final class RowIsDistinctFrom extends AbstractCondition {
      * Generated UID
      */
     private static final long            serialVersionUID            = 4568269684824736461L;
-    private static final Set<SQLDialect> EMULATE_DISTINCT            = SQLDialect.supportedBy(CUBRID, DERBY);
+    private static final Set<SQLDialect> EMULATE_DISTINCT            = SQLDialect.supportedBy(CUBRID, DERBY, XUGU);
 
     // An emulation may be required only for the version where a subquery is used
     // E.g. in HSQLDB: https://sourceforge.net/p/hsqldb/bugs/1579/
