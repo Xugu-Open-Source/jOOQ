@@ -71,6 +71,7 @@ import static org.jooq.SQLDialect.SQLITE;
 // ...
 // ...
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.conf.ParamType.INLINED;
 import static org.jooq.impl.DSL.inline;
 import static org.jooq.impl.DSL.row;
@@ -100,7 +101,7 @@ final class CompareCondition extends AbstractCondition implements LikeEscapeStep
     private static final long            serialVersionUID      = -747240442279619486L;
     private static final Clause[]        CLAUSES               = { CONDITION, CONDITION_COMPARISON };
     private static final Set<SQLDialect> REQUIRES_CAST_ON_LIKE = SQLDialect.supportedBy(DERBY, POSTGRES);
-    private static final Set<SQLDialect> NO_SUPPORT_ILIKE      = SQLDialect.supportedBy(CUBRID, DERBY, FIREBIRD, HSQLDB, MARIADB, MYSQL, SQLITE);
+    private static final Set<SQLDialect> NO_SUPPORT_ILIKE      = SQLDialect.supportedBy(CUBRID, DERBY, FIREBIRD, HSQLDB, MARIADB, MYSQL, SQLITE, XUGU);
 
     final Field<?>                       field1;
     final Field<?>                       field2;
