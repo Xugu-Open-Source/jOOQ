@@ -77,6 +77,7 @@ final class UniqueCondition extends AbstractCondition {
     @Override
     public final void accept(Context<?> ctx) {
         switch (ctx.family()) {
+            case XUGU:
             case H2:
                 if (!unique)
                     ctx.visit(K_NOT).sql(' ');
