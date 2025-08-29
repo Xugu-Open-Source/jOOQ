@@ -2189,7 +2189,7 @@ public class DefaultBinding<T, U> implements Binding<T, U> {
          */
         private static final long            serialVersionUID           = 4378118707359663541L;
         private static final Set<SQLDialect> REQUIRE_PG_INTERVAL_SYNTAX = SQLDialect.supportedBy(POSTGRES);
-        private static final Set<SQLDialect> REQUIRE_STANDARD_INTERVAL  = SQLDialect.supportedBy(H2);
+        private static final Set<SQLDialect> REQUIRE_STANDARD_INTERVAL  = SQLDialect.supportedBy(H2, XUGU);
 
         DefaultDayToSecondBinding(DataType<DayToSecond> dataType, Converter<DayToSecond, U> converter) {
             super(dataType, converter);
@@ -2213,8 +2213,9 @@ public class DefaultBinding<T, U> implements Binding<T, U> {
                     .sql('.')
                     .sql(StringUtils.leftPad(Integer.toString(value.getNano()), 9, '0'))
                     .sql('\'');
-            }
-            else
+            } else if (ctx.dialect() == XUGU) {
+                ctx.render().sql(renderDTS((Scope) ctx, value));
+            } else
                 ctx.render().sql('\'').sql(value.toString()).sql('\'');
         }
 
@@ -4742,10 +4743,18 @@ public class DefaultBinding<T, U> implements Binding<T, U> {
          */
         private static final long            serialVersionUID          = 6417965474063152673L;
         private static final Set<SQLDialect> REQUIRE_PG_INTERVAL       = SQLDialect.supportedBy(POSTGRES);
-        private static final Set<SQLDialect> REQUIRE_STANDARD_INTERVAL = SQLDialect.supportedBy(H2);
+        private static final Set<SQLDialect> REQUIRE_STANDARD_INTERVAL = SQLDialect.supportedBy(H2, XUGU);
 
         DefaultYearToMonthBinding(DataType<YearToMonth> dataType, Converter<YearToMonth, U> converter) {
             super(dataType, converter);
+        }
+
+        final void sqlInline0(BindingSQLContext<U> ctx, YearToMonth value) throws SQLException {
+            if (ctx.family() == XUGU) {
+                ctx.render().sql(renderYTM((Scope) ctx, value));
+            } else {
+                super.sqlInline0(ctx, value);
+            }
         }
 
         @Override
