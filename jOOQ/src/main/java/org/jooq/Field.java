@@ -63,6 +63,7 @@ import static org.jooq.SQLDialect.POSTGRES;
 // ...
 // ...
 import static org.jooq.SQLDialect.SQLITE;
+import static org.jooq.SQLDialect.XUGU;
 // ...
 // ...
 // ...
@@ -1156,14 +1157,14 @@ extends
      * Create a condition to check if this field contains JSON data.
      */
     @NotNull
-    @Support({ MYSQL })
+    @Support({ MYSQL, XUGU })
     Condition isJson();
 
     /**
      * Create a condition to check if this field does not contain JSON data.
      */
     @NotNull
-    @Support({ MYSQL })
+    @Support({ MYSQL, XUGU })
     Condition isNotJson();
 
     // ------------------------------------------------------------------------
@@ -1492,7 +1493,7 @@ extends
      * @see #likeRegex(String)
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     Condition likeRegex(String pattern);
 
     /**
@@ -1503,7 +1504,7 @@ extends
      * @see #likeRegex(String)
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     Condition likeRegex(Field<String> pattern);
 
     /**
@@ -1514,7 +1515,7 @@ extends
      * @see #likeRegex(String)
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     Condition notLikeRegex(String pattern);
 
     /**
@@ -1525,7 +1526,7 @@ extends
      * @see #likeRegex(Field)
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     Condition notLikeRegex(Field<String> pattern);
 
     // ------------------------------------------------------------------------
@@ -2598,7 +2599,7 @@ extends
      * @see DSL#any(Object...)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     Condition eq(QuantifiedSelect<? extends Record1<T>> query);
 
     /**
@@ -2902,7 +2903,7 @@ extends
      * @see DSL#any(Object...)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     Condition gt(QuantifiedSelect<? extends Record1<T>> query);
 
     /**

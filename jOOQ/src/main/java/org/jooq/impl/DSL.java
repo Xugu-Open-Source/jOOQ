@@ -9485,7 +9485,7 @@ public class DSL {
      * @see Field#like(QuantifiedSelect)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static <R extends Record> QuantifiedSelect<R> all(Select<R> select) {
         return new QuantifiedSelectImpl<>(Quantifier.ALL, select);
     }
@@ -9506,7 +9506,7 @@ public class DSL {
      * @see Field#like(QuantifiedSelect)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static <T> QuantifiedSelect<Record1<T>> all(T... array) {
         return array instanceof Field[] ? all((Field<T>[]) array) : new QuantifiedSelectImpl<>(Quantifier.ALL, val(array));
     }
@@ -9527,7 +9527,7 @@ public class DSL {
      * @see Field#like(QuantifiedSelect)
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static <T> QuantifiedSelect<Record1<T>> all(Field<T[]> array) {
         return new QuantifiedSelectImpl<>(Quantifier.ALL, array);
     }
@@ -9567,7 +9567,7 @@ public class DSL {
      * @see Field#like(QuantifiedSelect)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static <R extends Record> QuantifiedSelect<R> any(Select<R> select) {
         return new QuantifiedSelectImpl<>(Quantifier.ANY, select);
     }
@@ -9588,7 +9588,7 @@ public class DSL {
      * @see Field#like(QuantifiedSelect)
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static <T> QuantifiedSelect<Record1<T>> any(T... array) {
         return array instanceof Field[] ? any((Field<T>[]) array) : new QuantifiedSelectImpl<>(Quantifier.ANY, val(array));
     }
@@ -9609,7 +9609,7 @@ public class DSL {
      * @see Field#like(QuantifiedSelect)
      */
     @NotNull
-    @Support({ H2, HSQLDB, POSTGRES })
+    @Support({ H2, HSQLDB, POSTGRES, XUGU })
     public static <T> QuantifiedSelect<Record1<T>> any(Field<T[]> array) {
         return new QuantifiedSelectImpl<>(Quantifier.ANY, array);
     }
@@ -20122,7 +20122,7 @@ public class DSL {
      * The XML aggregate function.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static XMLAggOrderByStep<XML> xmlagg(Field<XML> field) {
         return new XMLAgg(field);
     }
@@ -20149,7 +20149,7 @@ public class DSL {
      * The XML exists function.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static XMLExistsPassingStep xmlexists(String xpath) {
         return xmlexists(Tools.field(xpath));
     }
@@ -20158,7 +20158,7 @@ public class DSL {
      * The XML exists function.
      */
     @NotNull
-    @Support({ POSTGRES })
+    @Support({ POSTGRES, XUGU })
     public static XMLExistsPassingStep xmlexists(Field<String> xpath) {
         return new XMLExists(xpath);
     }
@@ -20412,7 +20412,7 @@ public class DSL {
      * The JSON array aggregate function.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONArrayAggOrderByStep<JSON> jsonArrayAgg(Field<?> value) {
         return new JSONArrayAgg<>(JSON, value);
     }
@@ -20433,7 +20433,7 @@ public class DSL {
      * {@link Field#getName()} as a key.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONObjectAggNullStep<JSON> jsonObjectAgg(Field<?> value) {
         return jsonObjectAgg(jsonEntry(value));
     }
@@ -20442,7 +20442,7 @@ public class DSL {
      * The JSON object aggregate function.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONObjectAggNullStep<JSON> jsonObjectAgg(String key, Field<?> value) {
         return jsonObjectAgg(Tools.field(key), value);
     }
@@ -20451,7 +20451,7 @@ public class DSL {
      * The JSON object aggregate function.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONObjectAggNullStep<JSON> jsonObjectAgg(Field<String> key, Field<?> value) {
         return jsonObjectAgg(jsonEntry(key, value));
     }
@@ -20460,7 +20460,7 @@ public class DSL {
      * The JSON object aggregate function.
      */
     @NotNull
-    @Support({ H2, MARIADB, MYSQL, POSTGRES })
+    @Support({ H2, MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONObjectAggNullStep<JSON> jsonObjectAgg(JSONEntry<?> entry) {
         return new JSONObjectAgg<>(JSON, entry);
     }
@@ -20508,7 +20508,7 @@ public class DSL {
      * The JSON exists predicate.
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONExistsOnStep jsonExists(Field<JSON> field, String path) {
         return jsonExists(field, Tools.field(path));
     }
@@ -20517,7 +20517,7 @@ public class DSL {
      * The JSON exists predicate.
      */
     @NotNull
-    @Support({ MARIADB, MYSQL, POSTGRES })
+    @Support({ MARIADB, MYSQL, POSTGRES, XUGU })
     public static JSONExistsOnStep jsonExists(Field<JSON> field, Field<String> path) {
         return new JSONExists(field, nullSafe(path));
     }
@@ -20987,7 +20987,7 @@ public class DSL {
      * "https://blog.jooq.org/2018/09/21/how-to-write-a-multiplication-aggregate-function-in-sql">https://blog.jooq.org/2018/09/21/how-to-write-a-multiplication-aggregate-function-in-sql</a>.
      */
     @NotNull
-    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, DERBY, FIREBIRD, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static AggregateFunction<BigDecimal> product(Field<? extends Number> field) {
         return new Product(false, nullSafe(field));
     }
@@ -21042,7 +21042,7 @@ public class DSL {
      * Get the median over a numeric field: median(field).
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, POSTGRES, XUGU })
     public static AggregateFunction<BigDecimal> median(Field<? extends Number> field) {
         return new Median(nullSafe(field));
     }
@@ -21245,7 +21245,7 @@ public class DSL {
      * @see #groupConcat(Field)
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static OrderedAggregateFunction<String> listAgg(Field<?> field) {
         return new ListAgg(false, nullSafe(field));
     }
@@ -21268,7 +21268,7 @@ public class DSL {
      * @see #groupConcat(Field)
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static OrderedAggregateFunction<String> listAgg(Field<?> field, String separator) {
         return new ListAgg(false, nullSafe(field), inline(separator));
     }
@@ -21297,7 +21297,7 @@ public class DSL {
      * @see #listAgg(Field)
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static GroupConcatOrderByStep groupConcat(Field<?> field) {
         return new GroupConcat(nullSafe(field));
     }
@@ -21329,7 +21329,7 @@ public class DSL {
      */
     @Deprecated
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static AggregateFunction<String> groupConcat(Field<?> field, String separator) {
         return new GroupConcat(nullSafe(field)).separator(separator);
     }
@@ -21354,7 +21354,7 @@ public class DSL {
      * @see #listAgg(Field)
      */
     @NotNull
-    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES })
+    @Support({ CUBRID, H2, HSQLDB, MARIADB, MYSQL, POSTGRES, XUGU })
     public static GroupConcatOrderByStep groupConcatDistinct(Field<?> field) {
         return new GroupConcat(nullSafe(field), true);
     }
@@ -21493,7 +21493,7 @@ public class DSL {
      * {@link SQLDialect#REDSHIFT} support only its window function variant.
      */
     @NotNull
-    @Support({ H2, POSTGRES })
+    @Support({ H2, POSTGRES, XUGU })
     public static OrderedAggregateFunction<BigDecimal> percentileDisc(Number number) {
         return percentileDisc(val(number));
     }
@@ -21508,7 +21508,7 @@ public class DSL {
      * {@link SQLDialect#REDSHIFT} support only its window function variant.
      */
     @NotNull
-    @Support({ H2, POSTGRES })
+    @Support({ H2, POSTGRES, XUGU })
     public static OrderedAggregateFunction<BigDecimal> percentileDisc(Field<? extends Number> field) {
         return new DefaultAggregateFunction<>("percentile_disc", SQLDataType.NUMERIC, nullSafe(field));
     }
@@ -21521,7 +21521,7 @@ public class DSL {
      * Create a {@link WindowSpecification} with a <code>PARTITION BY</code> clause.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static WindowSpecificationOrderByStep partitionBy(Field<?>... fields) {
         return new WindowSpecificationImpl().partitionBy(fields);
     }
@@ -21530,7 +21530,7 @@ public class DSL {
      * Create a {@link WindowSpecification} with a <code>PARTITION BY</code> clause.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static WindowSpecificationOrderByStep partitionBy(Collection<? extends Field<?>> fields) {
         return new WindowSpecificationImpl().partitionBy(fields);
     }
@@ -21855,7 +21855,7 @@ public class DSL {
      * The <code>rank() over ([analytic clause])</code> function.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static WindowOverStep<Integer> rank() {
         return new RankingFunction<>(RANK, SQLDataType.INTEGER);
     }
@@ -21864,7 +21864,7 @@ public class DSL {
      * The <code>dense_rank() over ([analytic clause])</code> function.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static WindowOverStep<Integer> denseRank() {
         return new RankingFunction<>(DENSE_RANK, SQLDataType.INTEGER);
     }
@@ -21891,7 +21891,7 @@ public class DSL {
      * The <code>ntile([number]) over ([analytic clause])</code> function.
      */
     @NotNull
-    @Support({ CUBRID, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static WindowOverStep<Integer> ntile(int number) {
         return new Ntile(inline(number));
     }
@@ -21918,7 +21918,7 @@ public class DSL {
      * The <code>first_value(field) over ([analytic clause])</code> function.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T> WindowIgnoreNullsStep<T> firstValue(Field<T> field) {
         return new PositionalWindowFunction(FIRST_VALUE, nullSafe(field));
     }
@@ -21927,7 +21927,7 @@ public class DSL {
      * The <code>last_value(field) over ([analytic clause])</code> function.
      */
     @NotNull
-    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE })
+    @Support({ CUBRID, FIREBIRD, H2, MARIADB, MYSQL, POSTGRES, SQLITE, XUGU })
     public static <T> WindowIgnoreNullsStep<T> lastValue(Field<T> field) {
         return new PositionalWindowFunction(LAST_VALUE, nullSafe(field));
     }
