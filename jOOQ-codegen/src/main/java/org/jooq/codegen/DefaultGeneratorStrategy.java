@@ -48,6 +48,7 @@ import static org.jooq.SQLDialect.MYSQL;
 import static org.jooq.SQLDialect.POSTGRES;
 // ...
 // ...
+import static org.jooq.SQLDialect.XUGU;
 import static org.jooq.codegen.AbstractGenerator.Language.KOTLIN;
 
 import java.util.ArrayList;
@@ -179,7 +180,7 @@ public class DefaultGeneratorStrategy extends AbstractGeneratorStrategy {
 
         // [#6307] Some databases work with per-table namespacing for indexes, not per-schema namespacing.
         //         In order to have non-ambiguous identifiers, we need to include the table name.
-        else if (definition instanceof IndexDefinition && asList(MARIADB, MYSQL).contains(definition.getDatabase().getDialect().family()))
+        else if (definition instanceof IndexDefinition && asList(MARIADB, MYSQL, XUGU).contains(definition.getDatabase().getDialect().family()))
             return ((IndexDefinition) definition).getTable().getOutputName().toUpperCase(targetLocale) + "_" + definition.getOutputName().toUpperCase(targetLocale);
 
 
@@ -189,7 +190,7 @@ public class DefaultGeneratorStrategy extends AbstractGeneratorStrategy {
 
 
         // [#9758] And then also for foreign keys
-        else if (definition instanceof ForeignKeyDefinition && asList(POSTGRES).contains(definition.getDatabase().getDialect().family()))
+        else if (definition instanceof ForeignKeyDefinition && asList(POSTGRES, XUGU).contains(definition.getDatabase().getDialect().family()))
             return ((ForeignKeyDefinition) definition).getTable().getOutputName().toUpperCase(targetLocale) + "__" + definition.getOutputName().toUpperCase(targetLocale);
 
         // [#10481] Embeddables have a defining name (class name) and a referencing name (identifier name, member name).
