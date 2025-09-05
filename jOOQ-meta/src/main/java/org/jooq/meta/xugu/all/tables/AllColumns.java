@@ -12,9 +12,6 @@ import org.jooq.types.ULong;
 public class AllColumns extends TableImpl<Record> {
     private static final long serialVersionUID = -1477092040;
 
-    /**
-     * The reference instance of <code>All.AllColumns</code>
-     */
     public static final AllColumns ALL_COLUMNS = new AllColumns();
 
     /**
@@ -25,139 +22,139 @@ public class AllColumns extends TableImpl<Record> {
         return Record.class;
     }
 
-    public final TableField<Record, String> DB_ID = createField(DSL.name("DB_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
-
-    public final TableField<Record, String> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    /**
+     * 库ID
+     */
+    public final TableField<Record, Integer> DB_ID = createField(DSL.name("DB_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * 添加col_no字段
+     * 表ID
      */
-    public final TableField<Record, String> COL_NO = createField(DSL.name("COL_NO"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, Integer> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>ALL.AllColumns.COLUMN_NAME</code>.
-     * 将column_name改为col_name
+     * 字段序号
      */
-    public final TableField<Record, String> COL_NAME = createField(DSL.name("COL_NAME"), SQLDataType.VARCHAR(64), this, "");
+    public final TableField<Record, Integer> COL_NO = createField(DSL.name("COL_NO"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>ALL.AllColumns.TABLE_NAME</code>.
+     * 字段名
      */
-    public final TableField<Record, String> TABLE_NAME = createField(DSL.name("TABLE_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, String> COL_NAME = createField(DSL.name("COL_NAME"), SQLDataType.VARCHAR(128), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.TABLE_CATALOG</code>.
+     * 类型名
      */
-    public final TableField<Record, String> TABLE_CATALOG = createField(DSL.name("TABLE_CATALOG"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, String> TYPE_NAME = createField(DSL.name("TYPE_NAME"), SQLDataType.VARCHAR(128), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.TABLE_SCHEMA</code>.
+     * 数据尺寸
      */
-    public final TableField<Record, String> TABLE_SCHEMA = createField(DSL.name("TABLE_SCHEMA"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, Integer> SCALE = createField(DSL.name("SCALE"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>ALL.AllColumns.ORDINAL_POSITION</code>.
+     * 是否隐藏
      */
-    public final TableField<Record, UInteger> ORDINAL_POSITION = createField(DSL.name("ORDINAL_POSITION"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "");
+    public final TableField<Record, Boolean> IS_HIDE = createField(DSL.name("IS_HIDE"), SQLDataType.BOOLEAN.nullable(true), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.COLUMN_DEFAULT</code>.
-     * 将COLUMN_DEFAULT改为DEF_VAL
+     * 是否删除
      */
-    public final TableField<Record, String> DEF_VAL = createField(DSL.name("DEF_VAL"), SQLDataType.CLOB, this, "");
+    public final TableField<Record, Boolean> DELETED = createField(DSL.name("DELETED"), SQLDataType.BOOLEAN.nullable(true), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.IS_NULLABLE</code>.
-     * 将is_nullable改为not_null
-     * 这里处理的非空逻辑，不确定虚谷是否与mysql相同，标记一下。
+     * 是否变长（对char binary有效）
      */
-    public final TableField<Record, String> NOT_NULL = createField(DSL.name("NOT_NULL"), SQLDataType.VARCHAR(5).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
+    public final TableField<Record, Boolean> VARYING = createField(DSL.name("VARYING"), SQLDataType.BOOLEAN, this, "");
 
     /**
-     * The column <code>ALL.AllColumns.DATA_TYPE</code>.
-     * 改为TYPE_NAME
+     * 是否可为空
      */
-    public final TableField<Record, String> TYPE_NAME = createField(DSL.name("TYPE_NAME"), SQLDataType.CLOB, this, "");
+    public final TableField<Record, Boolean> NOT_NULL = createField(DSL.name("NOT_NULL"), SQLDataType.BOOLEAN, this, "");
 
     /**
-     * The column <code>ALL.AllColumns.CHARACTER_MAXIMUM_LENGTH</code>.
-     * 改为SCALE，虚谷的scale是用来计算标度和精度的字段，需要换算后得出标度和精度，似乎不能直接用。
+     * 是否为序列值
      */
-    public final TableField<Record, Long> SCALE = createField(DSL.name("SCALE"), SQLDataType.BIGINT, this, "");
+    public final TableField<Record, Boolean> IS_SERIAL = createField(DSL.name("IS_SERIAL"), SQLDataType.BOOLEAN, this, "");
 
     /**
-     * 添加字段，用于自增判断
+     * 序列值发生器的ID号
      */
-    public final TableField<Record, String> IS_SERIAL=createField(DSL.name("IS_SERIAL"), SQLDataType.VARCHAR(3).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
+    public final TableField<Record, Integer> SERIAL_ID = createField(DSL.name("SERIAL_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>ALL.AllColumns.CHARACTER_OCTET_LENGTH</code>.
+     * 时间戳类型（'i':仅在插入时计值; 'u': 更改时计值; 'n': 非时间戳类型，不计值）
      */
-    public final TableField<Record, Long> CHARACTER_OCTET_LENGTH = createField(DSL.name("CHARACTER_OCTET_LENGTH"), SQLDataType.BIGINT, this, "");
+    public final TableField<Record, String> TIMESTAMP_T = createField(DSL.name("TIMESTAMP_T"), SQLDataType.CHAR(1), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.NUMERIC_PRECISION</code>.
-     * 虚谷不匹配
+     * 校验器名
      */
-    public final TableField<Record, ULong> NUMERIC_PRECISION = createField(DSL.name("DISPERSION"), SQLDataType.BIGINTUNSIGNED, this, "");
+    public final TableField<Record, String> COLLATOR = createField(DSL.name("COLLATOR"), SQLDataType.VARCHAR(128).nullable(true), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.NUMERIC_SCALE</code>.
-     * 虚谷不匹配
+     * 默认值
      */
-    public final TableField<Record, ULong> NUMERIC_SCALE = createField(DSL.name("DISPERSION"), SQLDataType.BIGINTUNSIGNED, this, "");
+    public final TableField<Record, String> DEF_VAL = createField(DSL.name("DEF_VAL"), SQLDataType.VARCHAR(1024).nullable(true), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.DATETIME_PRECISION</code>.
+     * 该字段是否是虚字段
      */
-    public final TableField<Record, UInteger> DATETIME_PRECISION = createField(DSL.name("DATETIME_PRECISION"), SQLDataType.INTEGERUNSIGNED, this, "");
-
-    public final TableField<Record, UInteger> EMPTY_STRING = createField(DSL.name(""), SQLDataType.INTEGERUNSIGNED, this, "");
+    public final TableField<Record, Boolean> IS_VIRTUAL = createField(DSL.name("IS_VIRTUAL"), SQLDataType.BOOLEAN.nullable(true), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.CHARACTER_SET_NAME</code>.
+     * 注释信息
      */
-    public final TableField<Record, String> CHARACTER_SET_NAME = createField(DSL.name("CHARACTER_SET_NAME"), SQLDataType.VARCHAR(64), this, "");
+    public final TableField<Record, String> COMMENTS = createField(DSL.name("COMMENTS"), SQLDataType.VARCHAR.nullable(true), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.COLLATION_NAME</code>.
+     * 重复率
      */
-    public final TableField<Record, String> COLLATION_NAME = createField(DSL.name("COLLATION_NAME"), SQLDataType.VARCHAR(64), this, "");
+    public final TableField<Record, Double> REPET_RATE = createField(DSL.name("REPET_RATE"), SQLDataType.DOUBLE.nullable(true), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.COLUMN_TYPE</code>.
+     * 离散度
      */
-    public final TableField<Record, String> COLUMN_TYPE = createField(DSL.name("TYPE_NAME"), SQLDataType.CLOB.nullable(false), this, "");
+    public final TableField<Record, Double> DISPERSION = createField(DSL.name("DISPERSION"), SQLDataType.DOUBLE.nullable(true), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.COLUMN_KEY</code>.
+     * 最大值
      */
-    public final TableField<Record, String> COLUMN_KEY = createField(DSL.name("COLUMN_KEY"), SQLDataType.VARCHAR(3).nullable(false), this, "");
+    public final TableField<Record, String> MAX_VAL = createField(DSL.name("MAX_VAL"), SQLDataType.VARCHAR(1024).nullable(true), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.EXTRA</code>.
+     * 最小值
      */
-    public final TableField<Record, String> EXTRA = createField(DSL.name("COMMENTS"), SQLDataType.VARCHAR(256), this, "");
+    public final TableField<Record, String> MIN_VAL = createField(DSL.name("MIN_VAL"), SQLDataType.VARCHAR(1024).nullable(true), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.PRIVILEGES</code>.
+     * 柱状图
      */
-    public final TableField<Record, String> PRIVILEGES = createField(DSL.name("PRIVILEGES"), SQLDataType.VARCHAR(154), this, "");
+    public final TableField<Record, String> HISTOGRAM = createField(DSL.name("HISTOGRAM"), SQLDataType.CLOB.nullable(true), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.COLUMN_COMMENT</code>.
+     * 分析控制标记('2':禁止收集统计信息; 其他值，允许收集)
      */
-    public final TableField<Record, String> COMMENTS = createField(DSL.name("COMMENTS"), SQLDataType.CLOB.nullable(false), this, "");
+    public final TableField<Record, Byte> ANA_FLAG = createField(DSL.name("ANA_FLAG"), SQLDataType.TINYINT.nullable(true), this, "");
 
     /**
-     * The column <code>ALL.AllColumns.GENERATION_EXPRESSION</code>.
+     * 是否用默认值替换显式空值(0:无替换; 1:仅插入时替换; 2:插入和更新时替换)
+     *
+     * @since XuguDB v12
      */
-    public final TableField<Record, String> GENERATION_EXPRESSION = createField(DSL.name("GENERATION_EXPRESSION"), SQLDataType.CLOB.nullable(false), this, "");
+    public final TableField<Record, Byte> ON_NULL = createField(DSL.name("ON_NULL"), SQLDataType.TINYINT, this, "");
 
     /**
-     * The column <code>ALL.AllColumns.SRS_ID</code>.
+     * 非空值比例
+     *
+     * @since XuguDB v12
      */
-    public final TableField<Record, UInteger> SRS_ID = createField(DSL.name("SRS_ID"), SQLDataType.INTEGERUNSIGNED, this, "");
+    public final TableField<Record, Double> NON_NULL_RATE = createField(DSL.name("NON_NULL_RATE"), SQLDataType.DOUBLE.nullable(true), this, "");
+
+    /**
+     * 保留字段
+     */
+    public final TableField<Record, String> RESERVED3 = createField(DSL.name("RESERVED3"), SQLDataType.VARCHAR(128).nullable(true), this, "");
 
     private AllColumns(Name alias, Table<Record> aliased) {
         this(alias, aliased, null);
@@ -171,7 +168,7 @@ public class AllColumns extends TableImpl<Record> {
      * Create an aliased <code>All.AllColumns</code> table reference
      */
     public AllColumns(String alias) {
-        this(DSL.name(alias),ALL_COLUMNS);
+        this(DSL.name(alias), ALL_COLUMNS);
     }
 
     /**

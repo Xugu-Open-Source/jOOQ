@@ -28,38 +28,54 @@ public class AllSchemas extends TableImpl<Record> {
     }
 
     /**
-     * The column <code>information_schema.AllSchemas.CATALOG_NAME</code>.
+     * 库ID
      */
-    public final TableField<Record, String> CATALOG_NAME = createField(DSL.name("CATALOG_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
-
     public final TableField<Record, Integer> DB_ID = createField(DSL.name("DB_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>information_schema.AllSchemas.SCHEMA_NAME</code>.
+     * 模式ID
      */
-    public final TableField<Record, String> SCHEMA_NAME = createField(DSL.name("SCHEMA_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
-
     public final TableField<Record, Integer> SCHEMA_ID = createField(DSL.name("SCHEMA_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>information_schema.AllSchemas.DEFAULT_CHARACTER_SET_NAME</code>.
+     * 属主的用户ID
      */
-    public final TableField<Record, String> DEFAULT_CHARACTER_SET_NAME = createField(DSL.name("DEFAULT_CHARACTER_SET_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>information_schema.AllSchemas.DEFAULT_COLLATION_NAME</code>.
+     * 模式名
      */
-    public final TableField<Record, String> DEFAULT_COLLATION_NAME = createField(DSL.name("DEFAULT_COLLATION_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, String> SCHEMA_NAME = createField(DSL.name("SCHEMA_NAME"), SQLDataType.VARCHAR(128), this, "");
 
     /**
-     * The column <code>information_schema.AllSchemas.SQL_PATH</code>.
+     * 注释信息
      */
-    public final TableField<Record, byte[]> SQL_PATH = createField(DSL.name("SQL_PATH"), SQLDataType.BINARY, this, "");
+    public final TableField<Record, String> COMMENTS = createField(DSL.name("COMMENTS"), SQLDataType.VARCHAR.nullable(true), this, "");
 
     /**
-     * The column <code>information_schema.AllSchemas.DEFAULT_ENCRYPTION</code>.
+     * 是否系统内建
      */
-    public final TableField<Record, String> DEFAULT_ENCRYPTION = createField(DSL.name("DEFAULT_ENCRYPTION"), SQLDataType.VARCHAR(3).nullable(false), this, "");
+    public final TableField<Record, Boolean> IS_SYS = createField(DSL.name("IS_SYS"), SQLDataType.BOOLEAN, this, "");
+
+    /**
+     * 是否记载变更日志
+     */
+    public final TableField<Record, Boolean> REG_MODIFY = createField(DSL.name("REG_MODIFY"), SQLDataType.BOOLEAN.nullable(true), this, "");
+
+    /**
+     * 存储域
+     */
+    public final TableField<Record, Integer> STO_ZONE = createField(DSL.name("STO_ZONE"), SQLDataType.INTEGER, this, "");
+
+    /**
+     * 保留字段
+     */
+    public final TableField<Record, String> RESERVED2 = createField(DSL.name("RESERVED2"), SQLDataType.VARCHAR(128).nullable(true), this, "");
+
+    /**
+     * 保留字段
+     */
+    public final TableField<Record, String> RESERVED3 = createField(DSL.name("RESERVED3"), SQLDataType.VARCHAR(128).nullable(true), this, "");
 
     private AllSchemas(Name alias, Table<Record> aliased) {
         this(alias, aliased, null);

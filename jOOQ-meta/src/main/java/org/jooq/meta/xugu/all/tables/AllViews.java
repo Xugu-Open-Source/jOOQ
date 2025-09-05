@@ -8,16 +8,14 @@ import org.jooq.impl.TableImpl;
 import org.jooq.meta.xugu.all.All;
 import org.jooq.meta.xugu.all.Keys;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 public class AllViews extends TableImpl<Record> {
-  
+
     private static final long serialVersionUID = -815570636;
 
-    /**
-     * The reference instance of <code>information_schema.ALL_VIEWS</code>
-     */
     public static final AllViews ALL_VIEWS = new AllViews();
 
     /**
@@ -29,57 +27,69 @@ public class AllViews extends TableImpl<Record> {
     }
 
     /**
-     * The column <code>information_schema.ALL_VIEWS.TABLE_CATALOG</code>.
+     * 库ID
      */
-    public final TableField<Record, String> TABLE_CATALOG = createField(DSL.name("TABLE_CATALOG"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, Integer> DB_ID = createField(DSL.name("DB_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>information_schema.ALL_VIEWS.TABLE_SCHEMA</code>.
+     * 模式ID
      */
-    public final TableField<Record, String> TABLE_SCHEMA = createField(DSL.name("TABLE_SCHEMA"), SQLDataType.VARCHAR(64).nullable(false), this, "");
-
     public final TableField<Record, Integer> SCHEMA_ID = createField(DSL.name("SCHEMA_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>information_schema.ALL_VIEWS.TABLE_NAME</code>.
+     * 属主ID
      */
-    public final TableField<Record, String> TABLE_NAME = createField(DSL.name("TABLE_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
-    public final TableField<Record, String> VIEW_NAME = createField(DSL.name("VIEW_NAME"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>information_schema.ALL_VIEWS.VIEW_DEFINITION</code>.
+     * 视图ID
+     */
+    public final TableField<Record, Integer> VIEW_ID = createField(DSL.name("VIEW_ID"), SQLDataType.INTEGER, this, "");
+
+    /**
+     * 视图名
+     */
+    public final TableField<Record, String> VIEW_NAME = createField(DSL.name("VIEW_NAME"), SQLDataType.VARCHAR(128), this, "");
+
+    /**
+     * 视图定义
      */
     public final TableField<Record, String> DEFINE = createField(DSL.name("DEFINE"), SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>information_schema.ALL_VIEWS.CHECK_OPTION</code>.
+     * 选项(0：无 1：with read only 2：with check option)
      */
-    public final TableField<Record, String> CHECK_OPTION = createField(DSL.name("CHECK_OPTION"), SQLDataType.VARCHAR(8), this, "");
+    public final TableField<Record, Integer> OPTION = createField(DSL.name("OPTION"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>information_schema.ALL_VIEWS.IS_UPDATABLE</code>.
+     * 创建时间
      */
-    public final TableField<Record, String> IS_UPDATABLE = createField(DSL.name("IS_UPDATABLE"), SQLDataType.VARCHAR(3), this, "");
+    public final TableField<Record, LocalDateTime> CREATE_TIME = createField(DSL.name("CREATE_TIME"), SQLDataType.LOCALDATETIME, this, "");
 
     /**
-     * The column <code>information_schema.ALL_VIEWS.DEFINER</code>.
+     * 是否有效
      */
-    public final TableField<Record, String> DEFINER = createField(DSL.name("DEFINER"), SQLDataType.VARCHAR(288), this, "");
+    public final TableField<Record, Boolean> VALID = createField(DSL.name("VALID"), SQLDataType.BOOLEAN, this, "");
 
     /**
-     * The column <code>information_schema.ALL_VIEWS.SECURITY_TYPE</code>.
+     * 是否系统内建
      */
-    public final TableField<Record, String> SECURITY_TYPE = createField(DSL.name("SECURITY_TYPE"), SQLDataType.VARCHAR(7), this, "");
+    public final TableField<Record, Boolean> IS_SYS = createField(DSL.name("IS_SYS"), SQLDataType.BOOLEAN, this, "");
 
     /**
-     * The column <code>information_schema.ALL_VIEWS.CHARACTER_SET_CLIENT</code>.
+     * 注释信息
      */
-    public final TableField<Record, String> CHARACTER_SET_CLIENT = createField(DSL.name("CHARACTER_SET_CLIENT"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, String> COMMENTS = createField(DSL.name("COMMENTS"), SQLDataType.VARCHAR(128).nullable(true), this, "");
 
     /**
-     * The column <code>information_schema.ALL_VIEWS.COLLATION_CONNECTION</code>.
+     * 保留字段
      */
-    public final TableField<Record, String> COLLATION_CONNECTION = createField(DSL.name("COLLATION_CONNECTION"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, String> RESERVED1 = createField(DSL.name("RESERVED1"), SQLDataType.VARCHAR(128).nullable(true), this, "");
+
+    /**
+     * 保留字段
+     */
+    public final TableField<Record, String> RESERVED2 = createField(DSL.name("RESERVED2"), SQLDataType.VARCHAR(128).nullable(true), this, "");
 
     private AllViews(Name alias, Table<Record> aliased) {
         this(alias, aliased, null);
@@ -117,15 +127,6 @@ public class AllViews extends TableImpl<Record> {
     @Override
     public Schema getSchema() {
         return All.ALL;
-    }
-
-    @Override
-    public List<ForeignKey<Record, ?>> getReferences() {
-        return Arrays.<ForeignKey<Record, ?>>asList(Keys.SYNTHETIC_FK_ALL_VIEWS__SYNTHETIC_PK_ALL_TABLES);
-    }
-
-    public AllTables tables() {
-        return new AllTables(this, Keys.SYNTHETIC_FK_ALL_VIEWS__SYNTHETIC_PK_ALL_TABLES);
     }
 
     @Override

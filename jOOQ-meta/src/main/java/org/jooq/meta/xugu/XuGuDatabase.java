@@ -43,8 +43,6 @@ import org.jooq.*;
 import org.jooq.TableOptions.TableType;
 import org.jooq.impl.DSL;
 import org.jooq.meta.*;
-//import org.jooq.meta.xugu.all.tables.Schemata;
-//import org.jooq.meta.xugu.xugu.enums.ProcType;
 import org.jooq.meta.mysql.MySQLRoutineDefinition;
 import org.jooq.meta.mysql.mysql.enums.ProcType;
 import org.jooq.meta.postgres.PostgresRoutineDefinition;
@@ -72,7 +70,6 @@ import static org.jooq.meta.postgres.information_schema.Tables.SEQUENCES;
 import static org.jooq.meta.xugu.all.Tables.*;
 import static org.jooq.meta.xugu.all.tables.AllColumns.ALL_COLUMNS;
 import static org.jooq.meta.xugu.all.tables.AllConstraints.ALL_CONSTRAINTS;
-import static org.jooq.meta.xugu.all.tables.AllDataBases.ALL_DATABASES;
 import static org.jooq.meta.xugu.all.tables.AllIndexes.ALL_INDEXES;
 import static org.jooq.meta.xugu.all.tables.AllObjects.ALL_OBJECTS;
 import static org.jooq.meta.xugu.all.tables.AllProcedures.ALL_PROCEDURES;
@@ -80,8 +77,6 @@ import static org.jooq.meta.xugu.all.tables.AllSchemas.ALL_SCHEMAS;
 import static org.jooq.meta.xugu.all.tables.AllSequences.ALL_SEQUENCES;
 import static org.jooq.meta.xugu.all.tables.AllTables.ALL_TABLES;
 import static org.jooq.meta.xugu.all.tables.AllViews.ALL_VIEWS;
-//import static org.jooq.meta.xugu.all.tables.AllDataBases.DATA_BASES;
-//import static org.jooq.meta.xugu.xugu.Tables.PROC;
 
 /**
  * @author Lukas Eder
@@ -96,14 +91,13 @@ public class XuGuDatabase extends AbstractDatabase {
     protected List<IndexDefinition> getIndexes0() throws SQLException {
         List<IndexDefinition> result = new ArrayList<>();
 
-        Map<Record, Result<Record>> indexes = create()
+        Result<Record5<String, String, String, Boolean, String>> fetchResult = create()
                 .selectDistinct(
                         ALL_SCHEMAS.SCHEMA_NAME,
                         ALL_TABLES.TABLE_NAME,
                         ALL_INDEXES.INDEX_NAME,
-                        when(ALL_INDEXES.IS_UNIQUE.eq(true),inline("NO")).otherwise(inline("YES")).as("IS_UNIQUE"),
-                        ALL_INDEXES.KEYS,
-                        inline("").as(ALL_INDEXES.SEQ_IN_INDEX))
+                        ALL_INDEXES.IS_UNIQUE,
+                        ALL_INDEXES.KEYS)
                 .from(ALL_INDEXES)
                 .leftJoin(ALL_TABLES).on(ALL_TABLES.TABLE_ID.eq(ALL_INDEXES.TABLE_ID))
                 .leftJoin(ALL_SCHEMAS).on(ALL_SCHEMAS.SCHEMA_ID.eq(ALL_TABLES.SCHEMA_ID))
@@ -111,67 +105,48 @@ public class XuGuDatabase extends AbstractDatabase {
                         getInputSchemata().size() == 1
                                 ? ALL_SCHEMAS.SCHEMA_NAME.in(getInputSchemata())
                                 : falseCondition()))
-                .and(ALL_INDEXES.IS_UNIQUE.eq(false).and(ALL_INDEXES.IS_PRIMARY.eq(false))
-                )
+                .and(getIncludeSystemIndexes()
+                        ? noCondition()
+                        : ALL_INDEXES.IS_UNIQUE.eq(false).and(ALL_INDEXES.IS_PRIMARY.eq(false))
+                ).and(ALL_INDEXES.IS_SYS.eq(false))
                 .orderBy(
                         ALL_SCHEMAS.SCHEMA_NAME,
                         ALL_TABLES.TABLE_NAME,
                         ALL_INDEXES.INDEX_NAME)
-                .fetchGroups(
-                        new Field[]{
-                                ALL_SCHEMAS.SCHEMA_NAME,
-                                ALL_TABLES.TABLE_NAME,
-                                ALL_INDEXES.INDEX_NAME,
-                                ALL_INDEXES.IS_UNIQUE
-                        },
-                        new Field[]{
-                                ALL_INDEXES.KEYS,
-                                ALL_INDEXES.SEQ_IN_INDEX
-                        });
+                .fetch();
 
         indexLoop:
-        for (Entry<Record, Result<Record>> entry : indexes.entrySet()) {
-            final Record index = entry.getKey();
-            final Result<Record> columns = entry.getValue();
-
-            final SchemaDefinition tableSchema = getSchema(index.get(ALL_SCHEMAS.SCHEMA_NAME));
-            if (tableSchema == null)
+        for (Record5<String, String, String, Boolean, String> record5 : fetchResult) {
+            final SchemaDefinition tableSchema = getSchema(record5.get(ALL_SCHEMAS.SCHEMA_NAME));
+            if (tableSchema == null) {
                 continue indexLoop;
-
-            final String indexName0= index.get(ALL_INDEXES.INDEX_NAME);
-            final String tableName = index.get(ALL_TABLES.TABLE_NAME);
-            final String indexName = tableName+ "_" + indexName0 ;
+            }
+            final String indexName = record5.get(ALL_INDEXES.INDEX_NAME);
+            final String tableName = record5.get(ALL_TABLES.TABLE_NAME);
             final TableDefinition table = getTable(tableSchema, tableName);
             if (table == null)
                 continue indexLoop;
 
-            final boolean unique = !index.get(ALL_INDEXES.IS_UNIQUE, boolean.class);
+            final boolean unique = record5.get(ALL_INDEXES.IS_UNIQUE, boolean.class);
 
-            for (Record column : columns) {
-                String keys = column.get(ALL_INDEXES.KEYS);
-                String[] columnNames = keys.replace("\"", "").split(",");
-                for (String columnName : columnNames) {
-                    if (table.getColumn(columnName.trim()) == null)
-                        continue indexLoop;
-                }
+            String keys = record5.get(ALL_INDEXES.KEYS);
+            String[] columnNames = keys.replace("\"", "").split(",");
+            for (String columnName : columnNames) {
+                if (table.getColumn(columnName.trim()) == null)
+                    continue indexLoop;
             }
 
             result.add(new AbstractIndexDefinition(tableSchema, indexName, table, unique) {
                 List<IndexColumnDefinition> indexColumns = new ArrayList<>();
 
                 {
-                    for (Record column : columns) {
-                        String keys = column.get(ALL_INDEXES.KEYS);
-                        String[] columnNames = keys.replace("\"", "").split(",");
-
-                        for (String columnName : columnNames) {
-                            indexColumns.add(new DefaultIndexColumnDefinition(
-                                    this,
-                                    table.getColumn(columnName.trim()),
-                                    SortOrder.ASC,
-                                    column.get(ALL_INDEXES.SEQ_IN_INDEX, int.class)
-                            ));
-                        }
+                    for (int i = 0; i < columnNames.length; i++) {
+                        indexColumns.add(new DefaultIndexColumnDefinition(
+                                this,
+                                table.getColumn(columnNames[i].trim()),
+                                SortOrder.ASC,
+                                i
+                        ));
                     }
                 }
 
@@ -263,8 +238,7 @@ public class XuGuDatabase extends AbstractDatabase {
                         ALL_SCHEMAS.SCHEMA_NAME,
                         ALL_TABLES.TABLE_NAME,
                         ALL_INDEXES.KEYS,
-                        ALL_INDEXES.INDEX_NAME,
-                        inline(1).as(ALL_INDEXES.SEQ_IN_INDEX))
+                        ALL_INDEXES.INDEX_NAME)
                 .from(ALL_INDEXES)
                 .leftJoin(ALL_TABLES).on(ALL_TABLES.TABLE_ID.eq(ALL_INDEXES.TABLE_ID))
                 .leftJoin(ALL_SCHEMAS).on(ALL_SCHEMAS.SCHEMA_ID.eq(ALL_TABLES.SCHEMA_ID))
@@ -290,7 +264,6 @@ public class XuGuDatabase extends AbstractDatabase {
         AllSchemas rs = ALL_SCHEMAS.as("RS");
 
         for (Record record : create().selectDistinct(
-                        ALL_DATABASES.DB_NAME,
                         s.SCHEMA_NAME,
                         ALL_CONSTRAINTS.CONS_NAME,
                         t.TABLE_NAME,
@@ -300,7 +273,6 @@ public class XuGuDatabase extends AbstractDatabase {
                         ALL_CONSTRAINTS.DEFINE
                 )
                 .from(ALL_CONSTRAINTS)
-                .join(ALL_DATABASES).on(ALL_CONSTRAINTS.DB_ID.eq(ALL_DATABASES.DB_ID))
                 .join(t).on(ALL_CONSTRAINTS.TABLE_ID.eq(t.TABLE_ID))
                 .join(s).on(s.SCHEMA_ID.eq(t.SCHEMA_ID))
 
@@ -370,17 +342,11 @@ public class XuGuDatabase extends AbstractDatabase {
                             ALL_SCHEMAS.SCHEMA_NAME,
                             ALL_TABLES.TABLE_NAME,
                             ALL_CONSTRAINTS.CONS_NAME,
-                            ALL_CONSTRAINTS.DEFINE,
-
-                            // We need this additional, useless projection. See:
-                            // https://jira.mariadb.org/browse/MDEV-21201
-                            ALL_DATABASES.DB_NAME.as(ALL_CONSTRAINTS.CONSTRAINT_CATALOG),
-                            ALL_SCHEMAS.SCHEMA_NAME.as(ALL_CONSTRAINTS.CONSTRAINT_SCHEMA)
+                            ALL_CONSTRAINTS.DEFINE
                     )
                     .from(ALL_CONSTRAINTS)
                     .leftJoin(ALL_TABLES).on(ALL_TABLES.TABLE_ID.eq(ALL_CONSTRAINTS.TABLE_ID))
                     .leftJoin(ALL_SCHEMAS).on(ALL_SCHEMAS.SCHEMA_ID.eq(ALL_TABLES.SCHEMA_ID))
-                    .leftJoin(ALL_DATABASES).on(ALL_TABLES.DB_ID.eq(ALL_DATABASES.DB_ID))
                     .where(ALL_SCHEMAS.SCHEMA_NAME.in(getInputSchemata()).and(ALL_CONSTRAINTS.CONS_TYPE.eq("C")))
                     .orderBy(
                             ALL_SCHEMAS.SCHEMA_NAME,
@@ -477,24 +443,33 @@ public class XuGuDatabase extends AbstractDatabase {
                         ALL_SCHEMAS.SCHEMA_NAME,
                         ALL_TABLES.TABLE_NAME,
                         ALL_TABLES.COMMENTS,
-                        ALL_TABLES.TABLE_TYPE,
-                        when(ALL_VIEWS.DEFINE.lower().like(inline("create%")), ALL_VIEWS.DEFINE)
-                                .else_(inline("create view `").concat(ALL_TABLES.TABLE_NAME).concat("` as ").concat(ALL_VIEWS.DEFINE)).as(ALL_VIEWS.DEFINE))
+                        inline(TableType.TABLE.name()).as("TABLE_TYPE"),
+                        inline((String) null).as(ALL_VIEWS.DEFINE))
                 .from(ALL_TABLES)
-                .leftJoin(ALL_VIEWS)
-                .on(ALL_TABLES.SCHEMA_ID.eq(ALL_VIEWS.SCHEMA_ID))
-                .and(ALL_TABLES.TABLE_NAME.eq(ALL_VIEWS.VIEW_NAME))
-
-                .leftJoin(new AllSchemas("s")).on(ALL_TABLES.SCHEMA_ID.eq(ALL_SCHEMAS.SCHEMA_ID))
+                .join(ALL_SCHEMAS).on(ALL_TABLES.SCHEMA_ID.eq(ALL_SCHEMAS.SCHEMA_ID))
                 .where(ALL_SCHEMAS.SCHEMA_NAME.in(getInputSchemata()).or(
                         getInputSchemata().size() == 1
                                 ? ALL_SCHEMAS.SCHEMA_NAME.in(getInputSchemata())
                                 : falseCondition()))
-
-                // [#9291] MariaDB treats sequences as tables
+                .and(ALL_TABLES.IS_SYS.eq(false))
+                .unionAll(
+                        select(ALL_SCHEMAS.SCHEMA_NAME,
+                                ALL_VIEWS.VIEW_NAME.as("TABLE_NAME"),
+                                ifnull(ALL_VIEWS.COMMENTS, "VIEW"),
+                                inline(TableType.VIEW.name()).as("TABLE_TYPE"),
+                                ALL_VIEWS.DEFINE
+                        )
+                                .from(ALL_VIEWS)
+                                .join(ALL_SCHEMAS).on(ALL_VIEWS.SCHEMA_ID.eq(ALL_SCHEMAS.SCHEMA_ID))
+                                .where(ALL_SCHEMAS.SCHEMA_NAME.in(getInputSchemata()).or(
+                                        getInputSchemata().size() == 1
+                                                ? ALL_SCHEMAS.SCHEMA_NAME.in(getInputSchemata())
+                                                : falseCondition()))
+                                .and(ALL_VIEWS.IS_SYS.eq(false))
+                )
                 .orderBy(
-                        ALL_SCHEMAS.SCHEMA_NAME,
-                        ALL_TABLES.TABLE_NAME)) {
+                        inline("SCHEMA_NAME"),
+                        inline("TABLE_NAME"))) {
 
             SchemaDefinition schema = getSchema(record.get(ALL_SCHEMAS.SCHEMA_NAME));
             String name = record.get(ALL_TABLES.TABLE_NAME);

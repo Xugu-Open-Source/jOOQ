@@ -30,62 +30,84 @@ public class AllConstraints extends TableImpl<Record> {
 
 
     /**
-     * 添加新字段
+     * 库ID
      */
-    public final TableField<Record, String> DB_ID = createField(DSL.name("DB_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, Integer> DB_ID = createField(DSL.name("DB_ID"), SQLDataType.INTEGER, this, "");
 
     /**
-     * 添加新字段
+     * 表ID
      */
-    public final TableField<Record, String> REF_TABLE_ID = createField(DSL.name("REF_TABLE_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<Record, Integer> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.INTEGER, this, "");
+
+    /**
+     * 引用的表的ID（对于外键约束有效）
+     */
+    public final TableField<Record, Integer> REF_TABLE_ID = createField(DSL.name("REF_TABLE_ID"), SQLDataType.INTEGER.nullable(true), this, "");
+
+    /**
+     * 约束名
+     */
+    public final TableField<Record, String> CONS_NAME = createField(DSL.name("CONS_NAME"), SQLDataType.VARCHAR(128), this, "");
 
     /**
      * 约束类型('F'：外键；'R'：引用外键；'C'：值检查；'U'：唯一值；'P'：主键)
      */
-    public final TableField<Record, String> CONS_TYPE = createField(DSL.name("CONS_TYPE"), SQLDataType.VARCHAR(64).nullable(false), this, "");
-
+    public final TableField<Record, String> CONS_TYPE = createField(DSL.name("CONS_TYPE"), SQLDataType.CHAR(1), this, "");
 
     /**
-     * The column <code>ALL.ALL_CONSTRAINTS.CONSTRAINT_CATALOG</code>.
+     * 外键匹配方式('A'：全部匹配；'P'：部分匹配; 'U': 简单匹配(只要约束字段中含有空值，则不作外键匹配检查))
      */
-    public final TableField<Record, String> CONSTRAINT_CATALOG = createField(DSL.name("CONSTRAINT_CATALOG"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
+    public final TableField<Record, String> MATCH_TYPE = createField(DSL.name("MATCH_TYPE"), SQLDataType.CHAR(1).nullable(true), this, "");
 
     /**
-     * The column <code>ALL.ALL_CONSTRAINTS.CONSTRAINT_SCHEMA</code>.
+     * 延期特性
      */
-    public final TableField<Record, String> CONSTRAINT_SCHEMA = createField(DSL.name("CONSTRAINT_SCHEMA"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
+    public final TableField<Record, Boolean> DEFERRABLE = createField(DSL.name("DEFERRABLE"), SQLDataType.BOOLEAN.nullable(true), this, "");
 
     /**
-     * The column <code>ALL.ALL_CONSTRAINTS.CONSTRAINT_NAME</code>.
+     * 延期特性的初始设置
      */
-    public final TableField<Record, String> CONS_NAME = createField(DSL.name("CONS_NAME"), SQLDataType.VARCHAR(64), this, "");
+    public final TableField<Record, Boolean> INITDEFERRED = createField(DSL.name("INITDEFERRED"), SQLDataType.BOOLEAN.nullable(true), this, "");
 
     /**
-     * The column <code>ALL.ALL_CONSTRAINTS.TABLE_SCHEMA</code>.
+     * 约束定义
      */
-    public final TableField<Record, String> TABLE_SCHEMA = createField(DSL.name("TABLE_SCHEMA"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
+    public final TableField<Record, String> DEFINE = createField(DSL.name("DEFINE"), SQLDataType.VARCHAR, this, "");
 
     /**
-     * 添加新字段，改变字段长度
-     * */
-    public final TableField<Record, String> DEFINE = createField(DSL.name("DEFINE"), SQLDataType.VARCHAR(500).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
-
-    /**
-     * The column <code>ALL.ALL_CONSTRAINTS.TABLE_NAME</code>.
+     * 当引用的记录更改时的反向动作
      */
-    public final TableField<Record, String> TABLE_NAME = createField(DSL.name("TABLE_NAME"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
-
-    public final TableField<Record, String> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
+    public final TableField<Record, String> UPDATE_ACTION = createField(DSL.name("UPDATE_ACTION"), SQLDataType.CHAR(1).nullable(true), this, "");
 
     /**
-     * The column <code>ALL.ALL_CONSTRAINTS.CONSTRAINT_TYPE</code>.
+     * 当引用的记录删除时的反向动作
      */
-    public final TableField<Record, String> CONSTRAINT_TYPE = createField(DSL.name("CONSTRAINT_TYPE"), SQLDataType.VARCHAR(11).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
+    public final TableField<Record, String> DELETE_ACTION = createField(DSL.name("DELETE_ACTION"), SQLDataType.CHAR(1).nullable(true), this, "");
 
     /**
-     * The column <code>ALL.ALL_CONSTRAINTS.ENFORCED</code>.
+     * 值检查约束是否可用（对于值检查约束有效）
      */
-    public final TableField<Record, String> ENFORCED = createField(DSL.name("ENFORCED"), SQLDataType.VARCHAR(3).nullable(false).defaultValue(DSL.inline("", SQLDataType.VARCHAR)), this, "");
+    public final TableField<Record, Boolean> ENABLE = createField(DSL.name("ENABLE"), SQLDataType.BOOLEAN, this, "");
+
+    /**
+     * 是否有效
+     */
+    public final TableField<Record, Boolean> VALID = createField(DSL.name("VALID"), SQLDataType.BOOLEAN, this, "");
+
+    /**
+     * 是否系统内建
+     */
+    public final TableField<Record, Boolean> IS_SYS = createField(DSL.name("IS_SYS"), SQLDataType.BOOLEAN.nullable(true), this, "");
+
+    /**
+     * 保留字段
+     */
+    public final TableField<Record, String> RESERVED1 = createField(DSL.name("RESERVED1"), SQLDataType.VARCHAR.nullable(true), this, "");
+
+    /**
+     * 保留字段
+     */
+    public final TableField<Record, String> RESERVED2 = createField(DSL.name("RESERVED2"), SQLDataType.VARCHAR.nullable(true), this, "");
 
     private AllConstraints(Name alias, Table<Record> aliased) {
         this(alias, aliased, null);
@@ -127,7 +149,7 @@ public class AllConstraints extends TableImpl<Record> {
 
     @Override
     public UniqueKey<Record> getPrimaryKey() {
-            return Keys.SYNTHETIC_PK_ALL_CONSTRAINTS;
+        return Keys.SYNTHETIC_PK_ALL_CONSTRAINTS;
     }
 
     @Override

@@ -19,7 +19,10 @@ public class Keys {
             AllProcedures.ALL_PROCEDURES,
             DSL.name("SYNTHETIC_PK_ALL_PROCEDURES"),
             new TableField[] {
-                    AllProcedures.ALL_PROCEDURES.PROC_NAME
+                    AllProcedures.ALL_PROCEDURES.DB_ID,
+                    AllProcedures.ALL_PROCEDURES.SCHEMA_ID,
+                    AllProcedures.ALL_PROCEDURES.USER_ID,
+                    AllProcedures.ALL_PROCEDURES.PROC_ID
             },
             true);
 
@@ -29,8 +32,9 @@ public class Keys {
             AllSchemas.ALL_SCHEMAS,
             DSL.name("SYNTHETIC_PK_ALL_SCHEMAS"),
             new TableField[] {
-//                    AllSchemas.ALL_SCHEMAS.CATALOG_NAME,
-                    AllSchemas.ALL_SCHEMAS.SCHEMA_NAME
+                    AllSchemas.ALL_SCHEMAS.DB_ID,
+                    AllSchemas.ALL_SCHEMAS.SCHEMA_ID,
+                    AllSchemas.ALL_SCHEMAS.USER_ID
             },
             true);
 
@@ -40,11 +44,10 @@ public class Keys {
             AllConstraints.ALL_CONSTRAINTS,
             DSL.name("SYNTHETIC_PK_ALL_CONSTRAINTS"),
             new TableField[] {
-//                    AllConstraints.ALL_CONSTRAINTS.CONSTRAINT_CATALOG,
-//                    AllConstraints.ALL_CONSTRAINTS.CONSTRAINT_SCHEMA,
-                    AllConstraints.ALL_CONSTRAINTS.CONS_NAME,
                     AllConstraints.ALL_CONSTRAINTS.DB_ID,
-                    AllConstraints.ALL_CONSTRAINTS.TABLE_NAME,
+                    AllConstraints.ALL_CONSTRAINTS.TABLE_ID,
+                    AllConstraints.ALL_CONSTRAINTS.REF_TABLE_ID,
+                    AllConstraints.ALL_CONSTRAINTS.CONS_NAME
             },
             true);
 
@@ -54,9 +57,10 @@ public class Keys {
             AllTables.ALL_TABLES,
             DSL.name("SYNTHETIC_PK_ALL_TABLES"),
             new TableField[] {
-                    AllTables.ALL_TABLES.TABLE_NAME,
                     AllTables.ALL_TABLES.DB_ID,
-                    AllTables.ALL_TABLES.TABLE_NAME,
+                    AllTables.ALL_TABLES.USER_ID,
+                    AllTables.ALL_TABLES.SCHEMA_ID,
+                    AllTables.ALL_TABLES.TABLE_ID,
             },
             true);
 
@@ -66,23 +70,4 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<Record, Record> SYNTHETIC_FK_ALL_VIEWS__SYNTHETIC_PK_ALL_TABLES = Internal.createForeignKey(
-            AllViews.ALL_VIEWS,
-            DSL.name("SYNTHETIC_FK_ALL_VIEWS__SYNTHETIC_PK_ALL_TABLES"),
-            new TableField[] {
-//                    AllViews.ALL_VIEWS.TABLE_CATALOG,
-//                    AllViews.ALL_VIEWS.TABLE_SCHEMA,
-//                    AllViews.ALL_VIEWS.TABLE_NAME
-                    AllTables.ALL_TABLES.DB_ID,
-                    AllTables.ALL_TABLES.TABLE_SCHEMA,
-                    AllTables.ALL_TABLES.TABLE_NAME
-            },
-            Keys.SYNTHETIC_PK_ALL_TABLES,
-            new TableField[] {
-//                    AllTables.ALL_TABLES.TABLE_CATALOG,
-                    AllTables.ALL_TABLES.DB_ID,
-                    AllTables.ALL_TABLES.TABLE_SCHEMA,
-                    AllTables.ALL_TABLES.TABLE_NAME
-            },
-            true);
 }

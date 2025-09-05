@@ -40,8 +40,10 @@ package org.jooq.meta.xugu;
 
 import org.jooq.Record;
 import org.jooq.TableOptions.TableType;
+import org.jooq.impl.SQLDataType;
 import org.jooq.meta.*;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,13 +82,11 @@ public class XuGuTableDefinition extends AbstractTableDefinition {
                 ALL_COLUMNS.COL_NAME,
                 ALL_COLUMNS.COMMENTS,
                 ALL_COLUMNS.TYPE_NAME,
-                //处理一下判断逻辑
-                when(ALL_COLUMNS.NOT_NULL.eq("TRUE"), inline("NO"))
-                        .otherwise(inline("YES")).as("NOT_NULL"),
+                ALL_COLUMNS.NOT_NULL,
                 ALL_COLUMNS.DEF_VAL,
-                ALL_COLUMNS.SCALE,
-                inline((Integer) null).as("NUMERIC_SCALE"), //与虚谷字段的存储内容不同，设置 NUMERIC_SCALE 为 NULL
-                when(ALL_COLUMNS.IS_SERIAL.eq("TRUE"), inline("auto_increment")).otherwise(inline((String) null)).as("IS_SERIAL"))
+                ALL_COLUMNS.SCALE.div(65536).cast(SQLDataType.INTEGER).as("NUMERIC_PRECISION"),
+                ALL_COLUMNS.SCALE.mod(65536).as("NUMERIC_SCALE"),
+                ALL_COLUMNS.IS_SERIAL)
                 .from(ALL_COLUMNS)
                 .join(ALL_TABLES).on(ALL_COLUMNS.TABLE_ID.eq(ALL_TABLES.TABLE_ID))
                 .join(ALL_SCHEMAS).on(ALL_TABLES.SCHEMA_ID.eq(ALL_SCHEMAS.SCHEMA_ID))
@@ -135,10 +135,10 @@ public class XuGuTableDefinition extends AbstractTableDefinition {
                 getDatabase(),
                 getSchema(),
                 dataType,
-                record.get(ALL_COLUMNS.SCALE),
-                null,
-                null,
-                record.get(ALL_COLUMNS.NOT_NULL, boolean.class),
+                record.get("NUMERIC_SCALE", SQLDataType.INTEGER.getType()),
+                record.get("NUMERIC_PRECISION", SQLDataType.INTEGER.getType()),
+                record.get("NUMERIC_SCALE", SQLDataType.INTEGER.getType()),
+                !record.get(ALL_COLUMNS.NOT_NULL, boolean.class),
                 record.get(ALL_COLUMNS.DEF_VAL),
                 name(getSchema().getName(), getName() + "_" + record.get(ALL_COLUMNS.COL_NAME))
             );
@@ -148,8 +148,7 @@ public class XuGuTableDefinition extends AbstractTableDefinition {
                 record.get(ALL_COLUMNS.COL_NAME),
                 result.size() + 1,
                 type,
-                //上面改一下自增判断
-                "auto_increment".equalsIgnoreCase(record.get(ALL_COLUMNS.IS_SERIAL)),
+                record.get(ALL_COLUMNS.IS_SERIAL),
                 record.get(ALL_COLUMNS.COMMENTS)
             ));
         }
